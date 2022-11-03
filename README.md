@@ -56,7 +56,7 @@ code blocks for commands
 
 ## 3. Git Branching Strategy
 
-See [git_branching_strategy.md](git_branching_strategy.md).
+See [docs/git_branching_strategy.md](docs/git_branching_strategy.md).
 
 ---
 
