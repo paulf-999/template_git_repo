@@ -22,7 +22,9 @@ deps: get_ips
 	@echo "----------------------------------------------------------------------------------------------------------------------"
 	@echo -e "${COLOUR_TXT_FMT_OPENING}Target: 'deps'. Download the relevant pip package dependencies (note: ignore the pip depedency resolver errors.)${COLOUR_TXT_FMT_CLOSING}"
 	@echo "----------------------------------------------------------------------------------------------------------------------"
-	pip3 install yq -q
+	@virtualenv -p python3 venv; \
+	source venv/bin/activate; \
+	pip3 install -r requirements.txt; \
 
 install: get_ips
 	@echo "------------------------------------------------------------------"
