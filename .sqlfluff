@@ -16,7 +16,7 @@ line_position = leading
 unwrap_wrapped_queries = true
 
 [sqlfluff:templater:dbt]
-# pass in our dbt project/cred details
+# pass in the dbt project/cred details
 project_dir =
 profiles_dir =
 profile =

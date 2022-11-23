@@ -47,10 +47,7 @@ repos:
     hooks:
       - id: sqlfluff-lint  # lints sql files with `SQLFluff`
         args: [--dialect, "snowflake", "--disregard-sqlfluffignores"]
-        additional_dependencies: [
-          'dbt-snowflake',
-          'sqlfluff-templater-dbt'
-        ]
+        additional_dependencies: ['dbt-snowflake', 'sqlfluff-templater-dbt']
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 3.0.0
