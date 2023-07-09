@@ -71,7 +71,6 @@ repos:
       rev: 3.0.0
       hooks:
           - id: shellcheck # Ensure shell scripts conform to shellcheck
-          # - id: shfmt # Check shell style with shfmt - TODO: troubleshoot
 
   ######################################################################################################################
   # YAML hooks
