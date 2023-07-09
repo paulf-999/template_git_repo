@@ -37,11 +37,11 @@ repos:
   ######################################################################################################################
   # Technology-specific linters
   ######################################################################################################################
-  # Dockerfile linter
-    - repo: https://github.com/Lucas-C/pre-commit-hooks-nodejs
-      rev: v1.1.2
+    # Dockerfile linter
+    - repo: https://github.com/hadolint/hadolint
+      rev: v2.12.0
       hooks:
-          - id: dockerfile_lint
+          - id: hadolint
   # SQLFluff - linter for SQL
     - repo: https://github.com/sqlfluff/sqlfluff
       rev: 2.0.2
