@@ -9,7 +9,7 @@
 ##              follows the naming standard:
 ##              ^(feature|hotfix|release)\/[a-z0-9_]+$
 ##
-## Usage:       ./validate_git_branch_name.sh <input git branch name>
+## Usage: ./validate_git_branch_name.sh <input git branch name>
 ##
 #================================================================
 
@@ -18,7 +18,6 @@
 #=======================================================================
 # determine the name of the local git branch name
 LOCAL_GIT_BRANCH_NAME="$(git rev-parse --abbrev-ref HEAD)"
-
 # the regex for valid git branch names
 VALID_GIT_BRANCH_NAME="^(feature|hotfix|release)\/[a-z0-9_]+$"
 
