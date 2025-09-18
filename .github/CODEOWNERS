@@ -1,0 +1,15 @@
+# .github/CODEOWNERS
+# The last matching rule wins. Use team handles, not individuals.
+
+# Default: everything in the repo
+*                 @your-github-username
+
+# GitHub meta (workflows, PR/issue templates)
+.github/          @your-github-username
+
+# Documentation
+docs/             @your-github-username @your-org/analytics
+
+# Tooling & scripts/
+src/
+src/sh/           @your-github-username
