@@ -1,84 +1,52 @@
-# Project Title
+# 🧩 Template Git Repo
 
-Simple one-line overview of use / purpose of the project.
-
----
-
-## Contents
-
-1. Summary
-2. Getting started
-    * Prerequisites
-    * Installation
-    * How-to Run
-3. Git Branching Strategy
-4. Help
-5. Folder Contents
+A lightweight template repository with pre-configured standards for branching, commits, linting, and contributions.
 
 ---
 
-## 1. Summary
+## 🚀 Getting Started
 
-<Brief overview of the purpose of the project and it's benefit>
-
-### Technologies Used
-
-<List of technologies used, e.g. AWS, Python, Snowflake>
-
----
-
-## 2. Getting started
-
-### Prerequisites
-
-<Describe any prerequisites libraries / configuration / other needed for the project, e.g.:>
-
-Before you begin, ensure you have met the following requirements:
-
-* You have installed the latest version of <coding_language/dependency/requirement_1>
-* You have a <Mac/Windows>
-
-### Installation
-
-* How / where to download your program
-* Any modifications needed to be made to files / folders
-
-### How-to Run
-
-* How to run the program
-* Step-by-step bullets
+Clone the repo:
 
 ```bash
-code blocks for commands
+git clone <repo-url>
+cd <repo>
 ```
 
----
-
-## 3. Git Branching Strategy
-
-See [docs/git_branching_strategy.md](docs/git_branching_strategy.md).
-
----
-
-## 4. Help
-
-Describe troubleshooting steps for common problems or issues. E.g.
+Install dependencies:
 
 ```bash
-commands to run if specific messages are encountered
+pip install -r requirements.txt
 ```
 
----
-
-## 5. Folder Contents
-
-| Folder | Description                  |
-| -------| -----------------------------|
-| folder | Contains files related to... |
-| folder | Contains files related to... |
+Optionally, use a Python virtual environment for isolation:
+See [docs/virtualenv\_setup.md](docs/virtualenv_setup.md).
 
 ---
 
-## Credits
+## 🌱 Branching
 
-This is an adapted version of the following [README](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc).
+See [docs/git\_branching\_strategy.md](docs/git_branching_strategy.md).
+Branch names are validated by [`git_validate_branch_name.sh`](src/sh/pre_commit_hooks/git_validate_branch_name.sh).
+
+---
+
+## 📝 Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branching rules, commit conventions, and PR process.
+
+---
+
+## 📂 Structure
+
+| Folder     | Purpose                            |
+| ---------- | ---------------------------------- |
+| `.github/` | PR & issue templates, CODEOWNERS   |
+| `docs/`    | Documentation and standards        |
+| `src/`     | Scripts, hooks, and make variables |
+
+---
+
+## 🙌 Credits
+
+Adapted from [DomPizzie’s template](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc).

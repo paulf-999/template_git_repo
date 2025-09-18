@@ -1,1 +1,13 @@
-yq
+# Core tooling
+yq>=3.2.0            # YAML processor for config handling
+pre-commit>=3.7.0    # Hook manager for git pre-commit
+ruff>=0.6.3          # Fast Python linter & formatter
+yamllint>=1.35.1     # YAML linter
+
+# Testing
+pytest>=8.3.2        # Unit testing framework
+pytest-cov>=5.0.0    # Test coverage plugin
+
+# Developer utilities
+rich>=13.7.1         # Better console output (colors, tables, tracebacks)
+pyyaml>=6.0.2        # YAML parsing and writing
