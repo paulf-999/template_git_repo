@@ -26,23 +26,20 @@ file_exists() {
     [ -f "$1" ]
 }
 
+# Function to standardise log messaging
 log_message() {
     local LOGGING_LEVEL="$1"
     local MESSAGE="$2"
     echo && echo -e "${LOGGING_LEVEL}${MESSAGE}${COLOUR_OFF}"
 }
 
+# Function to standardise log messaging - re: section headers
 print_section_header() {
     local LOG_LEVEL="$1"
     local MESSAGE="$2"
     echo && echo -e "${LOG_LEVEL}#--------------------------------------------------------------------------------------------"
     echo -e "${LOG_LEVEL}# ${MESSAGE}${COLOUR_OFF}"
     echo -e "${LOG_LEVEL}#--------------------------------------------------------------------------------------------${COLOUR_OFF}"
-}
-
-print_error_message() {
-    local MESSAGE="$1"
-    echo && echo -e "${ERROR}${MESSAGE}${COLOUR_OFF}"
 }
 
 # Signal handler to catch interruptions (Ctrl+C)
