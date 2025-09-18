@@ -1,34 +1,21 @@
-# Contributing Guidelines
+# 🤝 Contributing
 
-## Branching
-- Branch from `main` using:
-```
+## 🌱 Branching
 
-feature/<desc>, fix/<desc>, docs/<desc>, chore/<desc>
+Follow the rules in [Git Branching Strategy](docs/git_branching_strategy.md).
+Branch names are automatically validated by the pre-commit hook: `src/sh/pre_commit_hooks/git_validate_branch_name.sh`
 
-```
+## 📝 Commits
 
-## Commits
-- Follow [Conventional Commits](https://www.conventionalcommits.org/):
-```
-
-type(scope): short, imperative description
-
-````
-- Common types: `feat`, `fix`, `docs`, `chore`.
+Follow [Conventional Commits](https://www.conventionalcommits.org/): `type(scope): imperative description`
 
 Examples:
+
 - `feat(pre-commit): add ruff`
 - `fix(dbt): correct model reference`
 
-## Pull Requests
+## 🔀 Pull Requests
+
 - Use the [PR template](.github/pull_request_template.md).
 - Keep PRs small and focused.
-- For **breaking changes**: tick the checkbox, explain impact, and tag `@your-github-username`.
-
-## Pre-commit
-Install and run hooks:
-```bash
-pre-commit install
-pre-commit run --all-files
-````
+- Tick **Breaking Change** if applicable and explain the impact.

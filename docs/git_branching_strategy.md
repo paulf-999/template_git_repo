@@ -1,56 +1,55 @@
 # Git Branching Strategy
 
-This document describes the use of the [`Gitflow` workflow](https://www.gitkraken.com/learn/git/git-flow) as a Git branching strategy.
-
-## Contents
-
-* Overview
-  * Primary branches
-* Supporting branches
-* Overall flow of Gitflow
-* Credits
+This repository uses a **simplified branching strategy**.
+Branch naming is enforced via a [pre-commit hook](../src/sh/pre_commit_hooks/git_validate_branch_name.sh).
 
 ---
 
-## Overview
+## 🌱 Branch Types
 
-Gitflow is a Git workflow that helps with continuous delivery and implementing DevOps practices.
-
-### Primary Branches
-
-It consists of 2 main (primary) branches, each of which exist indefinitely:
-
-| Branch | Description |
-| -------| ------------|
-| `main` | * Contains production code<br/>* All development code will ultimately strive to be merged into `main` |
-| `develop` | * Contains pre-production code<br/>* When a `feature` [branch] is finished, it is merged into `develop` |
-
-![alt text](img/main-and-develop-branches.jpg "Main and develop branches")
-
-## Supporting Branches
-
-During the development cycle, a variety of supporting branches are used:
-
-| Branch | Description | Naming Convention |
-| -------| ------------| ------------|
-| `feature_*` | * Used to develop new features for the upcoming releases<br/>* May branch off from `develop` and must merge into `develop` | `feature_<name_of_feature>` |
-| `release_*` | * Support preparation of a new production release<br/>* They allow many minor bug to be fixed and preparation of metadata for a release<br/>* May branch off from `develop` and must merge into `main` and `develop` | `release_<name_of_release>` |
-| `hotfix_*` | * hotfix branches are necessary to act immediately upon an undesired status of the `main` branch<br/>* May branch off from `main` and must merge into `main` and `develop` | `hotfix_<name_of_fix>` |
-
-![alt text](img/supporting-branches.jpg "Supporting branches")
+| Branch     | Purpose                                                                 |
+|------------|-------------------------------------------------------------------------|
+| `main`     | Long-lived branch containing production-ready code.                     |
+| `feature/` | Short-lived branches for new features. Branch from `main`, merge back into `main`. |
+| `hotfix/`  | Short-lived branches for urgent fixes to production. Branch from `main`, merge back into `main`. |
 
 ---
 
-## Overall Flow of `Gitflow`
+## 📝 Naming Rules
 
-1. A `develop` branch is created from `main`
-2. A `release` branch is created from `develop`
-  * When a `release` branch is complete, it is merged into both `develop` and `main`
-3. A `feature` branch is created from `develop`
-  * When a `feature` is complete it is merged into the `develop` branch
-4. A `hotfix` branch is created from `main` and is only created if an issue in `main` is detected
-  * Once the `hotfix` is complete it is merged to both `develop` and `main`
+- Allowed prefixes: `feature/` or `hotfix/`
+- `<name>` must:
+  - be **lowercase**
+  - contain only letters, numbers, and underscores (`a–z`, `0–9`, `_`)
+  - not contain hyphens, spaces, or special characters
 
-## Credits
+Regex pattern:
+```
 
-This `README` captures the main points from [Atlassian](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) and [Gitkraken's](https://www.gitkraken.com/learn/git/git-flow) documentation.
+^(feature|hotfix)/\[a-z0-9\_]+\$
+
+````
+
+---
+
+## ✅ Examples
+
+| ✅ Allowed                 | ❌ Not allowed                    | Reason                        |
+|----------------------------|----------------------------------|-------------------------------|
+| `feature/add_pr_template`  | `feature/add-pr-template`        | Hyphen not allowed            |
+| `feature/add_pr_123`       | `feature/Add_PR`                 | Uppercase not allowed         |
+| `hotfix/fix_commitlint`    | `hotfix/fix commitlint`          | Spaces not allowed            |
+| `hotfix/issue_42`          | `feature/feature_with$symbol`    | Special characters not allowed |
+
+---
+
+## 🔍 Validation
+
+To automatically validate branch names, install pre-commit hooks:
+
+```bash
+pre-commit install
+pre-commit run --all-files
+```
+
+The script [`git_validate_branch_name.sh`](../src/sh/pre_commit_hooks/git_validate_branch_name.sh) enforces the rules above.
