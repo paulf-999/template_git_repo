@@ -1,33 +1,16 @@
 # 🧩 Template Git Repo
 
-A lightweight template repository with pre-configured standards for branching, commits, linting, and contributions.
+*Baseline for creating new internal repositories with consistent structure and standards.*
 
 ---
 
-## 🚀 Getting Started
+## 🎯 Purpose
 
-Clone the repo:
+A **generic starting point** for new projects, providing:
 
-```bash
-git clone <repo-url>
-cd <repo>
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Optionally, use a Python virtual environment for isolation:
-See [docs/virtualenv\_setup.md](docs/virtualenv_setup.md).
-
----
-
-## 🌱 Branching
-
-See [docs/git\_branching\_strategy.md](docs/git_branching_strategy.md).
-Branch names are validated by [`git_validate_branch_name.sh`](src/sh/pre_commit_hooks/git_validate_branch_name.sh).
+* Standard Git structure
+* Templates for PRs, CODEOWNERS, and branching rules
+* Pre-commit hooks for linting and validation
 
 ---
 
@@ -37,16 +20,16 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for branching rules, commit conventions, 
 
 ---
 
-## 📂 Structure
+## 🪄 How to Use This Repo
 
-| Folder     | Purpose                            |
-| ---------- | ---------------------------------- |
-| `.github/` | PR & issue templates, CODEOWNERS   |
-| `docs/`    | Documentation and standards        |
-| `src/`     | Scripts, hooks, and make variables |
+1. Click **“Use this template”** at the top of the repository page.
+2. Enter a name for your new repository and create it.
+3. Clone your new repository locally:
 
----
+   ```bash
+   git clone <new-repo-url>
+   cd <new-repo>
+   ```
 
-## 🙌 Credits
-
-Adapted from [DomPizzie’s template](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc).
+4. Update the `README.md` and `requirements.txt` as needed.
+5. Optionally, set up a Python virtual environment — see [docs/virtualenv_setup.md](docs/virtualenv_setup.md).
