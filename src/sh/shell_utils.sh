@@ -16,16 +16,6 @@ ERROR='\033[0;31m' # red (for error messages)
 CRITICAL='\033[1;31m' # bold red (for critical errors)
 COLOUR_OFF='\033[0m' # Text Reset
 
-# Function to check if a directory exists
-dir_exists() {
-    [ -d "$1" ]
-}
-
-# Function to check if a file exists
-file_exists() {
-    [ -f "$1" ]
-}
-
 # Function to standardise log messaging
 log_message() {
     local LOGGING_LEVEL="$1"
@@ -40,6 +30,16 @@ print_section_header() {
     echo && echo -e "${LOG_LEVEL}#--------------------------------------------------------------------------------------------"
     echo -e "${LOG_LEVEL}# ${MESSAGE}${COLOUR_OFF}"
     echo -e "${LOG_LEVEL}#--------------------------------------------------------------------------------------------${COLOUR_OFF}"
+}
+
+# Function to check if a directory exists
+dir_exists() {
+    [ -d "$1" ]
+}
+
+# Function to check if a file exists
+file_exists() {
+    [ -f "$1" ]
 }
 
 # Signal handler to catch interruptions (Ctrl+C)
