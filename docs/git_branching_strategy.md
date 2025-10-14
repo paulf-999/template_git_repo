@@ -1,7 +1,8 @@
 # Git Branching Strategy
 
 This repository uses a **simplified branching strategy**.
-Branch naming is enforced via a [pre-commit hook](../src/sh/pre_commit_hooks/git_validate_branch_name.sh).
+
+Whereby branch naming is enforced via a [pre-commit hook](../src/sh/pre_commit_hooks/git_validate_branch_name.sh).
 
 ---
 
@@ -24,10 +25,9 @@ Branch naming is enforced via a [pre-commit hook](../src/sh/pre_commit_hooks/git
   - not contain hyphens, spaces, or special characters
 
 Regex pattern:
-```
 
+```bash
 ^(feature|hotfix)/\[a-z0-9\_]+\$
-
 ````
 
 ---
@@ -42,14 +42,5 @@ Regex pattern:
 | `hotfix/issue_42`          | `feature/feature_with$symbol`    | Special characters not allowed |
 
 ---
-
-## 🔍 Validation
-
-To automatically validate branch names, install pre-commit hooks:
-
-```bash
-pre-commit install
-pre-commit run --all-files
-```
 
 The script [`git_validate_branch_name.sh`](../src/sh/pre_commit_hooks/git_validate_branch_name.sh) enforces the rules above.

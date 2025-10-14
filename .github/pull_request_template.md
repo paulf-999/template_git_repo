@@ -10,27 +10,31 @@
 
 Choose one:
 
-- [ ] **Feature**: A new feature or a change to an existing feature.
-- [ ] **Trivial change**: A *minor* change with little/no impact.
-- [ ] **Refactoring/housekeeping**: Restructuring existing code, or tidying up the git repo structure.
-- [ ] **Bugfix**: A *minor* bug or issue.
-- [ ] **Documentation**: Updates or adds documentation.
-
-## :fire: Critical Changes
-
-- [ ] **Release**: A major new code release.
-- [ ] **Hotfix**: Addresses a critical bug fix.
-
-## :boom: Breaking Change
-
-- [ ] Yes
-- [ ] No
+- [ ] :sparkles: **Feature**: Non-breaking; adds new functionality.
+- [ ] :feather: **Trivial change**: Non-breaking; minor change with minimal impact.
+- [ ] :bug: **Bugfix**: Non-breaking; fixes an issue.
+- [ ] :recycle: **Refactoring/housekeeping**: Non-breaking; restructures code or tidies repository.
+- [ ] :book: **Documentation**: Non-breaking; adds or updates documentation.
+- [ ] :boom: **Breaking Change**: Changes existing functionality; rollout may require coordination.
 
 [If there are breaking changes, provide details here.]
 
----
+## :clipboard: Related Jira Issue(s)
+
+[Link related Jira tickets here]
+
+## :microscope: How Has This Been Tested?
+
+<details>
+<summary>Testing checklist</summary>
+
+- [ ] DEV / Local testing by developer
+- [ ] UAT testing
+- [ ] Other (please specify)
+
+</details>
 
 ## :bulb: Best Practices
 
-- Keep the PR as small as possible, dividing it into different PRs if possible
-- Explain reasons behind changes that might not be obvious or seem complex
+- Keep the PR as small as possible, splitting into multiple PRs if needed.
+- Explain reasons behind changes that might not be obvious or are complex.
