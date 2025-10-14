@@ -2,6 +2,8 @@
 
 *Baseline for creating new internal repositories with consistent structure and standards.*
 
+[![Ruff](https://img.shields.io/badge/linting-ruff-blue?logo=python\&logoColor=white)](https://docs.astral.sh/ruff/)
+
 ---
 
 ## 🎯 Purpose
@@ -9,7 +11,7 @@
 A **generic starting point** for new projects, providing:
 
 * Standard Git structure
-* Templates for PRs, CODEOWNERS, and branching rules
+* Templates for PRs, CODEOWNERS, and branching
 * Pre-commit hooks for linting and validation
 
 ---
