@@ -21,7 +21,7 @@ fi
 # -----------------------------
 # Configuration
 # -----------------------------
-TYPES=("chore" "docs" "feat" "fix")   # allowed commit types
+TYPES=("chore" "docs" "feat" "refactor" "fix")   # allowed commit types
 
 # -----------------------------
 # Globals (init to satisfy -u)
