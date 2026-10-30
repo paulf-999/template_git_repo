@@ -1,4 +1,4 @@
-# Files to copy into new worktrees.
+# Files Claude Code copies into the new worktrees it creates.
 # Uses .gitignore syntax — only gitignored files are matched.
 # Tracked files are never duplicated.
 .env
