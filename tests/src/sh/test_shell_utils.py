@@ -3,7 +3,7 @@
 import subprocess
 from pathlib import Path
 
-SCRIPT = Path(__file__).resolve().parent.parent / "src" / "sh" / "shell_utils.sh"
+SCRIPT = Path(__file__).resolve().parents[3] / "src" / "sh" / "shell_utils.sh"
 
 
 def test_handle_interruption_logs_and_exits():

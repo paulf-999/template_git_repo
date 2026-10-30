@@ -16,9 +16,14 @@ A **generic starting point** for new projects, providing:
 
 ---
 
-## 📝 Contributing
+## 📝 Contribution Standards
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for branching rules, commit conventions, and PR process.
+Before raising a PR, please:
+
+* Follow the [Contributing Guidelines](CONTRIBUTING.md) – overview of branch naming, PR size limits, and CI/CD checks.
+* Use the [Git Branching Strategy](docs/git_branching_strategy.md) – includes branch types, naming rules, and the `release/` exception for large PRs.
+* Rely on [CODEOWNERS](.github/CODEOWNERS) – reviewers are auto-assigned by repo area.
+* Complete the [Pull Request Template](.github/pull_request_template.md) – summary, change type, testing.
 
 ---
 
