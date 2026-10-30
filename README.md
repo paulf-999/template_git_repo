@@ -1,3 +1,6 @@
+<!-- version: 1.0.0 -->
+<!-- created: 2022-11-04 -->
+<!-- updated: 2026-10-30 -->
 # 🧩 Template Git Repo
 
 *Baseline for creating new internal repositories with consistent structure and standards.*

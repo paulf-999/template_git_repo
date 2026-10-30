@@ -1,4 +1,7 @@
 #!/bin/bash
+# version: 1.0.0
+# created: 2023-07-09
+# updated: 2026-10-30
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
 # Verify the git branch name follows the naming standard: ^(feature|hotfix|release)/[a-z0-9_]+$

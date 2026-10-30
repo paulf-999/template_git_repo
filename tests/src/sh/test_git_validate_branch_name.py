@@ -1,3 +1,6 @@
+# version: 1.0.0
+# created: 2026-10-30
+# updated: 2026-10-30
 """Tests for the git branch name validation pre-commit hook."""
 
 import os

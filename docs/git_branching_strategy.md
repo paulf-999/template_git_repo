@@ -1,3 +1,6 @@
+<!-- version: 1.0.0 -->
+<!-- created: 2022-11-04 -->
+<!-- updated: 2026-10-30 -->
 # Git Branching Strategy
 
 This repository uses a **simplified branching strategy**, with branch names enforced by a [pre-commit hook](../src/sh/git_validate_branch_name.sh).

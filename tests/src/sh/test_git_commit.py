@@ -1,3 +1,6 @@
+# version: 1.0.0
+# created: 2026-10-30
+# updated: 2026-10-30
 """Tests for the interactive git commit helper."""
 
 import os

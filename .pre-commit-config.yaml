@@ -1,4 +1,7 @@
 ---
+# version: 1.0.0
+# created: 2022-11-04
+# updated: 2026-10-30
 # all commands by default will run on every commit
 default_install_hook_types: [pre-commit, commit-msg]
 default_stages: [pre-commit]
