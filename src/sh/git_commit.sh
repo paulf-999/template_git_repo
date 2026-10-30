@@ -111,7 +111,7 @@ build_menu_display_names() {
         for j in "${!DISPLAY_NAMES[@]}"; do
             # plain assignment, because ((dup_count++)) returns 1 at zero and set -e would exit
             if [[ "${DISPLAY_NAMES[$j]}" == "${DISPLAY_NAMES[$i]}" ]]; then
-                ((dup_count++))
+                dup_count=$((dup_count + 1))
             fi
         done
         if (( dup_count > 1 )); then
