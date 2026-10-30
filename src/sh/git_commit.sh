@@ -1,4 +1,7 @@
 #!/bin/bash
+# version: 1.0.0
+# created: 2025-10-14
+# updated: 2026-10-30
 set -e  # Exit immediately if a command exits with a non-zero status (fail fast).
 # Also fail on unset variables and on errors anywhere in a pipeline
 set -uo pipefail

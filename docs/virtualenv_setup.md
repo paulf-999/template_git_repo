@@ -1,3 +1,6 @@
+<!-- version: 1.0.0 -->
+<!-- created: 2025-09-18 -->
+<!-- updated: 2026-10-30 -->
 # 🐍 Virtual Environment Setup
 
 Using a virtualenv keeps dependencies isolated and avoids conflicts with system Python packages.

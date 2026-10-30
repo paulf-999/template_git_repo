@@ -1,3 +1,6 @@
+# version: 1.0.0
+# created: 2026-10-30
+# updated: 2026-10-30
 # Files Claude Code copies into the new worktrees it creates.
 # Uses .gitignore syntax — only gitignored files are matched.
 # Tracked files are never duplicated.

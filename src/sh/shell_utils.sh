@@ -1,4 +1,7 @@
 #!/bin/bash
+# version: 1.0.0
+# created: 2025-09-12
+# updated: 2026-10-30
 # Reusable shell script vars & functions, sourced by other scripts (not run directly)
 # ignore shell warnings, re: variables being unused
 # shellcheck disable=SC2034
