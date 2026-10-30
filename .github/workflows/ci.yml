@@ -1,5 +1,6 @@
 ---
-# Re-run the local git hooks and tests on every PR, so `git commit --no-verify` can't skip them
+# Re-run the local git hooks, commit message checks and tests on every PR,
+# so `git commit --no-verify` can't skip them
 name: CI
 
 on:
@@ -35,6 +36,24 @@ jobs:
               env:
                   SKIP: no-commit-to-branch,git_branch_name_validation
               run: pre-commit run --all-files --show-diff-on-failure
+
+    commitlint:
+        name: Commit messages (commitlint)
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+              with:
+                  # full history, so the PR's commit range can be read
+                  fetch-depth: 0
+            # Same commitlint version the pre-commit hook bundles, so local and CI agree
+            - name: Install commitlint
+              run: npm install --no-save @commitlint/cli@21.2.4 @commitlint/config-conventional@21.2.4
+            # Catches messages committed with --no-verify, which pre-commit run --all-files can't see
+            - name: Lint the PR's commit messages
+              env:
+                  BASE_SHA: ${{ github.event.pull_request.base.sha }}
+                  HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+              run: npx commitlint --extends @commitlint/config-conventional --from "${BASE_SHA}" --to "${HEAD_SHA}" --verbose
 
     test:
         name: Test (pytest)

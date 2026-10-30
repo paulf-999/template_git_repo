@@ -18,10 +18,8 @@ def read_script_types():
     return re.findall(r'"([^"]+)"', match.group(1))
 
 
-def read_commitlint_types():
-    """Return the commit types allowed by commitlint's type-enum rule."""
-    match = re.search(r"'type-enum':\s*\[[^\[]*\[([^\]]*)\]", (REPO_ROOT / "commitlint.config.js").read_text())
-    return re.findall(r"'([^']+)'", match.group(1))
+# type-enum from @commitlint/config-conventional, at the version pinned in .pre-commit-config.yaml
+COMMITLINT_TYPES = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "refactor", "revert", "style", "test"]
 
 
 @pytest.fixture
@@ -67,7 +65,7 @@ def last_commit_subject(repo, env):
 
 def test_types_match_commitlint():
     """Every type commitlint allows is offered by the helper, and no others."""
-    assert sorted(read_script_types()) == sorted(read_commitlint_types())
+    assert sorted(read_script_types()) == sorted(COMMITLINT_TYPES)
 
 
 @pytest.mark.parametrize("commit_type", ["test", "perf"])
