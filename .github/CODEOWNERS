@@ -11,5 +11,5 @@
 docs/             @your-github-username @your-org/analytics
 
 # Tooling & scripts/
-src/
+src/              @your-github-username
 src/sh/           @your-github-username

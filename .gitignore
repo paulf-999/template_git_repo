@@ -13,12 +13,8 @@
 #=======================================================================
 # Private files
 #=======================================================================
-*.json
-*.csv
-*.csv.gz
-*.tsv
-*.tsv.gz
-*.xlsx
+# keep local data files in data/, so config files like package.json stay trackable
+data/
 
 #=======================================================================
 # OS / Editor files
