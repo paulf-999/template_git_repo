@@ -1,4 +1,4 @@
-# version: 1.1.0
+# version: 1.0.1
 # created: 2025-09-18
 # updated: 2026-10-30
 # .github/CODEOWNERS
@@ -9,10 +9,10 @@
 *                 @your-org/your-team
 
 # GitHub meta (workflows, PR/issue templates)
-.github/          @your-org/platform-team
+.github/          @your-org/your-team
 
 # Documentation
-docs/             @your-org/docs-team
+docs/             @your-org/your-team
 
 # Tooling & scripts
-src/              @your-org/dev-team
+src/              @your-org/your-team
