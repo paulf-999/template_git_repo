@@ -41,15 +41,21 @@ def commit_files(repo, env, branch, count):
     subprocess.run(["git", "commit", "-q", "-m", "change"], cwd=repo, env=env, check=True)
 
 
-def run_check(repo, env, branch, extra_env=None):
-    """Run the file-count check against main and return its exit code."""
+def run_script(repo, env, branch, base="main", extra_env=None):
+    """Run the file-count check against the base and return the full result."""
     return subprocess.run(
-        ["bash", str(SCRIPT), branch, "main"],
+        ["bash", str(SCRIPT), branch, base],
         cwd=repo,
         env={**env, **(extra_env or {})},
         capture_output=True,
+        text=True,
         check=False,
-    ).returncode
+    )
+
+
+def run_check(repo, env, branch, extra_env=None):
+    """Run the file-count check against main and return its exit code."""
+    return run_script(repo, env, branch, extra_env=extra_env).returncode
 
 
 def test_pr_at_the_limit_passes(git_repo):
@@ -90,3 +96,35 @@ def test_deleted_files_count_towards_the_limit(git_repo):
     subprocess.run(["git", "rm", "-q", "file_*.txt"], cwd=repo, env=env, check=True)
     subprocess.run(["git", "commit", "-q", "-m", "delete"], cwd=repo, env=env, check=True)
     assert run_check(repo, env, "feature/delete_all") == 1
+
+
+def test_missing_base_ref_fails(git_repo):
+    """A base ref that exists neither locally nor on origin exits 1 with an explanation."""
+    repo, env = git_repo
+    commit_files(repo, env, "feature/small", 1)
+    result = run_script(repo, env, "feature/small", base="does_not_exist")
+    assert result.returncode == 1
+    assert "not found, locally or on origin" in result.stdout
+
+
+def test_renamed_file_counts_once(git_repo):
+    """Renaming a file counts as one change, not a delete plus an add."""
+    repo, env = git_repo
+    commit_files(repo, env, "feature/setup", 1)
+    subprocess.run(["git", "switch", "-q", "main"], cwd=repo, env=env, check=True)
+    subprocess.run(["git", "merge", "-q", "feature/setup"], cwd=repo, env=env, check=True)
+    subprocess.run(["git", "switch", "-q", "-c", "feature/rename"], cwd=repo, env=env, check=True)
+    subprocess.run(["git", "mv", "file_0.txt", "renamed.txt"], cwd=repo, env=env, check=True)
+    subprocess.run(["git", "commit", "-q", "-m", "rename"], cwd=repo, env=env, check=True)
+    result = run_script(repo, env, "feature/rename")
+    assert result.returncode == 0
+    assert "Files changed (1):" in result.stdout
+
+
+def test_long_file_lists_are_summarised(git_repo):
+    """Only the first 50 changed files are listed, followed by a count of the rest."""
+    repo, env = git_repo
+    commit_files(repo, env, "feature/many_files", 60)
+    result = run_script(repo, env, "feature/many_files", extra_env={"MAX_FILES_ALLOWED": "100"})
+    assert result.returncode == 0
+    assert "... and 10 more" in result.stdout

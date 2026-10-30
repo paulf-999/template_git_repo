@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e  # Exit immediately if a command exits with a non-zero status (fail fast).
+set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
 # Verify the git branch name follows the naming standard: ^(feature|hotfix|release)/[a-z0-9_]+$
 # Usage: src/sh/git_validate_branch_name.sh [git branch name]
@@ -33,7 +33,7 @@ print_branch_name_error() {
     echo -e "* Start with either 'feature/', 'hotfix/' or 'release/'"
     echo -e "* Followed by a snake_case description of your change (note, hyphens aren't allowed)."
     echo
-    echo -e "E.g.: feature/my_eg_change"
+    echo -e "E.g.: feature/add_login_page, hotfix/fix_null_check or release/reformat_all_models"
     echo
 }
 

@@ -17,6 +17,17 @@ BASE_REF="${2:?Required: base ref to compare against (arg 2)}"
 HEAD_REF="${3:-HEAD}"
 # maximum number of files a PR can change; override via the MAX_FILES_ALLOWED env var
 MAX_FILES_CHANGED="${MAX_FILES_ALLOWED:-20}"
+# how many changed files to list before summarising the rest
+MAX_FILES_LISTED=50
+
+#=======================================================================
+# Functions
+#=======================================================================
+
+# Check a ref resolves to a commit
+ref_exists() {
+    git rev-parse --verify --quiet "${1}^{commit}" >/dev/null
+}
 
 #=======================================================================
 # Main script logic
@@ -29,12 +40,30 @@ if [[ "${GIT_BRANCH_NAME}" == release/* ]]; then
     exit 0
 fi
 
+# outside CI the base may not be fetched yet, so try fetching it from origin before giving up
+if ! ref_exists "${BASE_REF}"; then
+    log_message "${DEBUG_DETAILS}" "Base ref ${BASE_REF} not found locally - fetching it from origin."
+    if git fetch --quiet --no-tags origin "${BASE_REF#origin/}" 2>/dev/null && ! ref_exists "${BASE_REF}"; then
+        # a local branch name that only exists on origin lands in FETCH_HEAD
+        BASE_REF="FETCH_HEAD"
+    fi
+    if ! ref_exists "${BASE_REF}"; then
+        print_section_header "${ERROR}" "ERROR: base ref ${BASE_REF} not found, locally or on origin."
+        exit 1
+    fi
+fi
+
 # list added, deleted, modified and renamed files since the branch left the base
 CHANGED_FILES=$(git diff --name-only --diff-filter=ADMR "${BASE_REF}...${HEAD_REF}")
 # count non-empty lines; grep exits 1 when there are none, so don't let set -e stop the script
 FILE_COUNT=$(grep -c . <<< "${CHANGED_FILES}" || true)
 
-log_message "${DEBUG_DETAILS}" "Files changed (${FILE_COUNT}):" && echo "${CHANGED_FILES}"
+log_message "${DEBUG_DETAILS}" "Files changed (${FILE_COUNT}):"
+# list the first files only, so a very large PR doesn't flood the log
+head -n "${MAX_FILES_LISTED}" <<< "${CHANGED_FILES}"
+if [[ "${FILE_COUNT}" -gt "${MAX_FILES_LISTED}" ]]; then
+    echo "... and $((FILE_COUNT - MAX_FILES_LISTED)) more"
+fi
 
 if [[ "${FILE_COUNT}" -gt "${MAX_FILES_CHANGED}" ]]; then
     print_section_header "${ERROR}" "ERROR: number of files changed in PR (${FILE_COUNT}) exceeds the max (${MAX_FILES_CHANGED})."
