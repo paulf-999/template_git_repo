@@ -1,4 +1,4 @@
-# version: 1.0.0
+# version: 1.0.1
 # created: 2025-09-18
 # updated: 2026-10-30
 # .github/CODEOWNERS
@@ -12,7 +12,7 @@
 .github/          @your-org/your-team
 
 # Documentation
-docs/             @your-org/your-team @your-org/analytics
+docs/             @your-org/your-team
 
 # Tooling & scripts
 src/              @your-org/your-team

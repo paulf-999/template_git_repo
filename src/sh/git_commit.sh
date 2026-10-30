@@ -1,10 +1,8 @@
 #!/bin/bash
-# version: 1.0.0
+# version: 1.0.1
 # created: 2025-10-14
 # updated: 2026-10-30
-set -e  # Exit immediately if a command exits with a non-zero status (fail fast).
-# Also fail on unset variables and on errors anywhere in a pipeline
-set -uo pipefail
+set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
 # Interactive commit helper that enforces "<type>(<scope>): <message>", where scope is the area of the repo changed
 # Usage: src/sh/git_commit.sh [git commit flags, e.g. --no-verify] (run from the repo root)
