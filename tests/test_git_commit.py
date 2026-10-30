@@ -2,6 +2,7 @@
 
 import os
 import re
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -36,6 +37,9 @@ def git_repo(tmp_path):
         "GIT_COMMITTER_EMAIL": "test@example.com",
     }
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, env=env, check=True)
+    # the helper sources src/sh/shell_utils.sh from the repo root, as in the real repo
+    (tmp_path / "src" / "sh").mkdir(parents=True)
+    shutil.copy(REPO_ROOT / "src" / "sh" / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
     (tmp_path / "app.py").write_text("print('hi')\n")
     subprocess.run(["git", "add", "app.py"], cwd=tmp_path, env=env, check=True)
     return tmp_path, env
@@ -74,6 +78,19 @@ def test_commit_with_new_type(git_repo, commit_type):
     result = run_commit_helper(repo, env, [menu_number, "1", "add a check", "y"])
     assert result.returncode == 0, result.stderr
     assert last_commit_subject(repo, env) == f"{commit_type}(app.py): add a check"
+
+
+def test_duplicate_filenames_are_disambiguated(git_repo):
+    """Two staged files with the same name are told apart by parent dir, without set -e exiting early."""
+    repo, env = git_repo
+    for folder in ("api", "web"):
+        (repo / folder).mkdir()
+        (repo / folder / "app.py").write_text("print('hi')\n")
+        subprocess.run(["git", "add", f"{folder}/app.py"], cwd=repo, env=env, check=True)
+    result = run_commit_helper(repo, env, ["1", "1", "tidy up", "y"])
+    assert result.returncode == 0, result.stderr
+    assert "app.py [api]" in result.stdout
+    assert last_commit_subject(repo, env) == "chore(app.py): tidy up"
 
 
 def test_empty_message_is_rejected(git_repo):

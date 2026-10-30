@@ -2,7 +2,7 @@
 
 This repository uses a **simplified branching strategy**.
 
-Whereby branch naming is enforced via a [pre-commit hook](../src/sh/pre_commit_hooks/git_validate_branch_name.sh).
+Whereby branch naming is enforced via a [pre-commit hook](../src/sh/git_validate_branch_name.sh).
 
 ---
 
@@ -43,4 +43,4 @@ Regex pattern:
 
 ---
 
-The script [`git_validate_branch_name.sh`](../src/sh/pre_commit_hooks/git_validate_branch_name.sh) enforces the rules above.
+The script [`git_validate_branch_name.sh`](../src/sh/git_validate_branch_name.sh) enforces the rules above.
