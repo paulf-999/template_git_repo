@@ -2,18 +2,20 @@
 # Common credentials / secrets
 #=======================================================================
 *.p8
-*creds*
+*creds.json
+*creds.yaml
+*creds.yml
+.creds
 *.pem
 *.key
 *.crt
-*.pub
 *.secret
 *.token
 
 #=======================================================================
 # Private files
 #=======================================================================
-# keep local data files in data/, so config files like package.json stay trackable
+# local data files (exports, samples, extracts) — keep them in data/ so they're never committed
 data/
 
 #=======================================================================
@@ -36,7 +38,9 @@ downloads/
 # Unit test / Coverage
 #=======================================================================
 .pytest_cache/
+.ruff_cache/
 .coverage
+.coverage.*
 htmlcov/
 
 #=======================================================================

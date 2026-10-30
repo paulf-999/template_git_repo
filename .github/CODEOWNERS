@@ -1,15 +1,15 @@
 # .github/CODEOWNERS
+# Replace the placeholder handles below with your own team handles before relying on auto-assigned reviewers.
 # The last matching rule wins. Use team handles, not individuals.
 
 # Default: everything in the repo
-*                 @your-github-username
+*                 @your-org/your-team
 
 # GitHub meta (workflows, PR/issue templates)
-.github/          @your-github-username
+.github/          @your-org/your-team
 
 # Documentation
-docs/             @your-github-username @your-org/analytics
+docs/             @your-org/your-team @your-org/analytics
 
-# Tooling & scripts/
-src/              @your-github-username
-src/sh/           @your-github-username
+# Tooling & scripts
+src/              @your-org/your-team

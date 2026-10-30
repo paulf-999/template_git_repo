@@ -2,7 +2,7 @@
 
 [Summary of the change here.]
 
-## :clipboard: (Optional) Additional Details
+## :mag: (Optional) Additional Details
 
 [If needed, provide further context or details.]
 
@@ -19,9 +19,9 @@ Choose one:
 
 [If there are breaking changes, provide details here.]
 
-## :clipboard: Related Jira Issue(s)
+## :link: Related Issue(s)
 
-[Link related Jira tickets here]
+[Link related issues or tickets here]
 
 ## :microscope: How Has This Been Tested?
 
@@ -33,6 +33,11 @@ Choose one:
 - [ ] Other (please specify)
 
 </details>
+
+## :white_check_mark: Checklist
+
+- [ ] Pre-commit hooks pass
+- [ ] 20 files or fewer changed, or on a `release/` branch (see `docs/git_branching_strategy.md`)
 
 ## :bulb: Best Practices
 

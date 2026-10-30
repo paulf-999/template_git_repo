@@ -1,8 +1,6 @@
 # Git Branching Strategy
 
-This repository uses a **simplified branching strategy**.
-
-Whereby branch naming is enforced via a [pre-commit hook](../src/sh/git_validate_branch_name.sh).
+This repository uses a **simplified branching strategy**, with branch names enforced by a [pre-commit hook](../src/sh/git_validate_branch_name.sh).
 
 ---
 

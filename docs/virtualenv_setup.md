@@ -10,7 +10,7 @@ Run the following in the project root:
 
 ```bash
 python3 -m venv .venv
-````
+```
 
 This will create a hidden `.venv/` directory containing the environment.
 
@@ -30,17 +30,25 @@ This will create a hidden `.venv/` directory containing the environment.
   .venv\Scripts\Activate.ps1
   ```
 
+* **Windows (Command Prompt)**
+
+  ```bat
+  .venv\Scripts\activate.bat
+  ```
+
 Once activated, your shell prompt will typically show `(.venv)`.
 
 ---
 
 ## 3. Install Requirements
 
-With the environment active, install dependencies:
+With the environment active, install the dependencies and the development tools (linters, tests, git hooks):
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
+
+Or run `make deps`, which also installs the pre-commit git hooks.
 
 ---
 

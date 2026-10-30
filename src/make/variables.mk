@@ -5,6 +5,8 @@
 # ANSI escape codes for color formatting
 # cyan (for debug messages)
 DEBUG := \033[0;36m
+# purple (for lower-level debugging messages)
+DEBUG_DETAILS := \033[0;35m
 # green (for informational messages)
 INFO := \033[0;32m
 # yellow (for warning messages)

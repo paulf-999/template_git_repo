@@ -17,7 +17,7 @@ rules:
     document-end: disable
     document-start: disable
     empty-lines:
-        max: 10
+        max: 2
         max-end: 1
     empty-values: disable
     hyphens: enable
@@ -31,7 +31,7 @@ rules:
     trailing-spaces: enable
     truthy:
         level: warning
-  # 120 chars should be enough, but don't fail if line is longer
+    # 120 chars should be enough, but don't fail if line is longer
     line-length:
         max: 120
         level: warning

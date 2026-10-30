@@ -1,6 +1,6 @@
 ---
 # Re-run the local git hooks, commit message checks and tests on every PR,
-# so `git commit --no-verify` can't skip them
+# so `git commit --no-verify` can't skip them, and enforce the 20-file PR limit
 name: CI
 
 on:
@@ -10,18 +10,27 @@ on:
 permissions:
     contents: read
 
+# Cancel an older run on the same PR when new commits are pushed
+concurrency:
+    group: ci-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
 jobs:
     lint:
         name: Lint (pre-commit hooks)
         runs-on: ubuntu-latest
+        timeout-minutes: 10
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
             - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
               with:
                   python-version: '3.13'
                   cache: pip
+                  cache-dependency-path: requirements*.txt
             - name: Install requirements
-              run: pip install -r requirements.txt
+              run: pip install -r requirements-dev.txt
+            - name: Check requirements for known vulnerabilities
+              run: pip-audit -r requirements-dev.txt
             # Passed through env, not ${{ }} in the script, so a crafted branch name can't inject shell
             - name: Validate branch name
               env:
@@ -40,6 +49,7 @@ jobs:
     commitlint:
         name: Commit messages (commitlint)
         runs-on: ubuntu-latest
+        timeout-minutes: 10
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
               with:
@@ -60,6 +70,7 @@ jobs:
     pr_size:
         name: PR size (20-file limit)
         runs-on: ubuntu-latest
+        timeout-minutes: 10
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
               with:
@@ -76,13 +87,15 @@ jobs:
     test:
         name: Test (pytest)
         runs-on: ubuntu-latest
+        timeout-minutes: 10
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
             - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
               with:
                   python-version: '3.13'
                   cache: pip
+                  cache-dependency-path: requirements*.txt
             - name: Install requirements
-              run: pip install -r requirements.txt
+              run: pip install -r requirements-dev.txt
             - name: Run tests
               run: pytest
