@@ -3,6 +3,12 @@
 # ignore shell warnings, re: variables being unused
 # shellcheck disable=SC2034
 
+# Stop if run directly, since this file only defines vars & functions for other scripts
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    echo "shell_utils.sh is meant to be sourced by other scripts, not run directly." >&2
+    exit 1
+fi
+
 #=======================================================================
 # Variables
 #=======================================================================
@@ -28,10 +34,15 @@ COLOUR_OFF='\033[0m'
 #=======================================================================
 
 # Function to standardise log messaging
+# Usage: log_message <level> <message> [leading blank line: true (default) or false]
 log_message() {
     local LOGGING_LEVEL="${1}"
     local MESSAGE="${2}"
-    echo && echo -e "${LOGGING_LEVEL}${MESSAGE}${COLOUR_OFF}"
+    local LEADING_BLANK_LINE="${3:-true}"
+    if [[ "${LEADING_BLANK_LINE}" == true ]]; then
+        echo
+    fi
+    echo -e "${LOGGING_LEVEL}${MESSAGE}${COLOUR_OFF}"
 }
 
 # Function to standardise log messaging - re: section headers

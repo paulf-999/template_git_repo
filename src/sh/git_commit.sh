@@ -3,7 +3,7 @@ set -e  # Exit immediately if a command exits with a non-zero status (fail fast)
 # Also fail on unset variables and on errors anywhere in a pipeline
 set -uo pipefail
 
-# Interactive commit helper that enforces "<type>(<file>): <message>"
+# Interactive commit helper that enforces "<type>(<scope>): <message>", where scope is the area of the repo changed
 # Usage: src/sh/git_commit.sh [git commit flags, e.g. --no-verify] (run from the repo root)
 
 # Load reusable shell script vars & functions
@@ -18,50 +18,22 @@ TYPES=("chore" "docs" "feat" "refactor" "fix" "test" "perf" "build" "ci" "revert
 
 # globals, initialised to satisfy set -u
 STAGED=()
-DISPLAY_NAMES=()
+AREAS=()
 TYPE=""
 SCOPE=""
 MSG=""
 COMMIT_MSG=""
-GIT_FLAGS=()
+# every script argument is passed through to git commit
+GIT_FLAGS=("$@")
 
 #=======================================================================
 # Functions
 #=======================================================================
 
-# Truncate long filenames for commit scope/menu, keeping extension
-truncate_scope() {
-    local name="${1}"
-    # max chars before the extension
-    local max_len=30
-
-    local base ext
-    if [[ "${name}" == *.* && "${name##*.}" != "${name}" ]]; then
-        base="${name%.*}"
-        ext=".${name##*.}"
-    else
-        base="${name}"
-        ext=""
-    fi
-
-    if ((${#base} > max_len)); then
-        printf '%s\n' "${base:0:${max_len}}…${ext}"
-    else
-        printf '%s\n' "${base}${ext}"
-    fi
-}
-
 # Build a regex alternation from TYPES (e.g. chore|docs|feat|fix)
 build_types_alt() {
     local IFS='|'
     echo "${TYPES[*]}"
-}
-
-# Pass every script argument through to git commit
-parse_args() {
-    for arg in "$@"; do
-        GIT_FLAGS+=("${arg}")
-    done
 }
 
 # Menu for commit type
@@ -96,41 +68,52 @@ gather_staged_files() {
     done < <(git diff --cached --name-only 2>/dev/null || printf '')
 }
 
-# Build display names for menu: truncated basenames w/ extension,
-# disambiguate duplicates by appending parent dir in [brackets].
-build_menu_display_names() {
-    DISPLAY_NAMES=()
-    for i in "${!STAGED[@]}"; do
-        local filename
-        filename="$(basename -- "${STAGED[$i]}")"
-        DISPLAY_NAMES[i]="$(truncate_scope "${filename}")"
-    done
-    # Disambiguate duplicates (simple O(n^2) pass)
-    for i in "${!DISPLAY_NAMES[@]}"; do
-        local dup_count=0
-        for j in "${!DISPLAY_NAMES[@]}"; do
-            # plain assignment, because ((dup_count++)) returns 1 at zero and set -e would exit
-            if [[ "${DISPLAY_NAMES[$j]}" == "${DISPLAY_NAMES[$i]}" ]]; then
-                dup_count=$((dup_count + 1))
+# Map a staged path to its repo area: the top-level folder, or for a root-level file its name
+# without the extension, lowercased with any leading dot dropped (e.g. Makefile -> makefile, .github/x.yml -> github)
+path_to_area() {
+    local path="${1}"
+    local area
+    if [[ "${path}" == */* ]]; then
+        area="${path%%/*}"
+    else
+        area="${path%.*}"
+        # a dotfile with no other dot (e.g. .gitignore) would otherwise come out empty
+        if [[ -z "${area}" ]]; then
+            area="${path}"
+        fi
+    fi
+    area="${area#.}"
+    printf '%s\n' "${area}" | tr '[:upper:]' '[:lower:]'
+}
+
+# Collect the unique repo areas of the staged files, in the order they're first seen
+build_areas() {
+    AREAS=()
+    local path area existing seen
+    for path in "${STAGED[@]}"; do
+        area="$(path_to_area "${path}")"
+        seen=false
+        # the ${arr[@]+...} form keeps an empty array safe under set -u on older Bash
+        for existing in ${AREAS[@]+"${AREAS[@]}"}; do
+            if [[ "${existing}" == "${area}" ]]; then
+                seen=true
             fi
         done
-        if (( dup_count > 1 )); then
-            local parent
-            parent="$(basename -- "$(dirname -- "${STAGED[$i]}")")"
-            DISPLAY_NAMES[i]="${DISPLAY_NAMES[$i]} [${parent}]"
+        if [[ "${seen}" == false ]]; then
+            AREAS+=("${area}")
         fi
     done
 }
 
-# Menu for commit scope (file/directory)
+# Menu for commit scope (the area of the repo changed)
 select_scope() {
-    echo -e "\n${DEBUG}Pick the file scope (used as (<file>) in the subject):\n${COLOUR_OFF}"
+    echo -e "\n${DEBUG}Pick the scope, i.e. the area of the repo changed (used as (<scope>) in the subject):\n${COLOUR_OFF}"
 
     if ((${#STAGED[@]} > 0)); then
-        build_menu_display_names
-        for i in "${!STAGED[@]}"; do
+        build_areas
+        for i in "${!AREAS[@]}"; do
             local idx=$((i+1))
-            echo -e "${DEBUG_DETAILS}${idx}) ${DISPLAY_NAMES[$i]}${COLOUR_OFF}"
+            echo -e "${DEBUG_DETAILS}${idx}) ${AREAS[$i]}${COLOUR_OFF}"
         done
         echo -e "${DEBUG_DETAILS}0) Enter custom scope${COLOUR_OFF}"
     else
@@ -140,13 +123,11 @@ select_scope() {
     while true; do
         read -rp "$(echo -e "\n${DEBUG}Choose number (or 0 to type): ${COLOUR_OFF}")" scope_choice
 
-        if ((${#STAGED[@]} > 0)) && [[ "${scope_choice}" =~ ^[0-9]+$ ]] && (( scope_choice>=1 && scope_choice<=${#STAGED[@]} )); then
-            local filename
-            filename="$(basename -- "${STAGED[$((scope_choice-1))]}")"
-            SCOPE="$(truncate_scope "${filename}")"
+        if ((${#AREAS[@]} > 0)) && [[ "${scope_choice}" =~ ^[0-9]+$ ]] && (( scope_choice>=1 && scope_choice<=${#AREAS[@]} )); then
+            SCOPE="${AREAS[$((scope_choice-1))]}"
             break
-        elif [[ "${scope_choice}" == "0" || ${#STAGED[@]} -eq 0 ]]; then
-            read -rp "$(echo -e "${DEBUG}Enter custom scope (e.g. file or directory): ${COLOUR_OFF}")" SCOPE
+        elif [[ "${scope_choice}" == "0" || ${#AREAS[@]} -eq 0 ]]; then
+            read -rp "$(echo -e "${DEBUG}Enter custom scope (e.g. makefile, ci, pre-commit): ${COLOUR_OFF}")" SCOPE
             SCOPE="${SCOPE// /-}"
             if [[ -n "${SCOPE}" ]]; then
                 break
@@ -189,8 +170,7 @@ confirm_and_commit() {
     read -rp "Proceed? [y/N] " confirm
     [[ "${confirm}" =~ ^[Yy]$ ]] || exit 0
 
-    # Expand GIT_FLAGS safely under set -u
-    if declare -p GIT_FLAGS >/dev/null 2>&1 && ((${#GIT_FLAGS[@]} > 0)); then
+    if ((${#GIT_FLAGS[@]} > 0)); then
         git commit "${GIT_FLAGS[@]}" -m "${COMMIT_MSG}"
     else
         git commit -m "${COMMIT_MSG}"
@@ -208,7 +188,6 @@ if ! git rev-parse --git-dir >/dev/null 2>&1; then
     exit 1
 fi
 
-parse_args "$@"
 select_type
 gather_staged_files
 select_scope

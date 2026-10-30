@@ -1,8 +1,14 @@
 #!/bin/bash
-set -e  # Exit immediately if a command exits with a non-zero status (fail fast).
+set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
+
+# <One line saying what this script does>
+# Usage: src/sh/<script_name>.sh [args] (run from the repo root)
 
 # Load reusable shell script vars & functions
 source src/sh/shell_utils.sh
+
+# Catch Ctrl+C, so an interrupted run says so and exits 1
+trap handle_interruption SIGINT
 
 #=======================================================================
 # Variables
