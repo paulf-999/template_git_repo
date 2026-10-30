@@ -63,7 +63,7 @@ repos:
           - id: ruff
             name: Python fixes & lint — Ruff
         # Enable complexity checks
-            args: [--line-length=120, --select=E, F, W, C90]
+            args: [--line-length=120, '--select=E,F,W,C90']
 
   # 🔁 Pyupgrade — automatically modernise syntax
     - repo: https://github.com/asottile/pyupgrade

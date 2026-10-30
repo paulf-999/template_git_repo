@@ -7,19 +7,20 @@
 ## Description: This script is used within a Git CICD job and
 ##              is used to verify the user's git branch name
 ##              follows the naming standard:
-##              ^(feature|hotfix|release)\/[a-z0-9_]+$
+##              ^(feature|hotfix|release)/[a-z0-9_]+$
 ##
-## Usage: ./validate_git_branch_name.sh <input git branch name>
+## Usage: ./git_validate_branch_name.sh [git branch name]
+##        (defaults to the current local git branch name)
 ##
 #================================================================
 
 #=======================================================================
 # Variables
 #=======================================================================
-# determine the name of the local git branch name
-LOCAL_GIT_BRANCH_NAME="$(git rev-parse --abbrev-ref HEAD)"
+# use the branch name passed in, else the name of the local git branch
+LOCAL_GIT_BRANCH_NAME="${1:-$(git rev-parse --abbrev-ref HEAD)}"
 # the regex for valid git branch names
-VALID_GIT_BRANCH_NAME="^(feature|hotfix|release)\/[a-z0-9_]+$"
+VALID_GIT_BRANCH_NAME="^(feature|hotfix|release)/[a-z0-9_]+$"
 
 # setup colour formatting
 RED='\033[0;31m'
@@ -31,9 +32,7 @@ COLOUR_OFF='\033[0m' # Text Reset
 #=======================================================================
 
 # Validate the Git branch name used
-if [[ ! "$LOCAL_GIT_BRANCH_NAME" != "$VALID_GIT_BRANCH_NAME" ]]
-# note: the above works on a mac. The below works on Ubuntu
-# if [[ ! $LOCAL_GIT_BRANCH_NAME =~ $VALID_GIT_BRANCH_NAME ]]
+if [[ ! $LOCAL_GIT_BRANCH_NAME =~ $VALID_GIT_BRANCH_NAME ]]
 then
     echo
     echo -e "${RED}#############################################################################################"

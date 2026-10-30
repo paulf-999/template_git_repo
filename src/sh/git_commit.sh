@@ -1,7 +1,6 @@
 #!/bin/bash
 # Interactive commit helper that enforces "<type>(<file>): <message>"
-# Usage: git_commit.sh [--no-verify] [--no-body]
-#   --no-body -> subject is exactly "<type>(<file>)" (no message body)
+# Usage: git_commit.sh [git commit flags, e.g. --no-verify]
 
 # Keep nounset; avoid -e to prevent abrupt exits during prompts/subshells.
 set -uo pipefail
@@ -21,7 +20,7 @@ fi
 # -----------------------------
 # Configuration
 # -----------------------------
-TYPES=("chore" "docs" "feat" "refactor" "fix")   # allowed commit types
+TYPES=("chore" "docs" "feat" "refactor" "fix" "test" "perf")   # allowed commit types
 
 # -----------------------------
 # Globals (init to satisfy -u)
@@ -32,7 +31,6 @@ TYPE=""
 SCOPE=""
 MSG=""
 COMMIT_MSG=""
-NO_BODY=false
 GIT_FLAGS=()
 
 # -----------------------------
@@ -70,10 +68,7 @@ build_types_alt() {
 # -----------------------------
 parse_args() {
     for arg in "$@"; do
-        case "$arg" in
-            --no-body) NO_BODY=true ;;
-            *) GIT_FLAGS+=("$arg") ;;
-        esac
+        GIT_FLAGS+=("$arg")
     done
 }
 
@@ -118,7 +113,7 @@ build_menu_display_names() {
     for i in "${!STAGED[@]}"; do
         local filename
         filename="$(basename -- "${STAGED[$i]}")"
-        DISPLAY_NAMES[$i]="$(truncate_scope "$filename")"
+        DISPLAY_NAMES[i]="$(truncate_scope "$filename")"
     done
     # Disambiguate duplicates (simple O(n^2) pass)
     for i in "${!DISPLAY_NAMES[@]}"; do
@@ -129,7 +124,7 @@ build_menu_display_names() {
         if (( dup_count > 1 )); then
             local parent
             parent="$(basename -- "$(dirname -- "${STAGED[$i]}")")"
-            DISPLAY_NAMES[$i]="${DISPLAY_NAMES[$i]} [${parent}]"
+            DISPLAY_NAMES[i]="${DISPLAY_NAMES[$i]} [${parent}]"
         fi
     done
 }
@@ -174,13 +169,9 @@ select_scope() {
 }
 
 # -----------------------------
-# Prompt for commit message body (unless --no-body)
+# Prompt for commit message body
 # -----------------------------
 prompt_message() {
-    if ${NO_BODY}; then
-        MSG=""
-        return
-    fi
     read -rp "$(echo -e "${DEBUG}Enter commit message: ${COLOUR_OFF}")" MSG
     if [[ -z "$MSG" ]]; then
         log_message "${ERROR}" "Commit message cannot be empty."
@@ -192,21 +183,13 @@ prompt_message() {
 # Build, validate and commit
 # -----------------------------
 build_commit_message() {
-    if ${NO_BODY}; then
-        COMMIT_MSG="${TYPE}(${SCOPE})"
-    else
-        COMMIT_MSG="${TYPE}(${SCOPE}): ${MSG}"
-    fi
+    COMMIT_MSG="${TYPE}(${SCOPE}): ${MSG}"
 }
 
 validate_commit_message() {
     local types_alt REGEX
     types_alt="$(build_types_alt)"
-    if ${NO_BODY}; then
-        REGEX="^(${types_alt})\([^)]+\)$"
-    else
-        REGEX="^(${types_alt})\([^)]+\): .+"
-    fi
+    REGEX="^(${types_alt})\([^)]+\): .+"
     if ! [[ "$COMMIT_MSG" =~ $REGEX ]]; then
         log_message "${ERROR}" "Commit subject must match ${REGEX}"
         echo "Got: $COMMIT_MSG"
