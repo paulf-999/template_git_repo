@@ -3,7 +3,7 @@
 ## 🌱 Branching
 
 Follow the rules in [Git Branching Strategy](docs/git_branching_strategy.md).
-Branch names are automatically validated by the pre-commit hook: `src/sh/pre_commit_hooks/git_validate_branch_name.sh`
+Branch names are automatically validated by the pre-commit hook: `src/sh/git_validate_branch_name.sh`
 
 ## 📝 Commits
 
