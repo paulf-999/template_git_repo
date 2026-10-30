@@ -21,7 +21,8 @@ repos:
           - id: commitlint # validate Git commit messages
             name: Git checks - Git commit validation
             stages: [commit-msg]
-            additional_dependencies: ['@commitlint/config-conventional']
+            args: [--extends, '@commitlint/config-conventional']
+            additional_dependencies: ['@commitlint/config-conventional@21.2.4']
 
     - repo: local
       hooks:

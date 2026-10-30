@@ -20,5 +20,5 @@ This folder contains supporting documentation and references for working with th
 
 ## ℹ️ Additional References
 
-- [Commitlint rules](../commitlint.config.js)
+- [Commitlint rules](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) (the `@commitlint/config-conventional` defaults)
 - [Makefile](../Makefile) for automation tasks (`make help`)

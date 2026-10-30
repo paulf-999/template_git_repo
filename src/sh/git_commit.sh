@@ -13,8 +13,8 @@ source src/sh/shell_utils.sh
 # Variables
 #=======================================================================
 
-# allowed commit types, kept in step with commitlint.config.js
-TYPES=("chore" "docs" "feat" "refactor" "fix" "test" "perf")
+# allowed commit types, kept in step with the type-enum rule in @commitlint/config-conventional
+TYPES=("chore" "docs" "feat" "refactor" "fix" "test" "perf" "build" "ci" "revert" "style")
 
 # globals, initialised to satisfy set -u
 STAGED=()
