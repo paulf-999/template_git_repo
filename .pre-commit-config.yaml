@@ -1,5 +1,5 @@
 ---
-# version: 1.0.0
+# version: 1.0.1
 # created: 2022-11-04
 # updated: 2026-10-30
 # all commands by default will run on every commit
@@ -44,7 +44,7 @@ repos:
       rev: v9.27.0
       hooks:
           - id: commitlint # validate Git commit messages
-            name: Git checks — Git commit validation
+            name: Git checks — commit message validation
             stages: [commit-msg]
             args: [--extends, '@commitlint/config-conventional']
             additional_dependencies: ['@commitlint/config-conventional@21.2.4']
