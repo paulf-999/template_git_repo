@@ -1,5 +1,5 @@
 #!/bin/bash
-# version: 1.0.1
+# version: 1.2.0
 # created: 2025-10-14
 # updated: 2026-10-30
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
@@ -16,6 +16,10 @@ source src/sh/shell_utils.sh
 
 # allowed commit types, kept in step with the type-enum rule in @commitlint/config-conventional
 TYPES=("chore" "docs" "feat" "refactor" "fix" "test" "perf" "build" "ci" "revert" "style")
+# longest header commitlint allows (header-max-length in @commitlint/config-conventional)
+MAX_HEADER_LENGTH=100
+# longest custom scope, leaving room in the header for the message
+MAX_SCOPE_LENGTH=30
 
 # globals, initialised to satisfy set -u
 STAGED=()
@@ -31,12 +35,6 @@ GIT_FLAGS=("$@")
 # Functions
 #=======================================================================
 
-# Build a regex alternation from TYPES (e.g. chore|docs|feat|fix)
-build_types_alt() {
-    local IFS='|'
-    echo "${TYPES[*]}"
-}
-
 # Menu for commit type
 select_type() {
     log_message "${DEBUG}" "Select type of Git commit:\n"
@@ -49,8 +47,11 @@ select_type() {
         echo
         read -rp "$(echo -e "${DEBUG}Enter number for type: ${COLOUR_OFF}")" choice
 
-        if [[ "${choice}" =~ ^[0-9]+$ ]] && (( choice>=1 && choice<=${#TYPES[@]} )); then
-            TYPE="${TYPES[$((choice-1))]}"
+        local number
+        # -1 marks an answer that isn't a whole number
+        number="$(to_whole_number "${choice}")" || number=-1
+        if (( number>=1 && number<=${#TYPES[@]} )); then
+            TYPE="${TYPES[$((number-1))]}"
             break
         else
             log_message "${ERROR}" "Invalid selection. Choose a valid number."
@@ -59,14 +60,15 @@ select_type() {
 }
 
 # Gather staged files, using a while-read loop that works on older Bash too
+# -z gives raw NUL-separated paths, so names like résumé.md aren't quoted and escaped
 gather_staged_files() {
     STAGED=()
-    while IFS= read -r line; do
+    while IFS= read -r -d '' line; do
         # an if, not [[ ]] &&, so an empty line can't trip set -e
         if [[ -n "${line}" ]]; then
             STAGED+=("${line}")
         fi
-    done < <(git diff --cached --name-only 2>/dev/null || printf '')
+    done < <(git diff --cached --name-only -z 2>/dev/null || printf '')
 }
 
 # Map a staged path to its repo area: the top-level folder, or for a root-level file its name
@@ -124,16 +126,23 @@ select_scope() {
     while true; do
         read -rp "$(echo -e "\n${DEBUG}Choose number (or 0 to type): ${COLOUR_OFF}")" scope_choice
 
-        if ((${#AREAS[@]} > 0)) && [[ "${scope_choice}" =~ ^[0-9]+$ ]] && (( scope_choice>=1 && scope_choice<=${#AREAS[@]} )); then
-            SCOPE="${AREAS[$((scope_choice-1))]}"
+        local number
+        number="$(to_whole_number "${scope_choice}")" || number=-1
+        if (( number>=1 && number<=${#AREAS[@]} )); then
+            SCOPE="${AREAS[$((number-1))]}"
             break
-        elif [[ "${scope_choice}" == "0" || ${#AREAS[@]} -eq 0 ]]; then
+        elif (( number==0 || ${#AREAS[@]}==0 )); then
             read -rp "$(echo -e "${DEBUG}Enter custom scope (e.g. makefile, ci, pre-commit): ${COLOUR_OFF}")" SCOPE
-            SCOPE="${SCOPE// /-}"
-            if [[ -n "${SCOPE}" ]]; then
-                break
-            else
+            # commitlint requires a lowercase scope (scope-case), so match the auto-detected areas
+            SCOPE="$(printf '%s' "${SCOPE// /-}" | tr '[:upper:]' '[:lower:]')"
+            if [[ -z "${SCOPE}" ]]; then
                 log_message "${ERROR}" "Scope cannot be empty."
+            elif [[ ! "${SCOPE}" =~ ^[a-z0-9][a-z0-9._/-]*$ ]]; then
+                log_message "${ERROR}" "Use only letters, numbers and . _ / - in the scope."
+            elif (( ${#SCOPE} > MAX_SCOPE_LENGTH )); then
+                log_message "${ERROR}" "Keep the scope to ${MAX_SCOPE_LENGTH} characters."
+            else
+                break
             fi
         else
             log_message "${ERROR}" "Invalid selection."
@@ -141,29 +150,39 @@ select_scope() {
     done
 }
 
-# Prompt for commit message body
-prompt_message() {
-    read -rp "$(echo -e "${DEBUG}Enter commit message: ${COLOUR_OFF}")" MSG
-    if [[ -z "${MSG}" ]]; then
-        log_message "${ERROR}" "Commit message cannot be empty."
-        exit 1
+# Explain why a message would fail commitlint, or print nothing if it's fine
+message_problem() {
+    local message="${1}"
+    local max_length=$((MAX_HEADER_LENGTH - ${#TYPE} - ${#SCOPE} - 4))
+    if [[ -z "${message}" ]]; then
+        echo "Commit message cannot be empty."
+    elif [[ "${message}" =~ ^[A-Z] ]]; then
+        echo "Start the message with a lowercase letter (commitlint rejects sentence, start and upper case)."
+    elif [[ "${message}" == *. ]]; then
+        echo "Drop the full stop at the end of the message."
+    elif (( ${#message} > max_length )); then
+        echo "Keep the message to ${max_length} characters, so the whole header fits in ${MAX_HEADER_LENGTH}."
     fi
 }
 
-# Build, validate and commit
+# Prompt for the commit message until it would pass commitlint
+prompt_message() {
+    local problem
+    while true; do
+        read -rp "$(echo -e "${DEBUG}Enter commit message: ${COLOUR_OFF}")" MSG
+        # trim surrounding spaces, so an all-spaces message counts as empty
+        MSG="$(printf '%s' "${MSG}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+        problem="$(message_problem "${MSG}")"
+        if [[ -z "${problem}" ]]; then
+            break
+        fi
+        log_message "${ERROR}" "${problem}"
+    done
+}
+
+# Build and commit (type, scope and message are already checked as they're entered)
 build_commit_message() {
     COMMIT_MSG="${TYPE}(${SCOPE}): ${MSG}"
-}
-
-validate_commit_message() {
-    local types_alt REGEX
-    types_alt="$(build_types_alt)"
-    REGEX="^(${types_alt})\([^)]+\): .+"
-    if ! [[ "${COMMIT_MSG}" =~ ${REGEX} ]]; then
-        log_message "${ERROR}" "Commit subject must match ${REGEX}"
-        echo "Got: ${COMMIT_MSG}"
-        exit 1
-    fi
 }
 
 confirm_and_commit() {
@@ -194,7 +213,6 @@ gather_staged_files
 select_scope
 prompt_message
 build_commit_message
-validate_commit_message
 confirm_and_commit
 
 print_section_header "${DEBUG}" "Script execution completed." && echo

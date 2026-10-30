@@ -1,5 +1,5 @@
 #!/bin/bash
-# version: 1.0.0
+# version: 1.2.0
 # created: 2026-10-30
 # updated: 2026-10-30
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
@@ -41,6 +41,12 @@ print_section_header "${DEBUG}" "Script execution started."
 if [[ "${GIT_BRANCH_NAME}" == release/* ]]; then
     print_section_header "${INFO}" "Release branch - skip file count check." && echo
     exit 0
+fi
+
+# the limit must be a whole number (checked after the release skip, which never uses it)
+if ! MAX_FILES_CHANGED="$(to_whole_number "${MAX_FILES_CHANGED}")"; then
+    print_section_header "${ERROR}" "ERROR: MAX_FILES_ALLOWED must be a whole number of up to 9 digits, got '${MAX_FILES_ALLOWED}'."
+    exit 1
 fi
 
 # outside CI the base may not be fetched yet, so try fetching it from origin before giving up

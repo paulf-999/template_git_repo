@@ -1,5 +1,5 @@
 #!/bin/bash
-# version: 1.0.0
+# version: 1.1.0
 # created: 2025-09-12
 # updated: 2026-10-30
 # Reusable shell script vars & functions, sourced by other scripts (not run directly)
@@ -71,4 +71,14 @@ file_exists() {
 handle_interruption() {
     log_message "${WARNING}" "Script execution aborted by the user."
     exit 1
+}
+
+# Print a whole number in base 10, or fail if it isn't one
+# the 10# prefix stops a leading zero (e.g. 010) being read as octal, and the 9-digit cap stops 64-bit overflow
+to_whole_number() {
+    if [[ "${1}" =~ ^[0-9]{1,9}$ ]]; then
+        echo "$((10#${1}))"
+    else
+        return 1
+    fi
 }
