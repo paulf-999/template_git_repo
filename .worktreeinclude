@@ -1,0 +1,4 @@
+# Files to copy into new worktrees.
+# Uses .gitignore syntax — only gitignored files are matched.
+# Tracked files are never duplicated.
+.env

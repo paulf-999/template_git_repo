@@ -1,0 +1,13 @@
+---
+default: true
+
+# --- Permanently disabled ---
+# These rules conflict with conventions used consistently across the repo.
+MD013: false   # line-length — tables and code blocks routinely exceed 100 chars
+MD033: false   # inline HTML — used in Mermaid diagrams and rich content
+MD041: false   # first-line heading — many files open with YAML frontmatter
+MD024: false   # duplicate headings — repeated section headings across files
+
+# --- Narrowed ---
+MD010:         # hard tabs — allowed only in makefile code blocks, where Make requires them
+    ignore_code_languages: [makefile]
