@@ -57,6 +57,22 @@ jobs:
                   npx commitlint --extends @commitlint/config-conventional
                   --from "${BASE_SHA}" --to "${HEAD_SHA}" --verbose
 
+    pr_size:
+        name: PR size (20-file limit)
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+              with:
+                  # full history, so the PR's changes can be diffed against its base
+                  fetch-depth: 0
+            # Passed through env, not ${{ }} in the script, so a crafted branch name can't inject shell
+            - name: Validate number of changed files
+              env:
+                  BRANCH_NAME: ${{ github.head_ref }}
+                  BASE_SHA: ${{ github.event.pull_request.base.sha }}
+                  HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+              run: src/sh/git_validate_num_file_changes.sh "${BRANCH_NAME}" "${BASE_SHA}" "${HEAD_SHA}"
+
     test:
         name: Test (pytest)
         runs-on: ubuntu-latest
