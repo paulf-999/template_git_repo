@@ -44,6 +44,6 @@ file_exists() {
 
 # Signal handler to catch interruptions (Ctrl+C)
 handle_interruption() {
-    print_info_message "Script execution aborted by the user."
+    log_message "${WARNING}" "Script execution aborted by the user."
     exit 1
 }
