@@ -1,0 +1,52 @@
+---
+# Re-run the local git hooks and tests on every PR, so `git commit --no-verify` can't skip them
+name: CI
+
+on:
+    pull_request:
+        branches: [main]
+
+permissions:
+    contents: read
+
+jobs:
+    lint:
+        name: Lint (pre-commit hooks)
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+            - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
+              with:
+                  python-version: '3.13'
+                  cache: pip
+            - name: Install requirements
+              run: pip install -r requirements.txt
+            # Passed through env, not ${{ }} in the script, so a crafted branch name can't inject shell
+            - name: Validate branch name
+              env:
+                  BRANCH_NAME: ${{ github.head_ref }}
+              run: src/sh/git_validate_branch_name.sh "${BRANCH_NAME}"
+            - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+              with:
+                  path: ~/.cache/pre-commit
+                  key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+            # CI checks out a detached merge commit, so the branch hooks are skipped here and checked above
+            - name: Run pre-commit hooks
+              env:
+                  SKIP: no-commit-to-branch,git_branch_name_validation
+              run: pre-commit run --all-files --show-diff-on-failure
+
+    test:
+        name: Test (pytest)
+        needs: lint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+            - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
+              with:
+                  python-version: '3.13'
+                  cache: pip
+            - name: Install requirements
+              run: pip install -r requirements.txt
+            - name: Run tests
+              run: pytest
