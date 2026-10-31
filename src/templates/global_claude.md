@@ -1,22 +1,9 @@
 <!-- version: 1.0.0 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
-# CLAUDE.md — <project_name>
+# Global Claude configuration
 
-<!-- Starting point: fill in the TODOs and keep this file lean, since Claude reads all of it every session. Add a line only when Claude repeatedly gets something wrong, and link to CONTRIBUTING.md and docs/ rather than repeating them. -->
-
-## Project
-
-<!-- TODO: what this repo does, who uses it, and anything Claude keeps getting wrong here -->
-
-| Task | Command |
-|---|---|
-| Install requirements and git hooks | `make deps` |
-| Run the tests | `make test` |
-| Run every check | `pre-commit run --all-files` |
-
-- **Done means:** `make test` and `pre-commit run --all-files` both pass.
-- **Conventions:** follow `CONTRIBUTING.md` for branching, commits, file headers and PRs.
+<!-- Template for ~/.claude/CLAUDE.md: Claude loads it in every session, in every repo, so keep it lean and generic. Put project facts in each repo's own CLAUDE.md, and add a line here only when Claude repeatedly gets something wrong across repos. -->
 
 ## Behavioural Guidelines
 
