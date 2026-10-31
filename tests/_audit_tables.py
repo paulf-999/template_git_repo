@@ -1,4 +1,4 @@
-# version: 1.0.0
+# version: 1.1.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Shared helpers for the quality audits: read their tables, and check their links and scores."""
@@ -71,7 +71,7 @@ def assert_links_work(audit):
 
 
 def assert_quality_scores(rows, themes):
-    """Check each row's theme cells are valid, and its Score is their grade and total out of 10."""
+    """Check each row's theme cells are valid, its Score is their grade and total, and Gaps names each one below ✅."""
     for row in rows:
         for theme in themes:
             assert row[theme] in THEME_POINTS, f"{row['name']}: {theme} must be one of {list(THEME_POINTS)}"
@@ -80,3 +80,9 @@ def assert_quality_scores(rows, themes):
         total = sum(THEME_POINTS[row[theme]] for theme in themes)
         expected = f"{grade(total)} · {total}/10"
         assert row["Score"] == expected, f"{row['name']}: score says '{row['Score']}', its themes give '{expected}'"
+
+        # Gaps must name every theme below ✅ as '<Theme>: <gap>', and be '—' when every theme is ✅
+        below = [theme for theme in themes if row[theme] != "✅ 2"]
+        unnamed = [theme for theme in below if f"{theme}:" not in row["Gaps"]]
+        assert not unnamed, f"{row['name']}: Gaps must name {unnamed}, as '<Theme>: <gap>'"
+        assert below or row["Gaps"] == "—", f"{row['name']}: every theme is ✅, so Gaps should be '—'"

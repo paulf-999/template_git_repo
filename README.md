@@ -1,4 +1,4 @@
-<!-- version: 2.1.2 -->
+<!-- version: 2.1.3 -->
 <!-- created: 2022-11-04 -->
 <!-- updated: 2026-10-31 -->
 # 🧩 Template Git Repo
@@ -18,6 +18,7 @@ A **generic starting point** for new projects, providing:
 * Templates for PRs, CODEOWNERS, and branching
 * Pre-commit hooks for linting and validation
 * Tests for the helper scripts, run with `make test`
+* [CI](.github/workflows/ci.yml) on every PR, which re-runs the hooks and tests and checks the PR's title and size
 * A starter global Claude config, [`src/templates/global_claude.md`](src/templates/global_claude.md)
 
 ---

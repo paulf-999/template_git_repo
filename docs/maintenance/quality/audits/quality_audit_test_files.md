@@ -1,4 +1,4 @@
-<!-- version: 3.2.15 -->
+<!-- version: 3.2.16 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -6,8 +6,8 @@
 For maintainers of this template: how many tests each script has, and how good those tests are.
 
 - **Kept accurate by:** [`tests/test_quality_audit_test_files.py`](../../../../tests/test_quality_audit_test_files.py), which fails if either table falls out of step with the test files.
-- **Own checker:** this audit's checker has a MoSCoW row, so the Totals row matches `make test`, but it isn't given quality scores.
-- **Gaps:** written by hand when a script is scored, so recheck them whenever its tests change.
+- **Own checker:** this audit's checker has a MoSCoW row, so the Totals row matches `make test`, but it isn't given quality scores, because the audit can't fairly score its own checker.
+- **Gaps:** written by hand when a script is scored, and checked to name every theme below ✅, so recheck them whenever its tests change.
 
 ## 🏷️ MoSCoW scores by script
 
@@ -16,7 +16,6 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 - **Won't:** stays at 0, because a test scored `Won't` is deleted.
 - **Total (functions) vs Test Cases:** Total (functions) counts test functions, which the MoSCoW scores label, and **Test Cases** counts the test cases pytest runs, since a parametrised function runs once per input.
 - **Totals:** its Test Cases figure is the number `make test` reports.
-- **Header check:** it runs once for every tracked file, so adding or removing any file changes its count and the total, and both need updating in the same PR.
 
 | Script or check | Must | Should | Could | Won't | Total (functions) | **Test Cases** |
 |---|---|---|---|---|---|---|
@@ -28,10 +27,10 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [`shell_utils.sh`](../../../../src/sh/shell_utils.sh) | 2 | 1 | 2 | 0 | 5 | **13** |
 | [`Makefile`](../../../../Makefile) | 2 | 0 | 0 | 0 | 2 | **2** |
 | [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
-| [Markdown quality audit](../../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
+| [Markdown quality audit](../../../../tests/test_quality_audit_markdown_files.py) | 0 | 2 | 0 | 0 | 2 | **4** |
 | [This audit's checker](../../../../tests/test_quality_audit_test_files.py) | 0 | 2 | 0 | 0 | 2 | **2** |
-| [Every tracked file's header](../../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **51** |
-| **Totals** | | | | | **57** | **143** |
+| [Every tracked file's header](../../../../tests/test_file_metadata_headers.py) | 2 | 0 | 0 | 0 | 2 | **4** |
+| **Totals** | | | | | **59** | **99** |
 
 ## ⭐ Quality by script
 
@@ -39,7 +38,7 @@ Long script names are shortened to a label here, to keep the table narrow, and e
 
 Each script's tests are scored against [`docs/maintenance/quality/themes/quality_themes_test_files.md`](../themes/quality_themes_test_files.md).
 
-**Scored by:** who gave each row its scores.
+**Scored by:** says who gave each row its scores, so self-scored rows stand out until someone else checks them.
 
 **Key:**
 
@@ -59,5 +58,5 @@ Each script's tests are scored against [`docs/maintenance/quality/themes/quality
 | [`shell_utils.sh`](../../../../src/sh/shell_utils.sh) | Independent review | 5 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`Makefile`](../../../../Makefile) | Independent review | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | Independent review | 4 | 9 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Markdown quality audit](../../../../tests/test_quality_audit_markdown_files.py) | Independent review | 1 | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Every tracked file's header](../../../../tests/test_file_metadata_headers.py) | Independent review | 1 | 51 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Markdown quality audit](../../../../tests/test_quality_audit_markdown_files.py) | Self-scored (Claude), after fixing the independent review's gaps | 2 | 4 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Every tracked file's header](../../../../tests/test_file_metadata_headers.py) | Self-scored (Claude), after fixing the independent review's gaps | 2 | 4 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
