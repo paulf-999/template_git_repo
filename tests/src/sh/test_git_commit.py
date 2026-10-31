@@ -1,4 +1,4 @@
-# version: 1.2.8
+# version: 1.2.9
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the interactive git commit helper."""
@@ -19,6 +19,9 @@ def read_script_types():
     match = re.search(r"^TYPES=\(([^)]*)\)", SCRIPT.read_text(), re.MULTILINE)
     return re.findall(r'"([^"]+)"', match.group(1))
 
+
+# the type that menu item 1 picks, so reordering TYPES doesn't break the tests that pick it
+FIRST_TYPE = read_script_types()[0]
 
 # type-enum from @commitlint/config-conventional, at the version pinned in .pre-commit-config.yaml
 COMMITLINT_TYPES = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "refactor", "revert", "style", "test"]
@@ -91,7 +94,7 @@ def test_test_and_perf_types_build_a_valid_commit(git_repo, commit_type):
     repo, env = git_repo
     menu_number = str(read_script_types().index(commit_type) + 1)
     result = run_commit_helper(repo, env, [menu_number, "1", "add a check", "y"])
-    assert result.returncode == 0, result.stderr
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
     assert last_commit_subject(repo, env) == f"{commit_type}(app): add a check", "expected '<type>(<scope>): <message>'"
 
 
@@ -102,11 +105,11 @@ def test_files_in_one_folder_share_a_scope(git_repo):
     stage_files(repo, env, "api/a.py", "api/b.py", ".github/ci.yml")
     # scope 3 is app, the area of the file the fixture already staged
     result = run_commit_helper(repo, env, ["1", "3", "tidy up", "y"])
-    assert result.returncode == 0, result.stderr
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
     # git lists staged paths alphabetically: .github/, api/, then app.py
-    assert result.stdout.count(") api") == 1, result.stdout
+    assert result.stdout.count(") api") == 1, f"api should be offered once: {result.stdout}"
     assert ") github" in result.stdout, f"expected a github scope in the menu: {result.stdout}"
-    assert last_commit_subject(repo, env) == "chore(app): tidy up", "scope 3 should be app"
+    assert last_commit_subject(repo, env) == f"{FIRST_TYPE}(app): tidy up", "scope 3 should be app"
 
 
 # MoSCoW: Should — option 0 is the main fallback for scopes
@@ -115,8 +118,8 @@ def test_custom_scope(git_repo):
     repo, env = git_repo
     # scope 0, then the custom scope to type
     result = run_commit_helper(repo, env, ["1", "0", "my scope", "add notes", "y"])
-    assert result.returncode == 0, result.stderr
-    assert last_commit_subject(repo, env) == "chore(my-scope): add notes", (
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
+    assert last_commit_subject(repo, env) == f"{FIRST_TYPE}(my-scope): add notes", (
         "a typed scope's spaces should become hyphens"
     )
 
@@ -126,7 +129,7 @@ def test_declining_the_confirm_prompt_makes_no_commit(git_repo):
     """Answering 'n' at the confirm prompt exits cleanly without committing."""
     repo, env = git_repo
     result = run_commit_helper(repo, env, ["1", "1", "add notes", "n"])
-    assert result.returncode == 0, result.stderr
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
     head = subprocess.run(["git", "rev-parse", "--verify", "HEAD"], cwd=repo, env=env, capture_output=True, check=False)
     assert head.returncode != 0, "a commit was made despite answering 'n'"
 
@@ -136,7 +139,7 @@ def test_flags_are_passed_to_git_commit(git_repo):
     """Script arguments reach git commit, e.g. --author overrides the commit author."""
     repo, env = git_repo
     result = run_commit_helper(repo, env, ["1", "1", "add notes", "y"], "--author=Other <other@example.com>")
-    assert result.returncode == 0, result.stderr
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
     author = subprocess.run(
         ["git", "log", "-1", "--format=%an"], cwd=repo, env=env, capture_output=True, text=True, check=True
     ).stdout.strip()
@@ -158,7 +161,7 @@ def test_leading_zero_menu_choice_is_read_as_decimal(git_repo):
     """'010' picks menu item 10, not item 8 (which bash would read from octal 010)."""
     repo, env = git_repo
     result = run_commit_helper(repo, env, ["010", "1", "add notes", "y"])
-    assert result.returncode == 0, result.stderr
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
     assert last_commit_subject(repo, env) == f"{read_script_types()[9]}(app): add notes", "'010' should pick item 10"
 
 
@@ -168,11 +171,9 @@ def test_invalid_type_number_is_asked_again(git_repo):
     repo, env = git_repo
     # type 99 is rejected, so type is asked again and 1 is used
     result = run_commit_helper(repo, env, ["99", "1", "1", "add notes", "y"])
-    assert result.returncode == 0, result.stderr
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
     assert "Invalid selection" in result.stdout, f"expected the rejected number to be explained: {result.stdout}"
-    assert last_commit_subject(repo, env) == f"{read_script_types()[0]}(app): add notes", (
-        "the next valid answer should be used"
-    )
+    assert last_commit_subject(repo, env) == f"{FIRST_TYPE}(app): add notes", "the next valid answer should be used"
 
 
 # MoSCoW: Should — commitlint rejects uppercase scopes
@@ -180,8 +181,8 @@ def test_custom_scope_is_lowercased(git_repo):
     """A typed scope is lowercased, since commitlint's scope-case rule rejects 'CI'."""
     repo, env = git_repo
     result = run_commit_helper(repo, env, ["1", "0", "CI", "add notes", "y"])
-    assert result.returncode == 0, result.stderr
-    assert last_commit_subject(repo, env) == "chore(ci): add notes", "a typed scope should be lowercased"
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
+    assert last_commit_subject(repo, env) == f"{FIRST_TYPE}(ci): add notes", "a typed scope should be lowercased"
 
 
 # MoSCoW: Should — catches commitlint errors before the hook does
@@ -198,9 +199,9 @@ def test_messages_commitlint_would_reject_are_asked_again(git_repo, bad_message,
     repo, env = git_repo
     # the bad message is rejected, so the message is asked again
     result = run_commit_helper(repo, env, ["1", "1", bad_message, "add notes", "y"])
-    assert result.returncode == 0, result.stderr
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
     assert expected_error in result.stdout, f"expected '{expected_error}' in the explanation: {result.stdout}"
-    assert last_commit_subject(repo, env) == "chore(app): add notes", (
+    assert last_commit_subject(repo, env) == f"{FIRST_TYPE}(app): add notes", (
         "the message given after the rejected one should be used"
     )
 
@@ -211,6 +212,9 @@ def test_non_ascii_file_name_gives_a_clean_scope(git_repo):
     repo, env = git_repo
     (repo / "résumé.md").write_text("x\n")
     subprocess.run(["git", "add", "résumé.md"], cwd=repo, env=env, check=True)
+    # git lists app.py before résumé.md, so scope 2 is résumé
     result = run_commit_helper(repo, env, ["1", "2", "add notes", "y"])
-    assert result.returncode == 0, result.stderr
-    assert last_commit_subject(repo, env) == "chore(résumé): add notes", "the scope should be the plain file name"
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
+    assert last_commit_subject(repo, env) == f"{FIRST_TYPE}(résumé): add notes", (
+        "the scope should be the plain file name"
+    )

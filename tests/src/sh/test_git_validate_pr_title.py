@@ -1,4 +1,4 @@
-# version: 1.0.3
+# version: 1.0.4
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the PR title check, which keeps squash-merge commit messages on main valid."""
@@ -26,6 +26,8 @@ def run_check(title):
         "feat: add a thing",
         "feat(api)!: drop the old endpoint",
         "fix(src/sh): handle README updates",
+        # exactly 100 characters, the longest title allowed
+        "feat(ci): " + "x" * 90,
     ],
 )
 def test_valid_titles_pass(title):
