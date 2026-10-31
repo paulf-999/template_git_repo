@@ -1,5 +1,5 @@
 #!/bin/bash
-# version: 1.1.0
+# version: 1.1.1
 # created: 2026-10-31
 # updated: 2026-10-31
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
@@ -64,11 +64,11 @@ validate_header() {
     local file="${1}" version
     version="$(field_value version < "${file}")"
     if [[ ! "${version}" =~ ${VERSION_FORMAT} ]]; then
-        log_message "${ERROR}" "${file}: version '${version}' isn't MAJOR.MINOR.PATCH - fix the header (see CONTRIBUTING.md)."
+        log_message "${ERROR}" "${file}: version '${version}' isn't MAJOR.MINOR.PATCH - fix the header (see docs/file_headers.md)."
         exit 1
     fi
     if [[ -z "$(header_line_number "${file}" updated)" ]]; then
-        log_message "${ERROR}" "${file}: the header has no 'updated' line - add one (see CONTRIBUTING.md)."
+        log_message "${ERROR}" "${file}: the header has no 'updated' line - add one (see docs/file_headers.md)."
         exit 1
     fi
 }
@@ -107,7 +107,7 @@ report_bumped_files() {
     fi
     print_section_header "${WARNING}" "Bumped the version header of ${#BUMPED_FILES[@]} file(s) - review, re-stage and commit again:"
     printf '  %s\n' "${BUMPED_FILES[@]}"
-    echo "Set MINOR or MAJOR by hand instead if the change adds or removes behaviour (see CONTRIBUTING.md)."
+    echo "Set MINOR or MAJOR by hand instead if the change adds or removes behaviour (see docs/file_headers.md)."
     exit 1
 }
 
