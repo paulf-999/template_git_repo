@@ -1,4 +1,4 @@
-# version: 4.0.7
+# version: 4.0.8
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality_maintenance/quality_audit_tests.md matches the test files and adds up."""
@@ -16,6 +16,9 @@ AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality_maintenance" / "quality_au
 
 # the MoSCoW scores, as the audit's column headings
 SCORES = ("Must", "Should", "Could", "Won't")
+
+# test files that run once per tracked file, shown as a rule, since their count changes with every new file
+PER_TRACKED_FILE = {"tests/test_file_metadata_headers.py": "1 per tracked file"}
 
 # the themes in docs/maintenance/quality_maintenance/rubrics/test_quality_rubric.md, as the audit's column headings
 THEMES = ("Core coverage", "Leanness", "Clarity", "Simplicity", "Reliability")
@@ -84,14 +87,16 @@ def test_moscow_table_matches_the_test_files():
     rows = {find_test_file(row): row for row in script_rows}
     assert set(rows) == set(scored_test_files()), "add or remove MoSCoW rows so the table lists every test file"
 
-    # each row's Test Cases must match what pytest collects from its test file
+    # each row's Test Cases must match what pytest collects, or show the rule for a per-file check
     cases = collected_cases()
     for name, row in rows.items():
-        listed, found = row["Test Cases"], str(cases[name])
-        assert listed == found, f"{name}: Test Cases says {listed}, pytest finds {found}"
+        listed, found = row["Test Cases"], PER_TRACKED_FILE.get(name, str(cases[name]))
+        assert listed == found, f"{name}: Test Cases says {listed}, expected {found}"
 
-    # the Totals row gives only the overall number of test cases, the sum of the Test Cases column
-    listed, expected = totals["Test Cases"], str(sum(int(row["Test Cases"]) for row in script_rows))
+    # the Totals row adds up the numeric Test Cases, plus the per-file rule if any row uses it
+    counted = sum(int(row["Test Cases"]) for row in rows.values() if row["Test Cases"].isdigit())
+    rules = sorted({row["Test Cases"] for row in rows.values() if not row["Test Cases"].isdigit()})
+    listed, expected = totals["Test Cases"], " + ".join([str(counted), *rules])
     assert listed == expected, f"Totals says {listed}, the rows add up to {expected}"
 
     for name, path in scored_test_files().items():

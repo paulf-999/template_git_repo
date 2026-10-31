@@ -1,4 +1,4 @@
-<!-- version: 3.1.8 -->
+<!-- version: 3.1.9 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -14,6 +14,7 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 
 - **Won't:** stays at 0, because a test scored `Won't` is deleted.
 - **Total (functions) vs Test Cases:** Total (functions) counts test functions, which the MoSCoW scores label, and **Test Cases** counts the test cases pytest runs, since a parametrised function runs once per input.
+- **1 per tracked file:** the header check runs once for every file in the repo, so its count is shown as a rule rather than a number that changes whenever a file is added.
 
 | Script or check | Must | Should | Could | Won't | Total (functions) | **Test Cases** |
 |---|---|---|---|---|---|---|
@@ -25,9 +26,9 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [`shell_utils.sh`](../../../src/sh/shell_utils.sh) | 2 | 0 | 3 | 0 | 5 | **13** |
 | [`Makefile`](../../../Makefile) | 2 | 0 | 0 | 0 | 2 | **2** |
 | [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
-| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **45** |
+| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **1 per tracked file** |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
-| **Totals** | | | | | | **133** |
+| **Totals** | | | | | | **88 + 1 per tracked file** |
 
 ## ⭐ Quality by script
 
@@ -53,5 +54,5 @@ Each script's tests are scored against [`docs/maintenance/quality_maintenance/ru
 | [`shell_utils.sh`](../../../src/sh/shell_utils.sh) | 5 | 13 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 3 Could tests vs 2 Must · Reliability: no assert says what broke |
 | [`Makefile`](../../../Makefile) | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 3 asserts says what broke |
 | [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 4 | 9 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: the order check in `problems_with` has no comment |
-| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 45 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 1 per tracked file | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 1 | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
