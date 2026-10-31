@@ -1,5 +1,5 @@
 #!/bin/bash
-# version: 1.1.2
+# version: 1.2.1
 # created: 2026-10-31
 # updated: 2026-10-31
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
@@ -114,6 +114,7 @@ report_bumped_files() {
 #=======================================================================
 # Main script logic
 #=======================================================================
+print_section_header "${DEBUG}" "Script execution started."
 
 for FILE in "$@"; do
     if ! needs_header_check "${FILE}"; then
@@ -129,3 +130,5 @@ for FILE in "$@"; do
 done
 
 report_bumped_files
+
+print_section_header "${DEBUG}" "Script execution completed." && echo

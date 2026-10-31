@@ -1,4 +1,4 @@
-<!-- version: 2.0.1 -->
+<!-- version: 2.1.1 -->
 <!-- created: 2022-11-04 -->
 <!-- updated: 2026-10-31 -->
 # 🧩 Template Git Repo
@@ -42,6 +42,5 @@ Before raising a PR, please:
    cd <new-repo>
    ```
 
-4. Optionally, set up a Python virtual environment — see [docs/virtualenv_setup.md](docs/virtualenv_setup.md).
-5. Run `make deps` to install the requirements and the pre-commit git hooks.
-6. Update the `README.md`, `requirements.txt` and `.github/CODEOWNERS` as needed, including the CI badge URL above.
+4. Create and activate a virtualenv (see [docs/virtualenv_setup.md](docs/virtualenv_setup.md)), then run `make deps` to install the requirements and the pre-commit git hooks.
+5. Update the `README.md`, `requirements.txt` and `.github/CODEOWNERS` as needed, including the CI badge URL above.
