@@ -5,11 +5,11 @@
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
 # Description: Verify the git branch name follows the naming standard: ^(feature|hotfix|release)/[a-z0-9_]+$
-# Usage: src/sh/git_validate_branch_name.sh [git branch name]
+# Usage: scripts/git_validate_branch_name.sh [git branch name]
 #        (defaults to the current local git branch name; run from the repo root)
 
 # Load reusable shell script vars & functions
-source src/sh/shell_utils.sh
+source scripts/shell_utils.sh
 
 # Catch Ctrl+C, so an interrupted run says so and exits 1
 trap handle_interruption SIGINT

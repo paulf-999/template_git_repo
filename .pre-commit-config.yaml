@@ -1,5 +1,5 @@
 ---
-# version: 1.2.3
+# version: 1.2.4
 # created: 2022-11-04
 # updated: 2026-10-31
 # all commands by default will run on every commit
@@ -55,13 +55,13 @@ repos:
           - id: git_branch_name_validation  # Custom Git branch validation hook
             name: Git checks — branch name validation
             description: This hook validates the Git branch name.
-            entry: src/sh/git_validate_branch_name.sh
+            entry: scripts/git_validate_branch_name.sh
             language: script
             pass_filenames: false
           - id: bump_file_headers  # Bump the version header of each changed file
             name: General fixes — bump file version headers
             description: Bumps each changed file's header (PATCH +1, updated = today), unless raised by hand.
-            entry: src/sh/bump_file_headers.sh
+            entry: scripts/bump_file_headers.sh
             language: script
     # Shell script validation hook - ensures shell scripts conform to shellcheck
     - repo: https://github.com/jumanjihouse/pre-commit-hooks

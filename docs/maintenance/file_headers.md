@@ -1,4 +1,4 @@
-<!-- version: 1.2.1 -->
+<!-- version: 1.2.2 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🏷️ File Headers
@@ -40,6 +40,6 @@ A check that runs on every commit keeps headers up to date, so most bumps happen
 
 - **After a bump:** the commit stops so you can check the change, then re-add the file and commit again.
 - **Setup:** the check only runs once `make deps` has installed the git hooks.
-- **Where it lives:** `src/sh/bump_file_headers.sh`, run by the `bump_file_headers` hook in `.pre-commit-config.yaml`.
+- **Where it lives:** `scripts/bump_file_headers.sh`, run by the `bump_file_headers` hook in `.pre-commit-config.yaml`.
 - **Checked by:** `tests/test_file_metadata_headers.py`, which fails on a missing or malformed header, locally and in CI.
 - **Not caught by CI:** a missed bump, since CI has no uncommitted changes to compare, so a commit made with `--no-verify` can skip one.

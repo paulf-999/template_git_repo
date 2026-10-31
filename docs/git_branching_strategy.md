@@ -1,9 +1,9 @@
-<!-- version: 1.1.1 -->
+<!-- version: 1.1.2 -->
 <!-- created: 2022-11-04 -->
 <!-- updated: 2026-10-31 -->
 # Git Branching Strategy
 
-This repository uses a **simplified branching strategy**, with branch names enforced by a [pre-commit hook](../src/sh/git_validate_branch_name.sh).
+This repository uses a **simplified branching strategy**, with branch names enforced by a [pre-commit hook](../scripts/git_validate_branch_name.sh).
 
 ---
 
@@ -20,7 +20,7 @@ This repository uses a **simplified branching strategy**, with branch names enfo
 
 ## 📦 Exceptions for Large Changes — Use the `release/` Prefix
 
-PRs should include no more than **20 file changes**, and CI fails any PR over the limit unless its branch starts with `release/` ([`git_validate_num_file_changes.sh`](../src/sh/git_validate_num_file_changes.sh)). For PRs with more than 20 file changes:
+PRs should include no more than **20 file changes**, and CI fails any PR over the limit unless its branch starts with `release/` ([`git_validate_num_file_changes.sh`](../scripts/git_validate_num_file_changes.sh)). For PRs with more than 20 file changes:
 
 - Branch must start with `release/`
 - PR should apply the same type of change in bulk (e.g., formatting, linting, or consistent refactoring across many files)
@@ -63,4 +63,4 @@ Regex pattern:
 
 ---
 
-The script [`git_validate_branch_name.sh`](../src/sh/git_validate_branch_name.sh) enforces the rules above.
+The script [`git_validate_branch_name.sh`](../scripts/git_validate_branch_name.sh) enforces the rules above.
