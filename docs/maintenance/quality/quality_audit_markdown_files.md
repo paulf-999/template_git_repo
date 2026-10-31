@@ -1,4 +1,4 @@
-<!-- version: 1.0.21 -->
+<!-- version: 1.0.22 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Markdown Quality Audit
@@ -29,7 +29,7 @@ Each doc is scored against [`docs/maintenance/quality/quality_rubrics_markdown_f
 | [`CONTRIBUTING.md`](../../../CONTRIBUTING.md) | Independent review | 🟡 1 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **B · 8/10** | Core coverage: doesn't say the PR title must follow Conventional Commits, which CI enforces · Clarity: "commitlint" isn't explained |
 | [`README.md`](../../../README.md) | Independent review | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: lists the pre-commit hooks but not the CI checks that run on every PR |
 | [`SECURITY.md`](../../../.github/SECURITY.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`docs` README](../../README.md) | Independent review | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: doesn't say why a new doc needs a row in the markdown quality audit, which `tests/test_quality_audit_markdown_files.py` fails without |
+| [`docs` README](../../README.md) | Self-scored (Claude), after fixing the independent review's gaps | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Branching strategy](../../git_branching_strategy.md) | Self-scored (Claude), after fixing the independent review's Core coverage gap | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | ✅ 2 | **B · 8/10** | Clarity: no reason for the 20-file limit, and "tied to a significant release" is vague · Maintainability: copies the branch-name regex from the script |
 | [`file_headers.md`](../file_headers.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Markdown rubric](quality_rubrics_markdown_files.md) | Independent review | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: no rule for writing the Gaps column, and "Not scored" leaves out the audit itself |
