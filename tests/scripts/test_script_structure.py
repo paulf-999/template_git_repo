@@ -1,7 +1,7 @@
 # version: 1.0.3
 # created: 2026-10-31
 # updated: 2026-10-31
-"""Checks every script in src/sh/, and the bash script template itself, follows the template's structure."""
+"""Checks every script in scripts/, and the bash script template itself, follows the template's structure."""
 
 import re
 
@@ -20,7 +20,7 @@ REQUIRED_PARTS = [
     ("strict mode", r"set -euo pipefail\b.*"),
     ("description line", r"# Description: .+"),
     ("usage line", r"# Usage: .+"),
-    ("shell_utils.sh source", r"source src/sh/shell_utils\.sh"),
+    ("shell_utils.sh source", r"source scripts/shell_utils\.sh"),
     ("Ctrl+C trap", r"trap handle_interruption SIGINT"),
     ("Variables section", r"# Variables"),
     ("Functions section", r"# Functions"),
@@ -48,7 +48,7 @@ def problems_with(path):
 # MoSCoW: Should — stops an empty scan from passing every other test
 def test_scripts_are_found():
     """The scan finds the scripts, so an empty glob can't make every other test pass by default."""
-    assert len(SCRIPTS) >= 5, f"expected at least 5 scripts in src/sh/, found {[p.name for p in SCRIPTS]}"
+    assert len(SCRIPTS) >= 5, f"expected at least 5 scripts in scripts/, found {[p.name for p in SCRIPTS]}"
 
 
 # MoSCoW: Must — every script must follow the bash script template

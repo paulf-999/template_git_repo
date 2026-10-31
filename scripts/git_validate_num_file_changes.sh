@@ -5,11 +5,11 @@
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
 # Description: Fail a PR that changes more than the max number of files, unless it's on a release/ branch
-# Usage: src/sh/git_validate_num_file_changes.sh <git branch name> <base ref> [head ref]
+# Usage: scripts/git_validate_num_file_changes.sh <git branch name> <base ref> [head ref]
 #        (head ref defaults to HEAD; run from the repo root)
 
 # Load reusable shell script vars & functions
-source src/sh/shell_utils.sh
+source scripts/shell_utils.sh
 
 # Catch Ctrl+C, so an interrupted run says so and exits 1
 trap handle_interruption SIGINT
