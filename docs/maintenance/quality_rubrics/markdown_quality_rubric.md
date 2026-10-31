@@ -1,4 +1,4 @@
-<!-- version: 1.0.0 -->
+<!-- version: 1.0.1 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📄 Markdown Quality Rubric
@@ -13,7 +13,7 @@ For maintainers of this template: how to score each markdown doc out of 10, with
 |---|---|
 | 🎯 **Core coverage** | Covers every task the reader comes for, and opens by saying who it's for |
 | ⚖️ **Leanness** | Links to other docs instead of repeating them, and stays under about 100 lines |
-| 📖 **Clarity** | A newcomer can follow it without outside context, with jargon explained or avoided |
+| 📖 **Clarity** | A newcomer can follow it without outside context, with jargon explained and any non-obvious step or rule saying why |
 | 🗂️ **Scannability** | Headings, bullets and tables put the key point first, so a skim gives the gist |
 | 🔧 **Maintainability** | No lists that drift, points to the source instead, keeps no history, and covers one topic per file |
 | ✅ **Accuracy** | Every command, path and link works and matches the repo today |
@@ -34,6 +34,7 @@ Scores work the same way as in `test_quality_rubric.md`.
 ## 📏 How to score
 
 - **Score each file on its own:** judge it against what its reader needs, not against other docs.
+- **Clarity:** a rule or step a newcomer might question, such as a naming limit or a required order, needs a short reason.
 - **Leanness:** a doc over about 100 lines costs points unless it's split, and so does a section copied from another doc.
 - **Maintainability:** a full file tree, a full list of options or a hard-coded count costs points, because each drifts as the repo changes.
 - **Accuracy:** every path, command and link is checked against the repo as it is now.
