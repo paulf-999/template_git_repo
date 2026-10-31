@@ -55,8 +55,8 @@ def test_defaults_to_the_current_branch(tmp_path, current_branch, expected_code)
     }
     subprocess.run(["git", "init", "-q", "-b", current_branch], cwd=tmp_path, env=env, check=True)
     subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "x"], cwd=tmp_path, env=env, check=True)
-    # the script sources src/sh/shell_utils.sh from the repo root, as in the real repo
-    (tmp_path / "src" / "sh").mkdir(parents=True)
-    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
+    # the script sources scripts/shell_utils.sh from the repo root, as in the real repo
+    (tmp_path / "scripts").mkdir(parents=True)
+    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", tmp_path / "scripts" / "shell_utils.sh")
     result = subprocess.run([str(SCRIPT)], cwd=tmp_path, env=env, capture_output=True, check=False)
     assert result.returncode == expected_code

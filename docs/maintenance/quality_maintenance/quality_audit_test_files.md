@@ -1,4 +1,4 @@
-<!-- version: 3.2.0 -->
+<!-- version: 3.2.1 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -20,14 +20,14 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 
 | Script or check | Must | Should | Could | Won't | Total (functions) | **Test Cases** |
 |---|---|---|---|---|---|---|
-| [`bump_file_headers.sh`](../../../src/sh/bump_file_headers.sh) | 3 | 5 | 2 | 0 | 10 | **10** |
-| [`git_commit.sh`](../../../src/sh/git_commit.sh) | 2 | 7 | 5 | 0 | 14 | **18** |
-| [`git_validate_branch_name.sh`](../../../src/sh/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | 4 | **10** |
-| [`git_validate_num_file_changes.sh`](../../../src/sh/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | 10 | **12** |
-| [`git_validate_pr_title.sh`](../../../src/sh/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | 3 | **13** |
-| [`shell_utils.sh`](../../../src/sh/shell_utils.sh) | 2 | 0 | 3 | 0 | 5 | **13** |
+| [`bump_file_headers.sh`](../../../scripts/bump_file_headers.sh) | 3 | 5 | 2 | 0 | 10 | **10** |
+| [`git_commit.sh`](../../../scripts/git_commit.sh) | 2 | 7 | 5 | 0 | 14 | **18** |
+| [`git_validate_branch_name.sh`](../../../scripts/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | 4 | **10** |
+| [`git_validate_num_file_changes.sh`](../../../scripts/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | 10 | **12** |
+| [`git_validate_pr_title.sh`](../../../scripts/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | 3 | **13** |
+| [`shell_utils.sh`](../../../scripts/shell_utils.sh) | 2 | 0 | 3 | 0 | 5 | **13** |
 | [`Makefile`](../../../Makefile) | 2 | 0 | 0 | 0 | 2 | **2** |
-| [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
+| [Every script's structure](../../../tests/scripts/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **49** |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
 | [This audit's checker](../../../tests/test_quality_audit_test_files.py) | 0 | 2 | 0 | 0 | 2 | **2** |
@@ -51,13 +51,13 @@ Each script's tests are scored against [`docs/maintenance/quality_maintenance/qu
 | Script or check | Total (functions) | Test Cases | Core coverage | Leanness | Clarity | Simplicity | Reliability | Score | Gaps | Scored by |
 |---|---|---|---|---|---|---|---|---|---|---|
 |  |  |  | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* |  |  | |
-| [Header bump](../../../src/sh/bump_file_headers.sh) | 10 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 22 asserts says what broke | Independent review |
-| [`git_commit.sh`](../../../src/sh/git_commit.sh) | 14 | 18 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 5 Could tests vs 2 Must · Reliability: 18 of 32 asserts have no message, including every commit-subject check | Independent review |
-| [Branch name](../../../src/sh/git_validate_branch_name.sh) | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | **B · 8/10** | Simplicity: one 17-line test sets up git inline · Reliability: none of the 5 asserts says what broke | Independent review |
-| [PR size](../../../src/sh/git_validate_num_file_changes.sh) | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: none of the 14 asserts says what broke | Independent review |
-| [PR title](../../../src/sh/git_validate_pr_title.sh) | 3 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 5 asserts says what broke, and the shell-injection test uses a fixed `/tmp` path | Independent review |
-| [`shell_utils.sh`](../../../src/sh/shell_utils.sh) | 5 | 13 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 3 Could tests vs 2 Must · Reliability: none of the 11 asserts says what broke | Independent review |
+| [Header bump](../../../scripts/bump_file_headers.sh) | 10 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 22 asserts says what broke | Independent review |
+| [`git_commit.sh`](../../../scripts/git_commit.sh) | 14 | 18 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 5 Could tests vs 2 Must · Reliability: 18 of 32 asserts have no message, including every commit-subject check | Independent review |
+| [Branch name](../../../scripts/git_validate_branch_name.sh) | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | **B · 8/10** | Simplicity: one 17-line test sets up git inline · Reliability: none of the 5 asserts says what broke | Independent review |
+| [PR size](../../../scripts/git_validate_num_file_changes.sh) | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: none of the 14 asserts says what broke | Independent review |
+| [PR title](../../../scripts/git_validate_pr_title.sh) | 3 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 5 asserts says what broke, and the shell-injection test uses a fixed `/tmp` path | Independent review |
+| [`shell_utils.sh`](../../../scripts/shell_utils.sh) | 5 | 13 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 3 Could tests vs 2 Must · Reliability: none of the 11 asserts says what broke | Independent review |
 | [`Makefile`](../../../Makefile) | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 4 asserts says what broke | Independent review |
-| [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 4 | 9 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | 🟡 1 | **B · 8/10** | Clarity: the order check in `problems_with` has no comment · Reliability: 2 of 4 asserts say what broke, and one `any(...)` check fails with a bare `assert False` | Independent review |
+| [Every script's structure](../../../tests/scripts/test_script_structure.py) | 4 | 9 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | 🟡 1 | **B · 8/10** | Clarity: the order check in `problems_with` has no comment · Reliability: 2 of 4 asserts say what broke, and one `any(...)` check fails with a bare `assert False` | Independent review |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 49 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 1 | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
