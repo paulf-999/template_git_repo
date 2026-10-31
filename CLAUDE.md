@@ -3,11 +3,7 @@
 <!-- updated: 2026-10-31 -->
 # CLAUDE.md — <project_name>
 
-> 🧩 **Starting point** — fill in the TODOs, then keep this file lean.
->
-> - **Why:** Claude Code reads all of it every session, so every line costs context.
-> - **Add a line:** only when Claude repeatedly gets something wrong, or can't work it out from the code.
-> - **Point, don't copy:** link to `CONTRIBUTING.md` and `docs/` rather than repeating them.
+<!-- Starting point: fill in the TODOs and keep this file lean, since Claude reads all of it every session. Add a line only when Claude repeatedly gets something wrong, and link to CONTRIBUTING.md and docs/ rather than repeating them. -->
 
 ## Project
 
