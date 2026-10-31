@@ -1,14 +1,14 @@
-# version: 1.2.0
+# version: 1.2.1
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the pre-commit hook that bumps each changed file's version header."""
 
 import os
-import shutil
 import subprocess
 from datetime import date
 
 import pytest
+from _git_repo import isolated_git_repo
 from _paths import SCRIPTS_DIR
 
 SCRIPT = SCRIPTS_DIR / "bump_file_headers.sh"
@@ -27,20 +27,7 @@ def header(version="1.0.0", updated=OLD_DATE, markdown=False):
 @pytest.fixture
 def git_repo(tmp_path):
     """Create an isolated git repo with shell_utils.sh, plus an env that ignores the user's git config."""
-    env = {
-        **os.environ,
-        "GIT_CONFIG_GLOBAL": os.devnull,
-        "GIT_CONFIG_NOSYSTEM": "1",
-        "GIT_AUTHOR_NAME": "Test",
-        "GIT_AUTHOR_EMAIL": "test@example.com",
-        "GIT_COMMITTER_NAME": "Test",
-        "GIT_COMMITTER_EMAIL": "test@example.com",
-    }
-    subprocess.run(["git", "init", "-q"], cwd=tmp_path, env=env, check=True)
-    # the script sources src/sh/shell_utils.sh from the repo root, as in the real repo
-    (tmp_path / "src" / "sh").mkdir(parents=True)
-    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
-    return tmp_path, env
+    return tmp_path, isolated_git_repo(tmp_path)
 
 
 def commit(repo, env, files):

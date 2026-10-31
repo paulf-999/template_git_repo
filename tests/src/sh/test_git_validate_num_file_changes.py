@@ -1,13 +1,12 @@
-# version: 1.2.3
+# version: 1.2.4
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the PR file-count check, which skips release/ branches."""
 
-import os
-import shutil
 import subprocess
 
 import pytest
+from _git_repo import isolated_git_repo
 from _paths import SCRIPTS_DIR
 
 SCRIPT = SCRIPTS_DIR / "git_validate_num_file_changes.sh"
@@ -16,19 +15,7 @@ SCRIPT = SCRIPTS_DIR / "git_validate_num_file_changes.sh"
 @pytest.fixture
 def git_repo(tmp_path):
     """Create an isolated git repo with one commit on main, plus an env that ignores the user's git config."""
-    env = {
-        **os.environ,
-        "GIT_CONFIG_GLOBAL": os.devnull,
-        "GIT_CONFIG_NOSYSTEM": "1",
-        "GIT_AUTHOR_NAME": "Test",
-        "GIT_AUTHOR_EMAIL": "test@example.com",
-        "GIT_COMMITTER_NAME": "Test",
-        "GIT_COMMITTER_EMAIL": "test@example.com",
-    }
-    subprocess.run(["git", "init", "-q", "-b", "main"], cwd=tmp_path, env=env, check=True)
-    # the script sources src/sh/shell_utils.sh from the repo root, as in the real repo
-    (tmp_path / "src" / "sh").mkdir(parents=True)
-    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
+    env = isolated_git_repo(tmp_path, branch="main")
     subprocess.run(["git", "add", "."], cwd=tmp_path, env=env, check=True)
     subprocess.run(["git", "commit", "-q", "-m", "base"], cwd=tmp_path, env=env, check=True)
     return tmp_path, env
