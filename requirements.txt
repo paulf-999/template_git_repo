@@ -1,7 +1,21 @@
-# version: 1.0.0
+# version: 1.1.0
 # created: 2022-11-04
-# updated: 2026-10-30
+# updated: 2026-10-31
 # Starter libraries for projects built from this template
+
+# Core tooling
 yq==4.4.5            # YAML processor for config handling
+pre-commit==4.7.0    # Hook manager for git pre-commit
+ruff==0.17.3         # Fast Python linter & formatter
+yamllint==1.38.0     # YAML linter
+
+# Testing
+pytest==9.2.0        # Unit testing framework
+pytest-cov==7.1.0    # Test coverage plugin
+
+# Security
+pip-audit==2.10.1    # Checks installed packages for known vulnerabilities
+
+# Developer utilities
 rich==15.0.0         # Better console output (colors, tables, tracebacks)
 pyyaml==6.0.3        # YAML parsing and writing

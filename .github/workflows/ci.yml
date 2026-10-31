@@ -29,11 +29,11 @@ jobs:
               with:
                   python-version: '3.13'
                   cache: pip
-                  cache-dependency-path: requirements*.txt
+                  cache-dependency-path: requirements.txt
             - name: Install requirements
-              run: pip install -r requirements-dev.txt
+              run: pip install -r requirements.txt
             - name: Check requirements for known vulnerabilities
-              run: pip-audit -r requirements-dev.txt
+              run: pip-audit -r requirements.txt
             # Passed through env, not ${{ }} in the script, so a crafted branch name can't inject shell
             - name: Validate branch name
               env:
@@ -97,8 +97,8 @@ jobs:
               with:
                   python-version: '3.13'
                   cache: pip
-                  cache-dependency-path: requirements*.txt
+                  cache-dependency-path: requirements.txt
             - name: Install requirements
-              run: pip install -r requirements-dev.txt
+              run: pip install -r requirements.txt
             - name: Run tests
               run: pytest
