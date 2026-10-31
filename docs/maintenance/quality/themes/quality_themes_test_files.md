@@ -1,4 +1,4 @@
-<!-- version: 3.0.9 -->
+<!-- version: 3.0.10 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🧪 Test Quality Rubric
@@ -12,7 +12,7 @@ For maintainers of this template: how to score the tests for each script out of 
 | Theme (Rubric) | Description/Purpose |
 |---|---|
 | 🎯 **Core coverage** | Every Must-level behaviour (a core contract of a hook or CI check, per the MoSCoW scores in [`test_maintenance.md`](../../test_maintenance.md)) has a test |
-| ⚖️ **Leanness** | No duplicate or cosmetic tests, and no more Could tests (rare paths) than Must tests |
+| ⚖️ **Leanness** | No duplicate or cosmetic tests (ones that check only wording or layout, not behaviour), and no more Could tests (rare paths) than Must tests |
 | 📖 **Clarity** | A newcomer can tell what each test checks from its current name and docstring, and non-obvious logic has a short comment |
 | 🧩 **Simplicity** | Short tests in plain pytest, and a harmless change breaks at most one test |
 | 🧊 **Reliability** | Isolated, repeatable, and a failure says what broke |
@@ -37,7 +37,7 @@ Each Theme (Rubric) gets a symbol and 0, 1 or 2 points, so the five add up to a 
 - **Rare paths don't cost points:** an untested error that almost never happens isn't a Core coverage gap.
 - **Clarity:** parsing, regexes, ordering checks and unexplained inputs (such as answers fed to a prompt) need a one-line comment, while plain setup doesn't.
 - **Simplicity:** a test body over about 12 lines costs a point, because a longer test usually checks more than one thing and is harder to read when it fails, and so does mocking the script's internals or asserting the same message text in two or more tests, because rewording it breaks them all.
-- **Reliability:** a test should run in a temporary folder or repo, ignore the user's git config, and use assertion messages that say what broke.
+- **Reliability:** a test should run in a temporary folder or repo, ignore the user's git config so it gives the same result on any machine, and use assertion messages that say what broke.
 - **Gaps:** every theme below ✅ is named in the audit's **Gaps** column, starting with the theme's name.
 
 ## 🛑 Avoiding over-testing

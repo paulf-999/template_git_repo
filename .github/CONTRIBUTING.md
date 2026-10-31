@@ -1,11 +1,11 @@
-<!-- version: 3.1.1 -->
+<!-- version: 3.1.2 -->
 <!-- created: 2025-09-18 -->
 <!-- updated: 2026-10-31 -->
 # 🤝 Contributing
 
 For anyone contributing to this repo: the branch, commit and PR conventions to follow.
 
-Run `make deps` once after cloning, so the pre-commit hooks these conventions rely on are installed.
+After cloning, activate a virtualenv (see [Virtualenv setup](../docs/virtualenv_setup.md)) and run `make deps` once, so the pre-commit hooks these conventions rely on are installed. `make deps` stops if no virtualenv is active, so packages never land in your system Python.
 
 ---
 

@@ -1,4 +1,4 @@
-# version: 1.1.0
+# version: 1.2.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks the markdown files quality audit (quality_audit_markdown_files.md) lists every doc and adds up."""
@@ -47,14 +47,15 @@ GOOD_ROW = {"name": "doc.md", **dict.fromkeys(THEMES, "✅ 2"), "Score": "A · 1
 
 # MoSCoW: Should — a checker that never fails would let a wrong score or Gaps entry through
 @pytest.mark.parametrize(
-    "change",
+    ("change", "message"),
     [
-        {"Score": "A · 9/10"},  # the themes add up to 10
-        {"Clarity": "🟡 1", "Score": "A · 9/10"},  # Gaps doesn't name Clarity
-        {"Gaps": "Clarity: unclear"},  # every theme is ✅, so Gaps should be '—'
+        pytest.param({"Clarity": "✅ 1"}, "must be one of", id="invalid_theme_cell"),
+        pytest.param({"Score": "A · 9/10"}, "its themes give", id="wrong_total"),
+        pytest.param({"Clarity": "🟡 1", "Score": "A · 9/10"}, "Gaps must name", id="gap_not_named"),
+        pytest.param({"Gaps": "Clarity: unclear"}, "Gaps should be", id="stray_gap"),
     ],
 )
-def test_a_wrong_score_or_gap_is_reported(change):
-    """A score that doesn't match the themes, a theme below ✅ missing from Gaps, or a stray gap each fail."""
-    with pytest.raises(AssertionError):
+def test_a_wrong_score_or_gap_is_reported(change, message):
+    """An invalid theme cell, a score that doesn't match the themes, an unnamed gap or a stray gap each fail."""
+    with pytest.raises(AssertionError, match=message):
         assert_quality_scores([{**GOOD_ROW, **change}], THEMES)

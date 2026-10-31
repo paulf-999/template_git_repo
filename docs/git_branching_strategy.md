@@ -1,4 +1,4 @@
-<!-- version: 2.0.0 -->
+<!-- version: 2.0.1 -->
 <!-- created: 2022-11-04 -->
 <!-- updated: 2026-10-31 -->
 # 🌿 Git Branching Strategy
@@ -22,7 +22,7 @@ This repository uses a **simplified branching strategy**, with branch names enfo
 
 ## 📦 Exceptions for Large Changes — Use the `release/` Prefix
 
-PRs should change no more than **20 files**, the default in [`git_validate_num_file_changes.sh`](../src/sh/git_validate_num_file_changes.sh), which the `MAX_FILES_ALLOWED` environment variable overrides. CI fails any PR over the limit unless its branch starts with `release/`, because small PRs are quicker and safer to review. For PRs over the limit:
+PRs should stay within the file limit set in [`git_validate_num_file_changes.sh`](../src/sh/git_validate_num_file_changes.sh), which the `MAX_FILES_ALLOWED` environment variable overrides. CI fails any PR over the limit unless its branch starts with `release/`, because small PRs are quicker and safer to review. For PRs over the limit:
 
 - Branch must start with `release/`
 - PR should apply the same type of change in bulk (e.g., formatting, linting, or consistent refactoring across many files)
