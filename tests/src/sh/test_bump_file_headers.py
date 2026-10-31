@@ -1,4 +1,4 @@
-# version: 1.3.1
+# version: 1.4.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the pre-commit hook that bumps each changed file's version header."""
@@ -76,6 +76,19 @@ def test_second_run_after_a_bump_passes(git_repo):
     bumped = (repo / "app.py").read_text()
     assert run_hook(repo, env, "app.py").returncode == 0, "a file already bumped should pass on the next run"
     assert (repo / "app.py").read_text() == bumped, "a second run shouldn't bump the file again"
+
+
+# MoSCoW: Should — a second edit on the same day must still be bumped and stop the commit
+def test_file_already_dated_today_still_gets_a_patch_bump(git_repo):
+    """An edited file already dated today gets the next PATCH, and the version change alone stops the commit."""
+    repo, env = git_repo
+    commit(repo, env, {"app.py": header(updated=TODAY) + "x = 1\n"})
+    (repo / "app.py").write_text(header(updated=TODAY) + "x = 2\n")
+    result = run_hook(repo, env, "app.py")
+    assert result.returncode == 1, "a version bump with no date change should still stop the commit"
+    assert (repo / "app.py").read_text() == header(version="1.0.1", updated=TODAY) + "x = 2\n", (
+        "expected the next PATCH"
+    )
 
 
 # MoSCoW: Should — a hand-set MINOR or MAJOR bump must survive
