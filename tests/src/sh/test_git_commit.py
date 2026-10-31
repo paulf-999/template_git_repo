@@ -1,4 +1,4 @@
-# version: 1.2.1
+# version: 1.2.2
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the interactive git commit helper."""
@@ -74,8 +74,8 @@ def test_types_match_commitlint():
 
 # MoSCoW: Should — each type builds a valid '<type>(<scope>): <message>'
 @pytest.mark.parametrize("commit_type", ["test", "perf"])
-def test_commit_with_new_type(git_repo, commit_type):
-    """The newly added types produce a '<type>(<scope>): <message>' commit."""
+def test_test_and_perf_types_build_a_valid_commit(git_repo, commit_type):
+    """The test and perf types produce a '<type>(<scope>): <message>' commit."""
     repo, env = git_repo
     menu_number = str(read_script_types().index(commit_type) + 1)
     result = run_commit_helper(repo, env, [menu_number, "1", "add a check", "y"])
