@@ -1,6 +1,6 @@
-<!-- version: 2.0.0 -->
+<!-- version: 2.0.1 -->
 <!-- created: 2022-11-04 -->
-<!-- updated: 2026-10-30 -->
+<!-- updated: 2026-10-31 -->
 # 🧩 Template Git Repo
 
 *Baseline for creating new internal repositories with consistent structure and standards.*
@@ -24,7 +24,7 @@ A **generic starting point** for new projects, providing:
 
 Before raising a PR, please:
 
-* Follow the [Contributing Guidelines](CONTRIBUTING.md) – overview of branch naming, PR size limits, and CI/CD checks.
+* Follow the [Contributing Guidelines](CONTRIBUTING.md) – overview of branch naming, commit messages and PR rules.
 * Use the [Git Branching Strategy](docs/git_branching_strategy.md) – includes branch types, naming rules, and the `release/` exception for large PRs.
 * Rely on [CODEOWNERS](.github/CODEOWNERS) – reviewers are auto-assigned by repo area.
 * Complete the [Pull Request Template](.github/pull_request_template.md) – summary, change type, testing.
@@ -42,6 +42,6 @@ Before raising a PR, please:
    cd <new-repo>
    ```
 
-4. Run `make deps` to install the requirements and the pre-commit git hooks.
-5. Update the `README.md`, `requirements.txt` and `.github/CODEOWNERS` as needed, including the CI badge URL above.
-6. Optionally, set up a Python virtual environment — see [docs/virtualenv_setup.md](docs/virtualenv_setup.md).
+4. Optionally, set up a Python virtual environment — see [docs/virtualenv_setup.md](docs/virtualenv_setup.md).
+5. Run `make deps` to install the requirements and the pre-commit git hooks.
+6. Update the `README.md`, `requirements.txt` and `.github/CODEOWNERS` as needed, including the CI badge URL above.
