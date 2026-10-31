@@ -1,4 +1,4 @@
-<!-- version: 3.1.9 -->
+<!-- version: 3.1.13 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -28,13 +28,13 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **1 per tracked file** |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
-| **Totals** | | | | | | **88 + 1 per tracked file** |
+| **Totals** | | | | | **54** | **88 + 1 per tracked file** |
 
 ## ⭐ Quality by script
 
 Long script names are shortened to a label here, to keep the table narrow, and each label links to its script.
 
-Each script's tests are scored against [`docs/maintenance/quality_maintenance/rubrics/test_quality_rubric.md`](rubrics/test_quality_rubric.md).
+Each script's tests are scored against [`docs/maintenance/quality_maintenance/quality_themes/quality_rubrics_test_files.md`](quality_themes/quality_rubrics_test_files.md).
 
 **Key:**
 
@@ -48,7 +48,7 @@ Each script's tests are scored against [`docs/maintenance/quality_maintenance/ru
 |  |  |  | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* |  |  |
 | [Header bump](../../../src/sh/bump_file_headers.sh) | 10 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 5 of 22 asserts say what broke |
 | [`git_commit.sh`](../../../src/sh/git_commit.sh) | 14 | 18 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Leanness: 5 Could tests vs 2 Must |
-| [Branch name](../../../src/sh/git_validate_branch_name.sh) | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | **B · 8/10** | Simplicity: one 17-line test sets up git inline · Reliability: 1 of 5 asserts says what broke |
+| [Branch name](../../../src/sh/git_validate_branch_name.sh) | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | **B · 8/10** | Simplicity: one 17-line test sets up git inline · Reliability: no assert says what broke |
 | [PR size](../../../src/sh/git_validate_num_file_changes.sh) | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 6 of 14 asserts say what broke |
 | [PR title](../../../src/sh/git_validate_pr_title.sh) | 3 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 5 asserts says what broke |
 | [`shell_utils.sh`](../../../src/sh/shell_utils.sh) | 5 | 13 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 3 Could tests vs 2 Must · Reliability: no assert says what broke |

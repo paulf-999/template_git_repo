@@ -1,4 +1,4 @@
-# version: 4.0.8
+# version: 4.0.11
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality_maintenance/quality_audit_tests.md matches the test files and adds up."""
@@ -20,7 +20,7 @@ SCORES = ("Must", "Should", "Could", "Won't")
 # test files that run once per tracked file, shown as a rule, since their count changes with every new file
 PER_TRACKED_FILE = {"tests/test_file_metadata_headers.py": "1 per tracked file"}
 
-# the themes in docs/maintenance/quality_maintenance/rubrics/test_quality_rubric.md, as the audit's column headings
+# the themes in quality_maintenance/quality_themes/quality_rubrics_test_files.md, as the audit's column headings
 THEMES = ("Core coverage", "Leanness", "Clarity", "Simplicity", "Reliability")
 
 
@@ -93,7 +93,11 @@ def test_moscow_table_matches_the_test_files():
         listed, found = row["Test Cases"], PER_TRACKED_FILE.get(name, str(cases[name]))
         assert listed == found, f"{name}: Test Cases says {listed}, expected {found}"
 
-    # the Totals row adds up the numeric Test Cases, plus the per-file rule if any row uses it
+    # the Totals row gives the total number of test functions
+    listed, expected = totals["Total (functions)"], str(sum(int(row["Total (functions)"]) for row in script_rows))
+    assert listed == expected, f"Totals says {listed} functions, the rows add up to {expected}"
+
+    # it also adds up the numeric Test Cases, plus the per-file rule if any row uses it
     counted = sum(int(row["Test Cases"]) for row in rows.values() if row["Test Cases"].isdigit())
     rules = sorted({row["Test Cases"] for row in rows.values() if not row["Test Cases"].isdigit()})
     listed, expected = totals["Test Cases"], " + ".join([str(counted), *rules])
