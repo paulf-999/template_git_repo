@@ -1,4 +1,4 @@
-# version: 4.0.11
+# version: 4.0.12
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality_maintenance/quality_audit_tests.md matches the test files and adds up."""
@@ -126,3 +126,21 @@ def test_quality_table_fits_the_rubric():
             assert quality_row[column] == moscow_row[column], f"{name}: {column} differs between the two tables"
 
     assert_quality_scores(quality, THEMES)
+
+
+# MoSCoW: Should — keeps the make test breakdown true to what pytest runs
+def test_breakdown_matches_make_test():
+    """Each part of the breakdown matches pytest's own count, and the parts add up to the full run."""
+    cases = collected_cases()
+    script_rows, _ = moscow_rows()
+    numbered = sum(int(row["Test Cases"]) for row in script_rows if row["Test Cases"].isdigit())
+    expected = {
+        "Rows with a number": numbered,
+        # one case per tracked file, so this changes whenever a file is added or removed
+        "Header check, 1 per tracked file": sum(cases[name] for name in PER_TRACKED_FILE),
+        "The audit's own checker, which the tables leave out": cases[str(Path(__file__).relative_to(REPO_ROOT))],
+        "What `make test` reports": sum(cases.values()),
+    }
+    listed = {row["name"]: int(row["Test cases"]) for row in read_table(AUDIT, "🧮 Test cases in `make test`")}
+    for part, count in expected.items():
+        assert listed.get(part) == count, f"'{part}' says {listed.get(part)}, pytest finds {count}"

@@ -1,4 +1,4 @@
-<!-- version: 3.1.15 -->
+<!-- version: 3.1.16 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -6,7 +6,7 @@
 For maintainers of this template: how many tests each script has, and how good those tests are.
 
 - **Kept accurate by:** [`tests/test_quality_audit_tests.py`](../../../tests/test_quality_audit_tests.py), which fails if either table falls out of step with the test files.
-- **Not listed:** the audit's own checker, `tests/test_quality_audit_tests.py`, so a grep of every `# MoSCoW:` comment finds its 2 extra tests.
+- **Not listed:** the audit's own checker, `tests/test_quality_audit_tests.py`, so a grep of every `# MoSCoW:` comment finds its 3 extra tests.
 - **Gaps:** written by hand when a script is scored, so recheck them whenever its tests change.
 
 ## 🏷️ MoSCoW scores by script
@@ -30,6 +30,19 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **1 per tracked file** |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
 | **Totals** | | | | | **54** | **88 + 1 per tracked file** |
+
+## 🧮 Test cases in `make test`
+
+How the Totals row's test cases add up to the number `make test` reports.
+
+| Part | Test cases |
+|---|---|
+| Rows with a number | 88 |
+| Header check, 1 per tracked file | 45 |
+| The audit's own checker, which the tables leave out | 3 |
+| **What `make test` reports** | **136** |
+
+- **When this changes:** adding or removing any tracked file changes the header check's count, so update it and the total in the same PR.
 
 ## ⭐ Quality by script
 
