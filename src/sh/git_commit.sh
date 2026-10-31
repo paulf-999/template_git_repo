@@ -1,5 +1,5 @@
 #!/bin/bash
-# version: 1.2.1
+# version: 1.3.0
 # created: 2025-10-14
 # updated: 2026-10-31
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
@@ -9,6 +9,9 @@ set -euo pipefail  # Fail fast, including on unset variables and errors anywhere
 
 # Load reusable shell script vars & functions
 source src/sh/shell_utils.sh
+
+# Catch Ctrl+C, so an interrupted run says so and exits 1
+trap handle_interruption SIGINT
 
 #=======================================================================
 # Variables
