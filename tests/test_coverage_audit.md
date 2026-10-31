@@ -1,4 +1,4 @@
-<!-- version: 1.3.2 -->
+<!-- version: 2.1.0 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -30,18 +30,20 @@ Each test's `# MoSCoW:` comment, counted per script (see [`docs/maintenance/test
 
 ## ⭐ Quality by script
 
-Each script's tests scored against [`docs/maintenance/quality_rubrics/test_quality_rubric.md`](../docs/maintenance/quality_rubrics/test_quality_rubric.md): ✅ 10 = fully met, 🟡 5 = partly met, ❌ 0 = not met, and the score is their average.
+Each script's tests are scored against [`docs/maintenance/quality_rubrics/test_quality_rubric.md`](../docs/maintenance/quality_rubrics/test_quality_rubric.md).
 
-| Script | Core coverage | Leanness | Clarity | Simplicity | Maintainability | Reliability | Score | Gaps |
+**Key:** ✅ 2 = fully met · 🟡 1 = partly met · ❌ 0 = not met, and the score is their total out of 10.
+
+| Script | Tests | Core coverage | Leanness | Clarity | Simplicity | Reliability | Score | Gaps |
 |---|---|---|---|---|---|---|---|---|
-| | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain tests* | *Robust to small changes* | *Repeatable, clear failures* | | |
-| [`src/sh/bump_file_headers.sh`](../src/sh/bump_file_headers.sh) | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
-| [`src/sh/git_commit.sh`](../src/sh/git_commit.sh) | ✅ 10 | 🟡 5 | 🟡 5 | 🟡 5 | 🟡 5 | ✅ 10 | **D · 6.7/10** | Clarity: menu answers such as `["1", "0", ...]` don't say which prompt they answer · Leanness: 5 Could tests vs 2 Must · Simplicity: one 13-line test · Maintainability: the empty-message text is asserted in 2 tests |
-| [`src/sh/git_validate_branch_name.sh`](../src/sh/git_validate_branch_name.sh) | ✅ 10 | ✅ 10 | ✅ 10 | 🟡 5 | ✅ 10 | 🟡 5 | **B · 8.3/10** | Simplicity: one 17-line test sets up git inline · Reliability: 1 of 5 asserts says what broke |
-| [`src/sh/git_validate_num_file_changes.sh`](../src/sh/git_validate_num_file_changes.sh) | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
-| [`src/sh/git_validate_pr_title.sh`](../src/sh/git_validate_pr_title.sh) | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | 🟡 5 | **A · 9.2/10** | Reliability: 1 of 5 asserts says what broke |
-| [`src/sh/shell_utils.sh`](../src/sh/shell_utils.sh) | ✅ 10 | 🟡 5 | ✅ 10 | ✅ 10 | ✅ 10 | 🟡 5 | **B · 8.3/10** | Leanness: 3 Could tests vs 2 Must · Reliability: no assert says what broke |
-| Every script's structure | ✅ 10 | ✅ 10 | 🟡 5 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 9.2/10** | Clarity: the order check in `problems_with` has no comment |
-| Every tracked file's header | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
-| This audit | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
-| Docs quality audit | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
+|  |  | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* |  |  |
+| [`src/sh/bump_file_headers.sh`](../src/sh/bump_file_headers.sh) | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`src/sh/git_commit.sh`](../src/sh/git_commit.sh) | 14 | ✅ 2 | 🟡 1 | 🟡 1 | 🟡 1 | ✅ 2 | **C · 7/10** | Clarity: menu answers such as `["1", "0", ...]` don't say which prompt they answer · Leanness: 5 Could tests vs 2 Must · Simplicity: one 13-line test, and the empty-message text is asserted in 2 tests |
+| [`src/sh/git_validate_branch_name.sh`](../src/sh/git_validate_branch_name.sh) | 4 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | **B · 8/10** | Simplicity: one 17-line test sets up git inline · Reliability: 1 of 5 asserts says what broke |
+| [`src/sh/git_validate_num_file_changes.sh`](../src/sh/git_validate_num_file_changes.sh) | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`src/sh/git_validate_pr_title.sh`](../src/sh/git_validate_pr_title.sh) | 3 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 5 asserts says what broke |
+| [`src/sh/shell_utils.sh`](../src/sh/shell_utils.sh) | 5 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 3 Could tests vs 2 Must · Reliability: no assert says what broke |
+| Every script's structure | 4 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: the order check in `problems_with` has no comment |
+| Every tracked file's header | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| This audit | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| Docs quality audit | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |

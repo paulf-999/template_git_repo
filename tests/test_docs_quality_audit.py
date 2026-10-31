@@ -1,4 +1,4 @@
-# version: 1.0.2
+# version: 1.0.3
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/docs_quality_audit.md lists every doc and its scores add up."""
@@ -23,7 +23,7 @@ def tracked_docs():
 
 # MoSCoW: Should — keeps the docs audit true to the repo's docs
 def test_docs_audit_matches_the_docs():
-    """Links work, every tracked doc has one row, and each row's score and grade are the average of its themes."""
+    """Links work, every tracked doc has one row, and each row's score and grade match its themes' points."""
     # every file link in the audit must point at a file that exists
     assert_links_work(AUDIT)
 
@@ -32,5 +32,5 @@ def test_docs_audit_matches_the_docs():
     # column 1 holds each doc's path, and the set of paths must match the tracked docs exactly
     assert sorted(row[0] for row in rows) == sorted(tracked_docs()), "add or remove rows so every tracked doc is listed"
 
-    # each doc's six theme cells must be valid, and its Score must be their grade and average
-    assert_quality_scores(rows)
+    # columns 2-6 hold each doc's five theme cells, which must be valid, and column 7 their grade and total
+    assert_quality_scores(rows, first_theme=1)
