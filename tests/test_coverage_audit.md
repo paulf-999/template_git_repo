@@ -1,4 +1,4 @@
-<!-- version: 3.0.1 -->
+<!-- version: 3.1.0 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -16,16 +16,15 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 
 | Script or check | Must | Should | Could | Won't | **Total** |
 |---|---|---|---|---|---|
-| [`src/sh/bump_file_headers.sh`](../src/sh/bump_file_headers.sh) | 3 | 5 | 2 | 0 | **10** |
-| [`src/sh/git_commit.sh`](../src/sh/git_commit.sh) | 2 | 7 | 5 | 0 | **14** |
-| [`src/sh/git_validate_branch_name.sh`](../src/sh/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | **4** |
-| [`src/sh/git_validate_num_file_changes.sh`](../src/sh/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | **10** |
-| [`src/sh/git_validate_pr_title.sh`](../src/sh/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | **3** |
-| [`src/sh/shell_utils.sh`](../src/sh/shell_utils.sh) | 2 | 0 | 3 | 0 | **5** |
+| [`bump_file_headers.sh`](../src/sh/bump_file_headers.sh) | 3 | 5 | 2 | 0 | **10** |
+| [`git_commit.sh`](../src/sh/git_commit.sh) | 2 | 7 | 5 | 0 | **14** |
+| [`git_validate_branch_name.sh`](../src/sh/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | **4** |
+| [`git_validate_num_file_changes.sh`](../src/sh/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | **10** |
+| [`git_validate_pr_title.sh`](../src/sh/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | **3** |
+| [`shell_utils.sh`](../src/sh/shell_utils.sh) | 2 | 0 | 3 | 0 | **5** |
 | [`Makefile`](../Makefile) | 2 | 0 | 0 | 0 | **2** |
 | [Every script's structure](src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | **4** |
 | [Every tracked file's header](test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | **1** |
-| [This audit](test_coverage_audit.py) | 0 | 1 | 0 | 0 | **1** |
 | [Docs quality audit](test_docs_quality_audit.py) | 0 | 1 | 0 | 0 | **1** |
 
 ## ⭐ Quality by script
@@ -42,14 +41,13 @@ Each script's tests are scored against [`docs/maintenance/quality_rubrics/test_q
 | Script or check | Tests | Core coverage | Leanness | Clarity | Simplicity | Reliability | Score | Gaps |
 |---|---|---|---|---|---|---|---|---|
 |  |  | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* |  |  |
-| [`src/sh/bump_file_headers.sh`](../src/sh/bump_file_headers.sh) | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`src/sh/git_commit.sh`](../src/sh/git_commit.sh) | 14 | ✅ 2 | 🟡 1 | 🟡 1 | 🟡 1 | ✅ 2 | **C · 7/10** | Clarity: menu answers such as `["1", "0", ...]` don't say which prompt they answer · Leanness: 5 Could tests vs 2 Must · Simplicity: one 13-line test, and the empty-message text is asserted in 2 tests |
-| [`src/sh/git_validate_branch_name.sh`](../src/sh/git_validate_branch_name.sh) | 4 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | **B · 8/10** | Simplicity: one 17-line test sets up git inline · Reliability: 1 of 5 asserts says what broke |
-| [`src/sh/git_validate_num_file_changes.sh`](../src/sh/git_validate_num_file_changes.sh) | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`src/sh/git_validate_pr_title.sh`](../src/sh/git_validate_pr_title.sh) | 3 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 5 asserts says what broke |
-| [`src/sh/shell_utils.sh`](../src/sh/shell_utils.sh) | 5 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 3 Could tests vs 2 Must · Reliability: no assert says what broke |
+| [`bump_file_headers.sh`](../src/sh/bump_file_headers.sh) | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`git_commit.sh`](../src/sh/git_commit.sh) | 14 | ✅ 2 | 🟡 1 | 🟡 1 | 🟡 1 | ✅ 2 | **C · 7/10** | Clarity: menu answers such as `["1", "0", ...]` don't say which prompt they answer · Leanness: 5 Could tests vs 2 Must · Simplicity: one 13-line test, and the empty-message text is asserted in 2 tests |
+| [`git_validate_branch_name.sh`](../src/sh/git_validate_branch_name.sh) | 4 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | **B · 8/10** | Simplicity: one 17-line test sets up git inline · Reliability: 1 of 5 asserts says what broke |
+| [`git_validate_num_file_changes.sh`](../src/sh/git_validate_num_file_changes.sh) | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`git_validate_pr_title.sh`](../src/sh/git_validate_pr_title.sh) | 3 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 5 asserts says what broke |
+| [`shell_utils.sh`](../src/sh/shell_utils.sh) | 5 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 3 Could tests vs 2 Must · Reliability: no assert says what broke |
 | [`Makefile`](../Makefile) | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 3 asserts says what broke |
 | [Every script's structure](src/sh/test_script_structure.py) | 4 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: the order check in `problems_with` has no comment |
 | [Every tracked file's header](test_file_metadata_headers.py) | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [This audit](test_coverage_audit.py) | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Docs quality audit](test_docs_quality_audit.py) | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |

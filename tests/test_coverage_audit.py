@@ -1,9 +1,10 @@
-# version: 3.0.0
+# version: 3.1.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks tests/test_coverage_audit.md matches the test files and adds up."""
 
 import re
+from pathlib import Path
 
 from _paths import REPO_ROOT
 
@@ -103,8 +104,12 @@ def test_audit_matches_the_test_files():
     # map each row's test file to its numbers: Must, Should, Could, Won't and Total
     rows = {find_test_file(raw[0]): [int(cell) for cell in row[1:]] for row, raw in zip(moscow, linked)}
 
-    # every test file in tests/ must have exactly one row
-    test_files = {str(path.relative_to(REPO_ROOT)): path for path in (REPO_ROOT / "tests").rglob("test_*.py")}
+    # every test file in tests/ must have exactly one row, except this one, which the audit doesn't score
+    test_files = {
+        str(path.relative_to(REPO_ROOT)): path
+        for path in (REPO_ROOT / "tests").rglob("test_*.py")
+        if path.name != Path(__file__).name
+    }
     assert set(rows) == set(test_files), "add or remove MoSCoW rows so the table lists every test file"
 
     for name, path in test_files.items():
