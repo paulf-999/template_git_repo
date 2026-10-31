@@ -1,4 +1,4 @@
-# version: 1.1.3
+# version: 1.2.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the pre-commit hook that bumps each changed file's version header."""
@@ -50,6 +50,14 @@ def commit(repo, env, files):
         (repo / path).write_text(content)
     subprocess.run(["git", "add", "."], cwd=repo, env=env, check=True)
     subprocess.run(["git", "commit", "-q", "-m", "x"], cwd=repo, env=env, check=True)
+
+
+def move(repo, env, old, new, content):
+    """Move a committed file with git mv, write its new content and stage it, as before a commit."""
+    (repo / new).parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run(["git", "mv", old, new], cwd=repo, env=env, check=True)
+    (repo / new).write_text(content)
+    subprocess.run(["git", "add", new], cwd=repo, env=env, check=True)
 
 
 def run_hook(repo, env, *files):
@@ -128,6 +136,29 @@ def test_header_after_a_shebang_is_bumped_and_stays_executable(git_repo):
         "a header after a shebang should get the next PATCH version and today's date"
     )
     assert os.access(repo / "run.sh", os.X_OK), "the script should stay executable after the bump"
+
+
+# MoSCoW: Should — a file moved and edited in one commit is still a change
+def test_moved_and_edited_file_is_bumped(git_repo):
+    """A file moved with git mv and edited is compared with its old path, so it gets the next PATCH."""
+    repo, env = git_repo
+    commit(repo, env, {"old/app.py": header() + "x = 1\n"})
+    move(repo, env, "old/app.py", "new/app.py", header() + "x = 1\ny = 2\n")
+    result = run_hook(repo, env, "new/app.py")
+    assert result.returncode == 1, "a moved and edited file should stop the commit, so the bump can be staged"
+    assert (repo / "new/app.py").read_text() == header(version="1.0.1", updated=TODAY) + "x = 1\ny = 2\n", (
+        "expected the next PATCH version and today's date, as for a file edited in place"
+    )
+
+
+# MoSCoW: Should — a pure move isn't an edit, so it must not be bumped
+def test_moved_but_unchanged_file_is_left_alone(git_repo):
+    """A file moved with git mv but not edited keeps its header, as an unchanged file does."""
+    repo, env = git_repo
+    commit(repo, env, {"old/app.py": header() + "x = 1\n"})
+    move(repo, env, "old/app.py", "new/app.py", header() + "x = 1\n")
+    assert run_hook(repo, env, "new/app.py").returncode == 0, "a file that was only moved should pass"
+    assert (repo / "new/app.py").read_text() == header() + "x = 1\n", "a file that was only moved shouldn't be edited"
 
 
 # MoSCoW: Should — new files keep the version they were created with
