@@ -1,4 +1,4 @@
-<!-- version: 3.1.16 -->
+<!-- version: 3.1.17 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -38,9 +38,9 @@ How the Totals row's test cases add up to the number `make test` reports.
 | Part | Test cases |
 |---|---|
 | Rows with a number | 88 |
-| Header check, 1 per tracked file | 45 |
+| Header check, 1 per tracked file | 49 |
 | The audit's own checker, which the tables leave out | 3 |
-| **What `make test` reports** | **136** |
+| **What `make test` reports** | **140** |
 
 - **When this changes:** adding or removing any tracked file changes the header check's count, so update it and the total in the same PR.
 

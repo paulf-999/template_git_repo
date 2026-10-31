@@ -1,4 +1,4 @@
-<!-- version: 1.0.8 -->
+<!-- version: 1.0.9 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Markdown Quality Audit
@@ -26,7 +26,7 @@ Each doc is scored against [`docs/maintenance/quality_maintenance/quality_themes
 | [`CLAUDE.md`](../../../CLAUDE.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
 | [`CONTRIBUTING.md`](../../../CONTRIBUTING.md) | 🟡 1 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **B · 8/10** | Core coverage: doesn't say the PR title must follow Conventional Commits, which CI enforces · Clarity: "commitlint" isn't explained | Independent review |
 | [`README.md`](../../../README.md) | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: lists the pre-commit hooks but not the CI checks that run on every PR | Independent review |
-| [`SECURITY.md`](../../../SECURITY.md) | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: doesn't open by saying who it's for | Self-scored (Claude) |
+| [`SECURITY.md`](../../../SECURITY.md) | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Core coverage: doesn't open by saying who it's for · Accuracy: says the template "isn't released in versions", but GitHub has a `v0.1-alpha` release, and it mentions discussions, which are turned off | Independent review |
 | [`git_branching_strategy.md`](../../git_branching_strategy.md) | 🟡 1 | ✅ 2 | 🟡 1 | 🟡 1 | ✅ 2 | **C · 7/10** | Core coverage: doesn't open by saying who it's for · Clarity: no reason for the 20-file limit, and "tied to a significant release" is vague · Maintainability: copies the branch-name regex from the script | Independent review |
 | [`file_headers.md`](../file_headers.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
 | [`quality_rubrics_markdown_files.md`](quality_themes/quality_rubrics_markdown_files.md) | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: no rule for writing the Gaps column, and "Not scored" leaves out the audit itself | Independent review |
