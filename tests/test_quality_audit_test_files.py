@@ -1,7 +1,7 @@
-# version: 4.1.2
+# version: 4.1.3
 # created: 2026-10-31
 # updated: 2026-10-31
-"""Checks docs/maintenance/quality/quality_audit_test_files.md matches the test files and adds up."""
+"""Checks docs/maintenance/quality/audits/quality_audit_test_files.md matches the test files and adds up."""
 
 import re
 import subprocess
@@ -12,7 +12,7 @@ from pathlib import Path
 from _audit_tables import assert_links_work, assert_quality_scores, read_table
 from _paths import REPO_ROOT
 
-AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality" / "quality_audit_test_files.md"
+AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality" / "audits" / "quality_audit_test_files.md"
 
 # the MoSCoW scores, as the audit's column headings
 SCORES = ("Must", "Should", "Could", "Won't")
@@ -20,7 +20,7 @@ SCORES = ("Must", "Should", "Could", "Won't")
 # this file, which has a MoSCoW row but no quality scores, since the audit doesn't score its own checker
 THIS_FILE = str(Path(__file__).relative_to(REPO_ROOT))
 
-# the themes in quality/quality_themes_test_files.md, as the audit's column headings
+# the themes in quality/themes/quality_themes_test_files.md, as the audit's column headings
 THEMES = ("Core coverage", "Leanness", "Clarity", "Simplicity", "Reliability")
 
 
