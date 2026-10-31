@@ -1,4 +1,4 @@
-<!-- version: 1.0.4 -->
+<!-- version: 1.0.5 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📄 Markdown Quality Rubric
@@ -28,6 +28,7 @@ Scores work exactly as in [the test rubric's Scores section](quality_rubrics_tes
 - **Leanness:** a doc over about 100 lines costs points unless it's split, and so does a section copied from another doc.
 - **Maintainability:** a full file tree, a full list of options or a hard-coded count costs points, because each drifts as the repo changes.
 - **Accuracy:** every path, command and link is checked against the repo as it is now.
+- **Maintainer-only docs:** docs under `docs/maintenance/` are deliberately left out of the contributor docs, so not linking to them isn't a Core coverage gap.
 - **Not scored:** the PR and issue templates, which are forms to fill in rather than docs to read.
 
 ## 🛑 Avoiding over-writing

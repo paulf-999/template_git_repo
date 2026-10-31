@@ -1,4 +1,4 @@
-<!-- version: 1.0.1 -->
+<!-- version: 1.0.2 -->
 <!-- created: 2022-11-04 -->
 <!-- updated: 2026-10-31 -->
 # Git Branching Strategy
@@ -28,14 +28,14 @@ PRs should include no more than **20 file changes**, and CI fails any PR over th
 - The aim is to keep such PRs structured and easy to review despite their size
 
 ```bash
-git checkout -b release/new_col_all_int_dim_merchant_models
+git checkout -b release/reformat_all_sql_models
 ```
 
 ---
 
 ## 📝 Naming Rules
 
-- Allowed prefixes: `feature/`, `hotfix/` or `release/`
+- **Why these rules:** lowercase letters, numbers and underscores keep branch names consistent, and safe to use in shell commands, URLs and CI without quoting.
 - `<name>` must:
   - be **lowercase**
   - contain only letters, numbers, and underscores (`a–z`, `0–9`, `_`)
@@ -57,7 +57,7 @@ Regex pattern:
 | `feature/add_pr_123`       | `feature/Add_PR`                 | Uppercase not allowed         |
 | `hotfix/fix_commitlint`    | `hotfix/fix commitlint`          | Spaces not allowed            |
 | `hotfix/issue_42`          | `feature/feature_with$symbol`    | Special characters not allowed |
-| `release/new_col_all_int_dim_merchant_models` | `bugfix/fix_typo` | Prefix not allowed |
+| `release/reformat_all_sql_models` | `bugfix/fix_typo` | Prefix not allowed |
 
 ---
 

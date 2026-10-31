@@ -1,4 +1,4 @@
-<!-- version: 3.0.1 -->
+<!-- version: 3.0.2 -->
 <!-- created: 2025-09-18 -->
 <!-- updated: 2026-10-31 -->
 # 🤝 Contributing
@@ -28,4 +28,4 @@ To build a valid message interactively, stage your files and run `src/sh/git_com
 - Keep PRs small and focused — split into multiple PRs by logical area if a change spans more than 20 files, or use a `release/` branch for one bulk change (see [Exceptions for Large Changes](docs/git_branching_strategy.md#-exceptions-for-large-changes--use-the-release-prefix)).
 - Mark **Breaking Change** if applicable and describe the rollout impact.
 - Pre-commit hooks must pass before raising a PR — fix the underlying issue rather than bypassing with `--no-verify`.
-- All tests relevant to the changed area must pass before a PR is raised.
+- Run `make test` and make sure it passes before raising a PR.

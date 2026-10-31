@@ -1,4 +1,4 @@
-<!-- version: 3.1.13 -->
+<!-- version: 3.1.14 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -6,7 +6,8 @@
 For maintainers of this template: how many tests each script has, and how good those tests are.
 
 - **Kept accurate by:** [`tests/test_quality_audit_tests.py`](../../../tests/test_quality_audit_tests.py), which fails if either table falls out of step with the test files.
-- **Counts:** test functions, not pytest cases, so one parametrised function counts once.
+- **Not listed:** the audit's own checker, `tests/test_quality_audit_tests.py`, so a grep of every `# MoSCoW:` comment finds its 2 extra tests.
+- **Gaps:** written by hand when a script is scored, so recheck them whenever its tests change.
 
 ## 🏷️ MoSCoW scores by script
 
