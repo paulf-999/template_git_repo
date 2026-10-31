@@ -5,10 +5,10 @@
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
 # Description: Interactive commit helper that enforces "<type>(<scope>): <message>", where scope is the area of the repo changed
-# Usage: scripts/git_commit.sh [git commit flags, e.g. --no-verify] (run from the repo root)
+# Usage: src/sh/git_commit.sh [git commit flags, e.g. --no-verify] (run from the repo root)
 
 # Load reusable shell script vars & functions
-source scripts/shell_utils.sh
+source src/sh/shell_utils.sh
 
 # Catch Ctrl+C, so an interrupted run says so and exits 1
 trap handle_interruption SIGINT

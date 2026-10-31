@@ -31,9 +31,9 @@ def repo_on_branch(repo, branch):
     }
     subprocess.run(["git", "init", "-q", "-b", branch], cwd=repo, env=env, check=True)
     subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "x"], cwd=repo, env=env, check=True)
-    # the script sources scripts/shell_utils.sh from the repo root, as in the real repo
-    (repo / "scripts").mkdir(parents=True)
-    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", repo / "scripts" / "shell_utils.sh")
+    # the script sources src/sh/shell_utils.sh from the repo root, as in the real repo
+    (repo / "src" / "sh").mkdir(parents=True)
+    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", repo / "src" / "sh" / "shell_utils.sh")
     return env
 
 
