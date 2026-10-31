@@ -1,7 +1,7 @@
-# version: 1.0.1
+# version: 1.0.2
 # created: 2026-10-30
 # updated: 2026-10-31
-"""Checks every tracked file opens with a version/created/updated metadata header (see docs/file_headers.md)."""
+"""Checks every tracked file opens with a version/created/updated header (see docs/maintenance/file_headers.md)."""
 
 import re
 import subprocess

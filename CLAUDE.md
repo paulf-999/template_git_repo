@@ -1,4 +1,4 @@
-<!-- version: 1.0.1 -->
+<!-- version: 1.0.0 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # CLAUDE.md — <project_name>
@@ -16,4 +16,4 @@
 | Run every check | `pre-commit run --all-files` |
 
 - **Done means:** `make test` and `pre-commit run --all-files` both pass.
-- **Conventions:** follow `CONTRIBUTING.md` for branching, commits and PRs, and `docs/file_headers.md` for file headers.
+- **Conventions:** follow `CONTRIBUTING.md` for branching, commits, file headers and PRs.
