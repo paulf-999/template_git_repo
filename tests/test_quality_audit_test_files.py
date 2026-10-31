@@ -1,4 +1,4 @@
-# version: 4.1.3
+# version: 4.1.4
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality/audits/quality_audit_test_files.md matches the test files and adds up."""
@@ -109,7 +109,7 @@ def test_moscow_table_matches_the_test_files():
 
 # MoSCoW: Should — keeps the quality table in step with the MoSCoW table and the rubric
 def test_quality_table_fits_the_rubric():
-    """Both tables list the same rows, bar this checker, both counts match, and each score is its themes' total."""
+    """Both tables list the same rows, bar this checker, counts match, and each score and Gaps fit the themes."""
     moscow, _ = moscow_rows()
     quality = read_table(AUDIT, "⭐ Quality by script")
     # rows are matched by the file they link to, since the quality table may show a shorter label

@@ -1,10 +1,11 @@
-# version: 1.0.10
+# version: 1.1.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks the markdown files quality audit (quality_audit_markdown_files.md) lists every doc and adds up."""
 
 import subprocess
 
+import pytest
 from _audit_tables import assert_links_work, assert_quality_scores, read_table
 from _paths import REPO_ROOT
 
@@ -28,11 +29,32 @@ def tracked_docs():
 
 # MoSCoW: Should — keeps the docs audit true to the repo's docs
 def test_docs_audit_matches_the_docs():
-    """Links work, every tracked doc has one row, and each row's score and grade match its themes' points."""
+    """Links work, every tracked doc has one row, and each row's score, grade and Gaps match its themes."""
     assert_links_work(AUDIT)
     rows = read_table(AUDIT, "⭐ Quality by doc")
 
     # each row's first cell must link to a tracked doc, and every tracked doc needs exactly one row
+    unlinked = [row["name"] for row in rows if not row["link"]]
+    assert not unlinked, f"link the first cell of {unlinked} to its doc"
     assert sorted(row["link"] for row in rows) == sorted(tracked_docs()), "add or remove rows so every doc is listed"
 
     assert_quality_scores(rows, THEMES)
+
+
+# one row with every theme at ✅ 2, so each case below changes just one cell
+GOOD_ROW = {"name": "doc.md", **dict.fromkeys(THEMES, "✅ 2"), "Score": "A · 10/10", "Gaps": "—"}
+
+
+# MoSCoW: Should — a checker that never fails would let a wrong score or Gaps entry through
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"Score": "A · 9/10"},  # the themes add up to 10
+        {"Clarity": "🟡 1", "Score": "A · 9/10"},  # Gaps doesn't name Clarity
+        {"Gaps": "Clarity: unclear"},  # every theme is ✅, so Gaps should be '—'
+    ],
+)
+def test_a_wrong_score_or_gap_is_reported(change):
+    """A score that doesn't match the themes, a theme below ✅ missing from Gaps, or a stray gap each fail."""
+    with pytest.raises(AssertionError):
+        assert_quality_scores([{**GOOD_ROW, **change}], THEMES)
