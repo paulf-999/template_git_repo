@@ -1,4 +1,4 @@
-<!-- version: 3.0.3 -->
+<!-- version: 3.0.4 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🧪 Test Quality Rubric
@@ -42,6 +42,7 @@ Each Theme (Rubric) gets a symbol and 0, 1 or 2 points, so the five add up to a 
 
 ## 🛑 Avoiding over-testing
 
+- **Why cap Could tests:** Could tests cover rare paths, so having more of them than Must tests means the suite spends more upkeep on edge cases than on what matters most.
 - **Lower scores don't mean add tests:** if a new test would cost Leanness or Simplicity points, don't add it, even if it covers a real path.
 - **Removing tests can raise the score:** deleting a duplicate or cosmetic test improves Leanness.
 

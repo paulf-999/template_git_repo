@@ -1,4 +1,4 @@
-<!-- version: 1.1.2 -->
+<!-- version: 1.1.3 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🏷️ File Headers
@@ -25,7 +25,7 @@ Every file opens with a three-line header, as HTML comments in markdown and `#` 
   - **MAJOR:** behaviour or guidance reversed or removed.
   - **MINOR:** behaviour or guidance added.
   - **PATCH:** wording, typo or formatting fix only, which the check handles.
-- **Exempt:** `.github/pull_request_template.md` and `.github/ISSUE_TEMPLATE/`, which are copied into every new PR or issue, and `src/templates/jinja/.gitkeep`.
+- **Exempt:** the PR and issue templates, which are copied into every new PR or issue, and empty placeholder files; the `EXEMPT` set in `tests/test_file_metadata_headers.py` is the full list.
 
 ## ⚙️ Automation
 
