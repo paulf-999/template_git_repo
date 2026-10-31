@@ -1,6 +1,6 @@
-<!-- version: 1.0.0 -->
+<!-- version: 1.1.0 -->
 <!-- created: 2022-11-04 -->
-<!-- updated: 2026-10-30 -->
+<!-- updated: 2026-10-31 -->
 # Git Branching Strategy
 
 This repository uses a **simplified branching strategy**, with branch names enforced by a [pre-commit hook](../src/sh/git_validate_branch_name.sh).
@@ -46,6 +46,8 @@ Regex pattern:
 ```bash
 ^(feature|hotfix|release)/[a-z0-9_]+$
 ```
+
+- **Dependabot exception:** CI skips this check for PRs opened by Dependabot, because its `dependabot/...` branch names can't be changed.
 
 ---
 

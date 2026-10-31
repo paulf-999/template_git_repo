@@ -1,0 +1,21 @@
+# version: 1.0.0
+# created: 2026-10-31
+# updated: 2026-10-31
+# Shared editor formatting rules, matching the checks in .pre-commit-config.yaml (see https://editorconfig.org)
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# markdownlint expects 2-space list indents
+[*.md]
+indent_size = 2
+
+# Make recipes must be indented with tabs
+[{Makefile,*.mk}]
+indent_style = tab

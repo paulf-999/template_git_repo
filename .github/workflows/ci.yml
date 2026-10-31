@@ -1,5 +1,5 @@
 ---
-# version: 1.1.0
+# version: 1.2.0
 # created: 2026-10-30
 # updated: 2026-10-31
 # Re-run the local git hooks and tests on every PR, so `git commit --no-verify` can't skip them,
@@ -37,8 +37,9 @@ jobs:
             - name: Install pre-commit
               run: pip install "$(grep -oE '^pre-commit==[^ ]+' requirements.txt)"
             # Passed through env, not ${{ }} in the script, so a crafted branch name can't inject shell
+            # Skipped for Dependabot's PRs, since its dependabot/... branch names can't be changed
             - name: Validate branch name
-              if: github.event_name == 'pull_request'
+              if: github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]'
               env:
                   BRANCH_NAME: ${{ github.head_ref }}
               run: src/sh/git_validate_branch_name.sh "${BRANCH_NAME}"
