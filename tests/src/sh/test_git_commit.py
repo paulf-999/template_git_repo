@@ -1,4 +1,4 @@
-# version: 1.2.2
+# version: 1.2.3
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the interactive git commit helper."""
@@ -72,7 +72,7 @@ def test_types_match_commitlint():
     assert sorted(read_script_types()) == sorted(COMMITLINT_TYPES)
 
 
-# MoSCoW: Should — each type builds a valid '<type>(<scope>): <message>'
+# MoSCoW: Should — test and perf types build a valid '<type>(<scope>): <message>'
 @pytest.mark.parametrize("commit_type", ["test", "perf"])
 def test_test_and_perf_types_build_a_valid_commit(git_repo, commit_type):
     """The test and perf types produce a '<type>(<scope>): <message>' commit."""
