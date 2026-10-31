@@ -1,4 +1,4 @@
-<!-- version: 3.2.12 -->
+<!-- version: 3.2.13 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -20,7 +20,7 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 
 | Script or check | Must | Should | Could | Won't | Total (functions) | **Test Cases** |
 |---|---|---|---|---|---|---|
-| [`bump_file_headers.sh`](../../../src/sh/bump_file_headers.sh) | 3 | 5 | 2 | 0 | 10 | **10** |
+| [`bump_file_headers.sh`](../../../src/sh/bump_file_headers.sh) | 3 | 7 | 2 | 0 | 12 | **12** |
 | [`git_commit.sh`](../../../src/sh/git_commit.sh) | 2 | 7 | 2 | 0 | 11 | **14** |
 | [`git_validate_branch_name.sh`](../../../src/sh/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | 4 | **10** |
 | [`git_validate_num_file_changes.sh`](../../../src/sh/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | 10 | **12** |
@@ -31,7 +31,7 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
 | [This audit's checker](../../../tests/test_quality_audit_test_files.py) | 0 | 2 | 0 | 0 | 2 | **2** |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **51** |
-| **Totals** | | | | | **53** | **138** |
+| **Totals** | | | | | **55** | **140** |
 
 ## ⭐ Quality by script
 
@@ -51,7 +51,7 @@ Each script's tests are scored against [`docs/maintenance/quality/quality_themes
 | Script or check | Scored by | Total (functions) | Test Cases | Core coverage | Leanness | Clarity | Simplicity | Reliability | Score | Gaps |
 |---|---|---|---|---|---|---|---|---|---|---|
 | | | | | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* | | |
-| [Header bump](../../../src/sh/bump_file_headers.sh) | Independent review | 10 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Header bump](../../../src/sh/bump_file_headers.sh) | Self-scored (Claude), after adding the two move tests | 12 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`git_commit.sh`](../../../src/sh/git_commit.sh) | Self-scored (Claude) | 11 | 14 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Branch name](../../../src/sh/git_validate_branch_name.sh) | Independent review | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [PR size](../../../src/sh/git_validate_num_file_changes.sh) | Independent review | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
