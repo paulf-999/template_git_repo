@@ -1,4 +1,4 @@
-# version: 4.0.12
+# version: 4.1.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality_maintenance/quality_audit_test_files.md matches the test files and adds up."""
@@ -17,8 +17,8 @@ AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality_maintenance" / "quality_au
 # the MoSCoW scores, as the audit's column headings
 SCORES = ("Must", "Should", "Could", "Won't")
 
-# test files that run once per tracked file, shown as a rule, since their count changes with every new file
-PER_TRACKED_FILE = {"tests/test_file_metadata_headers.py": "1 per tracked file"}
+# this file, which has a MoSCoW row but no quality scores, since the audit doesn't score its own checker
+THIS_FILE = str(Path(__file__).relative_to(REPO_ROOT))
 
 # the themes in quality_maintenance/quality_themes/quality_rubrics_test_files.md, as the audit's column headings
 THEMES = ("Core coverage", "Leanness", "Clarity", "Simplicity", "Reliability")
@@ -51,11 +51,9 @@ def actual_counts(path):
     return [scores.count(score) for score in SCORES] + [test_functions]
 
 
-def scored_test_files():
-    """Return every test file the audit should list, keyed by its path from the repo root."""
-    # every test file in tests/, except this one, which the audit doesn't score
-    paths = (REPO_ROOT / "tests").rglob("test_*.py")
-    return {str(path.relative_to(REPO_ROOT)): path for path in paths if path.name != Path(__file__).name}
+def all_test_files():
+    """Return every test file in tests/, keyed by its path from the repo root."""
+    return {str(path.relative_to(REPO_ROOT)): path for path in (REPO_ROOT / "tests").rglob("test_*.py")}
 
 
 def collected_cases():
@@ -81,29 +79,27 @@ def moscow_rows():
 
 # MoSCoW: Should — keeps the MoSCoW table true to the test files
 def test_moscow_table_matches_the_test_files():
-    """Links work, every test file has one row, counts match the comments and pytest, and Totals adds up."""
+    """Links work, every test file has one row, counts match the comments and pytest, and Totals is the full run."""
     assert_links_work(AUDIT)
     script_rows, totals = moscow_rows()
     rows = {find_test_file(row): row for row in script_rows}
-    assert set(rows) == set(scored_test_files()), "add or remove MoSCoW rows so the table lists every test file"
+    assert set(rows) == set(all_test_files()), "add or remove MoSCoW rows so the table lists every test file"
 
-    # each row's Test Cases must match what pytest collects, or show the rule for a per-file check
+    # each row's Test Cases must match what pytest collects
     cases = collected_cases()
     for name, row in rows.items():
-        listed, found = row["Test Cases"], PER_TRACKED_FILE.get(name, str(cases[name]))
-        assert listed == found, f"{name}: Test Cases says {listed}, expected {found}"
+        listed, found = row["Test Cases"], str(cases[name])
+        assert listed == found, f"{name}: Test Cases says {listed}, pytest finds {found}"
 
     # the Totals row gives the total number of test functions
     listed, expected = totals["Total (functions)"], str(sum(int(row["Total (functions)"]) for row in script_rows))
     assert listed == expected, f"Totals says {listed} functions, the rows add up to {expected}"
 
-    # it also adds up the numeric Test Cases, plus the per-file rule if any row uses it
-    counted = sum(int(row["Test Cases"]) for row in rows.values() if row["Test Cases"].isdigit())
-    rules = sorted({row["Test Cases"] for row in rows.values() if not row["Test Cases"].isdigit()})
-    listed, expected = totals["Test Cases"], " + ".join([str(counted), *rules])
-    assert listed == expected, f"Totals says {listed}, the rows add up to {expected}"
+    # and the number of test cases make test reports, which the rows add up to since every test file has one
+    listed, expected = totals["Test Cases"], str(sum(cases.values()))
+    assert listed == expected, f"Totals says {listed} test cases, make test runs {expected}"
 
-    for name, path in scored_test_files().items():
+    for name, path in all_test_files().items():
         counts = actual_counts(path)
         listed = [int(rows[name][column]) for column in (*SCORES, "Total (functions)")]
         assert listed == counts, f"{name}: table says {listed}, the file has {counts}"
@@ -113,34 +109,17 @@ def test_moscow_table_matches_the_test_files():
 
 # MoSCoW: Should — keeps the quality table in step with the MoSCoW table and the rubric
 def test_quality_table_fits_the_rubric():
-    """Both tables list the same rows, both counts match, and each score is its themes' total."""
+    """Both tables list the same rows, bar this checker, both counts match, and each score is its themes' total."""
     moscow, _ = moscow_rows()
     quality = read_table(AUDIT, "⭐ Quality by script")
     # rows are matched by the file they link to, since the quality table may show a shorter label
-    assert [row["link"] for row in quality] == [row["link"] for row in moscow], "list the same rows in both tables"
+    scored = [row for row in moscow if row["link"] != THIS_FILE]
+    assert [row["link"] for row in quality] == [row["link"] for row in scored], "list the same rows in both tables"
 
     # each row's two counts must match the same columns in its MoSCoW row
-    for moscow_row, quality_row in zip(moscow, quality):
+    for moscow_row, quality_row in zip(scored, quality):
         name = quality_row["name"]
         for column in ("Total (functions)", "Test Cases"):
             assert quality_row[column] == moscow_row[column], f"{name}: {column} differs between the two tables"
 
     assert_quality_scores(quality, THEMES)
-
-
-# MoSCoW: Should — keeps the make test breakdown true to what pytest runs
-def test_breakdown_matches_make_test():
-    """Each part of the breakdown matches pytest's own count, and the parts add up to the full run."""
-    cases = collected_cases()
-    script_rows, _ = moscow_rows()
-    numbered = sum(int(row["Test Cases"]) for row in script_rows if row["Test Cases"].isdigit())
-    expected = {
-        "Rows with a number": numbered,
-        # one case per tracked file, so this changes whenever a file is added or removed
-        "Header check, 1 per tracked file": sum(cases[name] for name in PER_TRACKED_FILE),
-        "The audit's own checker, which the tables leave out": cases[str(Path(__file__).relative_to(REPO_ROOT))],
-        "What `make test` reports": sum(cases.values()),
-    }
-    listed = {row["name"]: int(row["Test cases"]) for row in read_table(AUDIT, "🧮 Test cases in `make test`")}
-    for part, count in expected.items():
-        assert listed.get(part) == count, f"'{part}' says {listed.get(part)}, pytest finds {count}"
