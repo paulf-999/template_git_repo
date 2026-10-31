@@ -1,4 +1,4 @@
-<!-- version: 3.1.0 -->
+<!-- version: 3.1.1 -->
 <!-- created: 2025-09-18 -->
 <!-- updated: 2026-10-31 -->
 # 🤝 Contributing
@@ -11,7 +11,7 @@ Run `make deps` once after cloning, so the pre-commit hooks these conventions re
 
 ## 🌱 Branching
 
-Follow the rules in [Git Branching Strategy](docs/git_branching_strategy.md). Branch names are automatically validated by the pre-commit hook at `src/sh/git_validate_branch_name.sh`.
+Follow the rules in [Git Branching Strategy](../docs/git_branching_strategy.md). Branch names are automatically validated by the pre-commit hook at `src/sh/git_validate_branch_name.sh`.
 
 ## 📝 Commits
 
@@ -26,9 +26,9 @@ To build a valid message interactively, stage your files and run `src/sh/git_com
 
 ## 🔀 Pull Requests
 
-- Use the [PR template](.github/pull_request_template.md) and fill in the summary section.
+- Use the [PR template](pull_request_template.md) and fill in the summary section.
 - Write the PR title in the same `type(scope): description` format as a commit, because squash merges use it as the commit message on `main` and CI checks it.
-- Keep PRs small and focused — split into multiple PRs by logical area if a change goes over the file limit, or use a `release/` branch for one bulk change (see [Exceptions for Large Changes](docs/git_branching_strategy.md#-exceptions-for-large-changes--use-the-release-prefix)).
+- Keep PRs small and focused — split into multiple PRs by logical area if a change goes over the file limit, or use a `release/` branch for one bulk change (see [Exceptions for Large Changes](../docs/git_branching_strategy.md#-exceptions-for-large-changes--use-the-release-prefix)).
 - Mark **Breaking Change** if applicable and describe the rollout impact.
 - Pre-commit hooks must pass before raising a PR — fix the underlying issue rather than bypassing with `--no-verify`.
 - Run `make test` and make sure it passes before raising a PR.

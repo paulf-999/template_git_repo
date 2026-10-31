@@ -1,0 +1,18 @@
+# version: 1.0.0
+# created: 2026-10-31
+# updated: 2026-10-31
+# Tool settings for pytest and Ruff, shared by make test, the pre-commit hooks and editor integrations
+
+[tool.pytest.ini_options]
+# Puts tests/ on the import path so any test can import tests/_paths.py
+pythonpath = ["tests"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+# PEP 8, complexity, syntax upgrades, naming, import order, specific excepts, pathlib, mutable defaults, docstrings
+select = [
+    "E", "F", "W", "C90", "UP", "N", "I", "BLE", "PTH", "B006",
+    "D100", "D101", "D102", "D103", "D104", "D105", "D106", "D107",
+]

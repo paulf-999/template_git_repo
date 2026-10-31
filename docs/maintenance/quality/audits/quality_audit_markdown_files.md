@@ -26,7 +26,7 @@ Each doc is scored against [`docs/maintenance/quality/themes/quality_themes_mark
 |---|---|---|---|---|---|---|---|---|
 | | | *Covers reader's tasks* | *Short, no repeats* | *Easy to follow and skim* | *Won't drift* | *Correct today* | | |
 | [`CLAUDE.md`](../../../../CLAUDE.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`CONTRIBUTING.md`](../../../../CONTRIBUTING.md) | Independent review | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: says to run `make deps` straight after cloning without saying a virtualenv must be active first, so it fails |
+| [`.github/CONTRIBUTING.md`](../../../../.github/CONTRIBUTING.md) | Independent review | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: says to run `make deps` straight after cloning without saying a virtualenv must be active first, so it fails |
 | [`README.md`](../../../../README.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`SECURITY.md`](../../../../.github/SECURITY.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`docs` README](../../../README.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
