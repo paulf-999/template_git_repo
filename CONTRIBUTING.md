@@ -1,4 +1,4 @@
-<!-- version: 3.0.0 -->
+<!-- version: 3.0.1 -->
 <!-- created: 2025-09-18 -->
 <!-- updated: 2026-10-31 -->
 # 🤝 Contributing
@@ -13,7 +13,7 @@ Follow the rules in [Git Branching Strategy](docs/git_branching_strategy.md). Br
 
 ## 📝 Commits
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/) using the format `type(scope): imperative description`, where `type` is one of `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, or `ci`, and `scope` is the area of the repo affected (e.g. `makefile`, `pre-commit`, `ci`).
+Follow [Conventional Commits](https://www.conventionalcommits.org/) using the format `type(scope): imperative description`, where `type` is a Conventional Commits type such as `feat`, `fix` or `docs` (`src/sh/git_commit.sh` lists every type commitlint allows), and `scope` is the area of the repo affected (e.g. `makefile`, `pre-commit`, `ci`).
 
 Examples:
 

@@ -1,4 +1,4 @@
-<!-- version: 2.0.0 -->
+<!-- version: 1.0.0 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📄 Markdown Quality Rubric
@@ -19,16 +19,7 @@ For maintainers of this template: how to score each markdown doc out of 10, with
 
 ## 🔢 Scores
 
-Scores work the same way as in `test_quality_rubric.md`: each Theme (Rubric) gets a symbol and 0, 1 or 2 points.
-
-| Symbol | Points | Meaning |
-|---|---|---|
-| ✅ | **2** | Fully met |
-| 🟡 | **1** | Partly met |
-| ❌ | **0** | Not met |
-
-- **Overall score:** the total of the five themes' points, out of 10.
-- **Grade:** A for 9 or more, B for 8, C for 7, D for 6, and F below 6.
+Scores work exactly as in [the test rubric's Scores section](test_quality_rubric.md#-scores): each Theme (Rubric) gets ✅ 2, 🟡 1 or ❌ 0 points, and the five add up to a graded score out of 10.
 
 ## 📏 How to score
 
@@ -46,5 +37,5 @@ Scores work the same way as in `test_quality_rubric.md`: each Theme (Rubric) get
 
 ## 📊 Where scores live
 
-- **Audit:** `docs/maintenance/docs_quality_audit.md` holds each doc's theme scores, overall score and gaps.
+- **Audit:** `docs/maintenance/quality/audits/docs_quality_audit.md` holds each doc's theme scores, overall score and gaps.
 - **Checked by:** `tests/test_docs_quality_audit.py`, which fails if a tracked doc has no row, or a score or grade doesn't match its themes.
