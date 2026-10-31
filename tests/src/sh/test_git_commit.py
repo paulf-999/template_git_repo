@@ -1,4 +1,4 @@
-# version: 1.2.10
+# version: 1.2.11
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the interactive git commit helper."""
@@ -123,7 +123,7 @@ def test_declining_the_confirm_prompt_makes_no_commit(git_repo):
     assert head.returncode != 0, "a commit was made despite answering 'n'"
 
 
-# MoSCoW: Should — flags like --no-verify must reach git commit, not be dropped
+# MoSCoW: Should — flags like --no-verify reach git commit instead of being dropped
 def test_flags_are_passed_to_git_commit(git_repo):
     """Script arguments reach git commit, e.g. --author overrides the commit author."""
     repo, env = git_repo
@@ -135,7 +135,7 @@ def test_flags_are_passed_to_git_commit(git_repo):
     assert author == "Other", "--author should reach git commit"
 
 
-# MoSCoW: Should — a bare '<type>(<scope>)' subject must never be committed
+# MoSCoW: Should — an empty message is caught before commitlint rejects the bare '<type>(<scope>)' subject
 @pytest.mark.parametrize("empty_message", ["", "   "])
 def test_empty_message_is_asked_again(git_repo, empty_message):
     """An empty or all-spaces message is explained and asked for again, so no bare '<type>(<scope>)' is committed."""
@@ -182,7 +182,6 @@ def test_custom_scope_is_lowercased(git_repo):
     [
         ("Add notes", "lowercase letter"),
         ("add notes.", "full stop"),
-        ("x" * 100, "characters"),
     ],
 )
 def test_messages_commitlint_would_reject_are_asked_again(git_repo, bad_message, expected_error):
@@ -195,6 +194,39 @@ def test_messages_commitlint_would_reject_are_asked_again(git_repo, bad_message,
     assert last_commit_subject(repo, env) == f"{FIRST_TYPE}(app): add notes", (
         "the message given after the rejected one should be used"
     )
+
+
+# MoSCoW: Should — catches scopes commitlint would refuse before the hook does
+@pytest.mark.parametrize(
+    ("bad_scope", "expected_error"),
+    [
+        ("", "Scope cannot be empty"),
+        ("bad!scope", "Use only letters"),
+        ("x" * 31, "30 characters"),
+    ],
+)
+def test_invalid_custom_scope_is_asked_again(git_repo, bad_scope, expected_error):
+    """An empty, badly spelt or over-long typed scope is explained, then option 0 can be picked again."""
+    repo, env = git_repo
+    # scope 0 and the bad scope are rejected, so the scope menu is asked again: 0, then a good scope
+    result = run_commit_helper(repo, env, ["1", "0", bad_scope, "0", "docs", "add notes", "y"])
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
+    assert expected_error in result.stdout, f"expected '{expected_error}' in the explanation: {result.stdout}"
+    assert last_commit_subject(repo, env) == f"{FIRST_TYPE}(docs): add notes", "the next valid scope should be used"
+
+
+# MoSCoW: Must — the header limit is commitlint's header-max-length, so test both sides of it
+def test_header_at_the_limit_is_accepted_and_one_over_is_not(git_repo):
+    """A message that makes the header one character too long is rejected, and one that exactly fills it is used."""
+    repo, env = git_repo
+    # read MAX_HEADER_LENGTH from the script, then fill the header after "<type>(app): " exactly to it
+    max_header_length = int(re.search(r"^MAX_HEADER_LENGTH=(\d+)", SCRIPT.read_text(), re.MULTILINE).group(1))
+    longest_message = "x" * (max_header_length - len(f"{FIRST_TYPE}(app): "))
+    # the message one character over is rejected, so the message is asked again
+    result = run_commit_helper(repo, env, ["1", "1", f"{longest_message}x", longest_message, "y"])
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
+    assert "Keep the message to" in result.stdout, f"expected the over-long message to be explained: {result.stdout}"
+    assert len(last_commit_subject(repo, env)) == max_header_length, "a header exactly at the limit should be committed"
 
 
 # MoSCoW: Could — rare non-ASCII file names
