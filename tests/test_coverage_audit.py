@@ -1,4 +1,4 @@
-# version: 1.3.0
+# version: 2.1.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks tests/test_coverage_audit.md matches the test files and adds up."""
@@ -12,15 +12,18 @@ AUDIT = REPO_ROOT / "tests" / "test_coverage_audit.md"
 # the MoSCoW scores, in the same order as the audit table's columns
 SCORES = ("Must", "Should", "Could", "Won't")
 
-# the only allowed theme cells in the quality table, as [symbol, score] pairs
-THEME_SCORES = (["✅", "10"], ["🟡", "5"], ["❌", "0"])
+# a markdown link like '[text](target)', capturing the text and the target
+LINK = re.compile(r"\[([^\]]*)\]\(([^)]*)\)")
+
+# the only allowed theme cells in the quality table, as [symbol, points] pairs
+THEME_SCORES = (["✅", "2"], ["🟡", "1"], ["❌", "0"])
 
 
-def grade(average):
-    """Return the letter grade for an average theme score out of 10."""
+def grade(total):
+    """Return the letter grade for a total score out of 10."""
     # grade cut-offs from docs/maintenance/quality_rubrics/test_quality_rubric.md
     for letter, floor in (("A", 9), ("B", 8), ("C", 7), ("D", 6)):
-        if average >= floor:
+        if total >= floor:
             return letter
     return "F"
 
@@ -33,21 +36,31 @@ def table_rows(heading, audit=AUDIT):
     # split each table line into cells, e.g. '| a | b |' becomes [' a ', ' b ']
     rows = [line.strip("|").split("|") for line in section.splitlines() if line.startswith("|")]
 
-    # skip the header and '|---|' rows, and drop the bold and code marks around each cell
-    return [[cell.strip().strip("*`") for cell in row] for row in rows[2:]]
+    # skip the header and '|---|' rows, and any row with an empty first cell (the theme descriptions)
+    rows = [row for row in rows[2:] if row[0].strip()]
+
+    # keep only each link's text, e.g. '[`a.sh`](../a.sh)' becomes 'a.sh', and drop bold and code marks
+    return [[LINK.sub(r"\1", cell).strip().strip("*`") for cell in row] for row in rows]
 
 
-def assert_quality_scores(rows):
-    """Check each row's six theme cells are valid, and its score and grade are their average."""
+def assert_links_work(audit):
+    """Check every markdown link in the audit points at a file that exists."""
+    for _, target in LINK.findall(audit.read_text()):
+        # targets are relative to the audit's own folder, as GitHub resolves them
+        assert (audit.parent / target).is_file(), f"{audit.name} links to {target}, which doesn't exist"
+
+
+def assert_quality_scores(rows, first_theme):
+    """Check each row's five theme cells are valid, and the Score after them is their grade and total."""
     for row in rows:
-        # columns 2-7 hold the six theme cells, e.g. '✅ 10', each split into [symbol, score]
-        cells = [cell.split() for cell in row[1:7]]
+        # the five theme cells start at column first_theme, e.g. '✅ 2', each split into [symbol, points]
+        cells = [cell.split() for cell in row[first_theme : first_theme + 5]]
         assert all(cell in THEME_SCORES for cell in cells), f"{row[0]}: theme cells must be one of {THEME_SCORES}"
 
-        # the Score column must be the grade and average of the six themes, e.g. 'A · 9.2/10' or 'A · 10/10'
-        average = sum(int(score) for _, score in cells) / len(cells)
-        expected = f"{grade(average)} · {average:.1f}".removesuffix(".0") + "/10"
-        assert row[7] == expected, f"{row[0]}: score says '{row[7]}', its theme scores give '{expected}'"
+        # the Score column comes straight after the themes, e.g. 'A · 9/10'
+        total = sum(int(points) for _, points in cells)
+        expected, score = f"{grade(total)} · {total}/10", row[first_theme + 5]
+        assert score == expected, f"{row[0]}: score says '{score}', its theme points give '{expected}'"
 
 
 def actual_counts(path):
@@ -62,7 +75,10 @@ def actual_counts(path):
 
 # MoSCoW: Should — keeps the audit tables true to the test files
 def test_audit_matches_the_test_files():
-    """MoSCoW counts match, every test is scored, totals add up, and quality scores fit their themes."""
+    """Links work, MoSCoW counts match, every test is scored, totals add up, and quality scores fit their themes."""
+    # --- links: every file link in the audit must point at a file that exists ---
+    assert_links_work(AUDIT)
+
     # --- table 1: MoSCoW counts per test file ---
     moscow = table_rows("🏷️ MoSCoW scores by script")
     # map each test file (column 2) to its numbers: Must, Should, Could, Won't and Total
@@ -88,5 +104,11 @@ def test_audit_matches_the_test_files():
     # both tables must list the same scripts, in the same order
     assert [row[0] for row in quality] == [row[0] for row in moscow[:-1]], "list the same scripts in both tables"
 
-    # each script's six theme cells must be valid, and its Score must be their grade and average
-    assert_quality_scores(quality)
+    # each script's Tests column must match the Total column of its MoSCoW row
+    moscow_totals = {row[0]: row[-1] for row in moscow[:-1]}
+    for row in quality:
+        expected_tests = moscow_totals[row[0]]
+        assert row[1] == expected_tests, f"{row[0]}: Tests says {row[1]}, the MoSCoW table says {expected_tests}"
+
+    # columns 3-7 hold the five theme cells, and column 8 their Score
+    assert_quality_scores(quality, first_theme=2)
