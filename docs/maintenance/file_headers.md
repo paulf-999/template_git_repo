@@ -1,4 +1,4 @@
-<!-- version: 1.2.3 -->
+<!-- version: 1.3.0 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🏷️ File Headers
@@ -33,9 +33,9 @@ A check that runs on every commit keeps headers up to date, so most bumps happen
 
 | When you commit a file that… | The check… |
 |---|---|
-| Has changed since the last commit | Sets `updated` to today and raises PATCH by 1 |
+| Has changed since the last commit, including a file moved with `git mv` and edited | Sets `updated` to today and raises PATCH by 1 |
 | Has a version you already raised by hand | Keeps your version and only updates the date |
-| Is new, has no header, or hasn't changed | Leaves it alone |
+| Is new, has no header, or hasn't changed, including a file only moved | Leaves it alone |
 | Has no `updated` line, or a version like `1.0` | Stops the commit and says what to fix |
 
 - **After a bump:** the commit stops so you can check the change, then re-add the file and commit again.
