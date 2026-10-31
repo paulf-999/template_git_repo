@@ -1,4 +1,4 @@
-<!-- version: 1.0.10 -->
+<!-- version: 1.1.0 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🧪 Test Maintenance
@@ -40,6 +40,16 @@ def test_title_with_shell_characters_is_not_executed():
 - **Parametrise:** cover input variants with parametrised cases instead of near-duplicate functions.
 - **Bug fixes:** each fix adds one regression test, scored by the impact of the bug.
 - **No new `Won't` tests:** if a test would score `Won't`, don't add it.
+
+## ⚖️ What's normal
+
+There's no standard number of tests per script, so judge the suite by these checks instead of a target.
+
+- **Typical size:** a small script usually needs a handful of test functions, and a longer script with menus or many options needs more.
+- **Too many:** two tests that would always fail together, for the same reason, mean one of them is a duplicate.
+- **Wrong balance:** more `Could` tests than `Must` tests means the suite spends more upkeep on rare edge cases than on what matters.
+- **Too slow:** a slow test that only covers a rare edge case should earn its run time or be deleted.
+- **Too few:** a contract with no `Must` test, such as an untested limit or a failure that should block, is a gap to fill.
 
 ## 🍂 Keeping tests from going stale
 
