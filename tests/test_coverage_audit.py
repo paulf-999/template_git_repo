@@ -1,4 +1,4 @@
-# version: 1.2.2
+# version: 1.3.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks tests/test_coverage_audit.md matches the test files and adds up."""
@@ -11,6 +11,9 @@ AUDIT = REPO_ROOT / "tests" / "test_coverage_audit.md"
 
 # the MoSCoW scores, in the same order as the audit table's columns
 SCORES = ("Must", "Should", "Could", "Won't")
+
+# a markdown link like '[text](target)', capturing the text and the target
+LINK = re.compile(r"\[([^\]]*)\]\(([^)]*)\)")
 
 # the only allowed theme cells in the quality table, as [symbol, score] pairs
 THEME_SCORES = (["✅", "10"], ["🟡", "5"], ["❌", "0"])
@@ -33,8 +36,11 @@ def table_rows(heading):
     # split each table line into cells, e.g. '| a | b |' becomes [' a ', ' b ']
     rows = [line.strip("|").split("|") for line in section.splitlines() if line.startswith("|")]
 
-    # skip the header and '|---|' rows, and drop the bold and code marks around each cell
-    return [[cell.strip().strip("*`") for cell in row] for row in rows[2:]]
+    # skip the header and '|---|' rows, and any row with an empty first cell (the theme descriptions)
+    rows = [row for row in rows[2:] if row[0].strip()]
+
+    # keep only each link's text, e.g. '[`a.sh`](../a.sh)' becomes 'a.sh', and drop bold and code marks
+    return [[LINK.sub(r"\1", cell).strip().strip("*`") for cell in row] for row in rows]
 
 
 def actual_counts(path):
@@ -49,7 +55,11 @@ def actual_counts(path):
 
 # MoSCoW: Should — keeps the audit tables true to the test files
 def test_audit_matches_the_test_files():
-    """MoSCoW counts match, every test is scored, totals add up, and quality scores fit their themes."""
+    """Links work, MoSCoW counts match, every test is scored, totals add up, and quality scores fit their themes."""
+    # --- links: every file link in the audit must point at a file that exists ---
+    for _, target in LINK.findall(AUDIT.read_text()):
+        assert (AUDIT.parent / target).is_file(), f"the audit links to {target}, which doesn't exist"
+
     # --- table 1: MoSCoW counts per test file ---
     moscow = table_rows("🏷️ MoSCoW scores by script")
     # map each test file (column 2) to its numbers: Must, Should, Could, Won't and Total
