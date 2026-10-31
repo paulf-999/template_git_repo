@@ -1,5 +1,5 @@
 ---
-# version: 1.2.2
+# version: 1.2.3
 # created: 2026-10-30
 # updated: 2026-10-31
 # Re-run the local git hooks and tests on every PR, so `git commit --no-verify` can't skip them,
@@ -43,7 +43,7 @@ jobs:
               if: github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]'
               env:
                   BRANCH_NAME: ${{ github.head_ref }}
-              run: scripts/git_validate_branch_name.sh "${BRANCH_NAME}"
+              run: src/sh/git_validate_branch_name.sh "${BRANCH_NAME}"
             - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
               with:
                   path: ~/.cache/pre-commit
@@ -66,7 +66,7 @@ jobs:
             - name: Validate PR title
               env:
                   PR_TITLE: ${{ github.event.pull_request.title }}
-              run: scripts/git_validate_pr_title.sh "${PR_TITLE}"
+              run: src/sh/git_validate_pr_title.sh "${PR_TITLE}"
 
     pr_size:
         name: "PR size: check it's 20 files or fewer"
@@ -84,7 +84,7 @@ jobs:
                   BRANCH_NAME: ${{ github.head_ref }}
                   BASE_SHA: ${{ github.event.pull_request.base.sha }}
                   HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-              run: scripts/git_validate_num_file_changes.sh "${BRANCH_NAME}" "${BASE_SHA}" "${HEAD_SHA}"
+              run: src/sh/git_validate_num_file_changes.sh "${BRANCH_NAME}" "${BASE_SHA}" "${HEAD_SHA}"
 
     test:
         name: 'Tests: run pytest'

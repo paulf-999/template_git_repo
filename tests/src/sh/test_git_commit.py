@@ -37,9 +37,9 @@ def git_repo(tmp_path):
         "GIT_COMMITTER_EMAIL": "test@example.com",
     }
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, env=env, check=True)
-    # the helper sources scripts/shell_utils.sh from the repo root, as in the real repo
-    (tmp_path / "scripts").mkdir(parents=True)
-    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", tmp_path / "scripts" / "shell_utils.sh")
+    # the helper sources src/sh/shell_utils.sh from the repo root, as in the real repo
+    (tmp_path / "src" / "sh").mkdir(parents=True)
+    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
     (tmp_path / "app.py").write_text("print('hi')\n")
     subprocess.run(["git", "add", "app.py"], cwd=tmp_path, env=env, check=True)
     return tmp_path, env
