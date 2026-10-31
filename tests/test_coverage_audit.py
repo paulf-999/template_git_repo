@@ -1,4 +1,4 @@
-# version: 1.2.0
+# version: 1.2.1
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks tests/test_coverage_audit.md matches the test files and adds up."""
@@ -20,11 +20,21 @@ def grade(average):
     return "F"
 
 
-def table_rows(heading):
+def table_rows(heading, audit=AUDIT):
     """Return the body rows of the table under the given '## ' heading, as lists of cell text."""
-    section = AUDIT.read_text().split(f"## {heading}")[1].split("\n## ")[0]
+    section = audit.read_text().split(f"## {heading}")[1].split("\n## ")[0]
     rows = [line.strip("|").split("|") for line in section.splitlines() if line.startswith("|")]
     return [[cell.strip().strip("*`") for cell in row] for row in rows[2:]]
+
+
+def assert_quality_scores(rows):
+    """Check each row's six theme cells are valid, and its score and grade are their average."""
+    for row in rows:
+        cells = [cell.split() for cell in row[1:7]]
+        assert all(cell in THEME_SCORES for cell in cells), f"{row[0]}: theme cells must be one of {THEME_SCORES}"
+        average = sum(int(score) for _, score in cells) / len(cells)
+        expected = f"{grade(average)} · {average:.1f}".removesuffix(".0") + "/10"
+        assert row[7] == expected, f"{row[0]}: score says '{row[7]}', its theme scores give '{expected}'"
 
 
 def actual_counts(path):
@@ -50,9 +60,4 @@ def test_audit_matches_the_test_files():
 
     quality = table_rows("⭐ Quality by script")
     assert [row[0] for row in quality] == [row[0] for row in moscow[:-1]], "list the same scripts in both tables"
-    for row in quality:
-        cells = [cell.split() for cell in row[1:7]]
-        assert all(cell in THEME_SCORES for cell in cells), f"{row[0]}: theme cells must be one of {THEME_SCORES}"
-        average = sum(int(score) for _, score in cells) / len(cells)
-        expected = f"{grade(average)} · {average:.1f}".removesuffix(".0") + "/10"
-        assert row[7] == expected, f"{row[0]}: score says '{row[7]}', its theme scores give '{expected}'"
+    assert_quality_scores(quality)

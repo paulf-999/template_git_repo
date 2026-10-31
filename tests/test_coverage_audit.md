@@ -1,4 +1,4 @@
-<!-- version: 1.2.0 -->
+<!-- version: 1.3.0 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -24,7 +24,8 @@ Each test's `# MoSCoW:` comment, counted per script (see `docs/maintenance/test_
 | `src/sh/shell_utils.sh` | `tests/src/sh/test_shell_utils.py` | 2 | 0 | 3 | 0 | 5 |
 | Every tracked file's header | `tests/test_file_metadata_headers.py` | 1 | 0 | 0 | 0 | 1 |
 | This audit | `tests/test_coverage_audit.py` | 0 | 1 | 0 | 0 | 1 |
-| **Total** | | **17** | **17** | **14** | **0** | **48** |
+| Docs quality audit | `tests/test_docs_quality_audit.py` | 0 | 1 | 0 | 0 | 1 |
+| **Total** | | **17** | **18** | **14** | **0** | **49** |
 
 ## ⭐ Quality by script
 
@@ -40,3 +41,4 @@ Each script's tests scored against `docs/maintenance/quality_rubrics/test_qualit
 | `src/sh/shell_utils.sh` | ✅ 10 | 🟡 5 | ✅ 10 | ✅ 10 | ✅ 10 | 🟡 5 | **B · 8.3/10** | Leanness: 3 Could tests vs 2 Must · Reliability: no assert says what broke |
 | Every tracked file's header | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
 | This audit | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
+| Docs quality audit | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
