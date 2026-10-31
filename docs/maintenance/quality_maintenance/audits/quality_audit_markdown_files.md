@@ -1,16 +1,16 @@
-<!-- version: 1.0.0 -->
+<!-- version: 1.0.1 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Docs Quality Audit
 
 For maintainers of this template: how good each markdown doc is, scored out of 10.
 
-- **Kept accurate by:** [`tests/test_docs_quality_audit.py`](../../../../tests/test_docs_quality_audit.py), which fails if a tracked doc has no row, or a score or grade doesn't match its themes.
+- **Kept accurate by:** [`tests/test_quality_audit_markdown_files.py`](../../../../tests/test_quality_audit_markdown_files.py), which fails if a tracked doc has no row, or a score or grade doesn't match its themes.
 - **Not scored:** the PR and issue templates, which are forms to fill in rather than docs to read, and this audit, which can't fairly score itself.
 
 ## ⭐ Quality by doc
 
-Each doc is scored against [`docs/maintenance/quality/rubrics/markdown_quality_rubric.md`](../rubrics/markdown_quality_rubric.md).
+Each doc is scored against [`docs/maintenance/quality_maintenance/rubrics/markdown_quality_rubric.md`](../rubrics/markdown_quality_rubric.md).
 
 **Key:**
 
@@ -32,4 +32,4 @@ Each doc is scored against [`docs/maintenance/quality/rubrics/markdown_quality_r
 | [`test_maintenance.md`](../test_maintenance.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`virtualenv_setup.md`](../../../virtualenv_setup.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`global_claude.md`](../../../../src/templates/global_claude.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`test_coverage_audit.md`](test_coverage_audit.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`quality_audit_tests.md`](quality_audit_tests.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |

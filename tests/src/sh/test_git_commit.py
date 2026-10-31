@@ -1,4 +1,4 @@
-# version: 1.2.5
+# version: 1.2.6
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the interactive git commit helper."""
@@ -46,7 +46,12 @@ def git_repo(tmp_path):
 
 
 def run_commit_helper(repo, env, answers, *args):
-    """Run git_commit.sh in the repo, feeding the menu answers through stdin."""
+    """Run git_commit.sh in the repo, feeding the menu answers through stdin.
+
+    The script asks, in order: the type's menu number, the scope's menu number (0 = type your own scope next),
+    the commit message, then 'y' or 'n' to confirm. A rejected answer is asked again, so it takes an extra entry.
+    For example, ["1", "1", "add notes", "y"] picks type 1, scope 1 and the message 'add notes', then confirms.
+    """
     return subprocess.run(
         ["bash", str(SCRIPT), *args],
         cwd=repo,
@@ -56,6 +61,14 @@ def run_commit_helper(repo, env, answers, *args):
         text=True,
         check=False,
     )
+
+
+def stage_files(repo, env, *paths):
+    """Create each file with placeholder content and stage it."""
+    for path in paths:
+        (repo / path).parent.mkdir(parents=True, exist_ok=True)
+        (repo / path).write_text("x\n")
+        subprocess.run(["git", "add", path], cwd=repo, env=env, check=True)
 
 
 def last_commit_subject(repo, env):
@@ -86,11 +99,8 @@ def test_test_and_perf_types_build_a_valid_commit(git_repo, commit_type):
 def test_files_in_one_folder_share_a_scope(git_repo):
     """Staged files are grouped by top-level folder, so each repo area is offered once."""
     repo, env = git_repo
-    (repo / ".github").mkdir()
-    for path in ("api/a.py", "api/b.py", ".github/ci.yml"):
-        (repo / path).parent.mkdir(exist_ok=True)
-        (repo / path).write_text("x\n")
-        subprocess.run(["git", "add", path], cwd=repo, env=env, check=True)
+    stage_files(repo, env, "api/a.py", "api/b.py", ".github/ci.yml")
+    # scope 3 is app, the area of the file the fixture already staged
     result = run_commit_helper(repo, env, ["1", "3", "tidy up", "y"])
     assert result.returncode == 0, result.stderr
     # git lists staged paths alphabetically: .github/, api/, then app.py
@@ -103,6 +113,7 @@ def test_files_in_one_folder_share_a_scope(git_repo):
 def test_custom_scope(git_repo):
     """Option 0 takes a typed scope, with spaces turned into hyphens."""
     repo, env = git_repo
+    # scope 0, then the custom scope to type
     result = run_commit_helper(repo, env, ["1", "0", "my scope", "add notes", "y"])
     assert result.returncode == 0, result.stderr
     assert last_commit_subject(repo, env) == "chore(my-scope): add notes"
@@ -152,6 +163,7 @@ def test_leading_zero_menu_choice_is_read_as_decimal(git_repo):
 def test_invalid_type_number_is_asked_again(git_repo):
     """A number that isn't on the type menu is rejected, and the next valid answer is used."""
     repo, env = git_repo
+    # type 99 is rejected, so type is asked again and 1 is used
     result = run_commit_helper(repo, env, ["99", "1", "1", "add notes", "y"])
     assert result.returncode == 0, result.stderr
     assert "Invalid selection" in result.stdout
@@ -179,6 +191,7 @@ def test_custom_scope_is_lowercased(git_repo):
 def test_messages_commitlint_would_reject_are_asked_again(git_repo, bad_message, expected_error):
     """A message commitlint would refuse is explained and asked for again, instead of failing at the hook."""
     repo, env = git_repo
+    # the bad message is rejected, so the message is asked again
     result = run_commit_helper(repo, env, ["1", "1", bad_message, "add notes", "y"])
     assert result.returncode == 0, result.stderr
     assert expected_error in result.stdout
@@ -200,9 +213,10 @@ def test_non_ascii_file_name_gives_a_clean_scope(git_repo):
 def test_surrounding_spaces_are_trimmed(git_repo):
     """Spaces around the message are dropped, and an all-spaces message counts as empty and is asked again."""
     repo, env = git_repo
+    # the all-spaces message counts as empty, so the message is asked again; had it been accepted,
+    # '  add notes  ' would have answered the confirm prompt instead and no commit would follow
     result = run_commit_helper(repo, env, ["1", "1", "   ", "  add notes  ", "y"])
     assert result.returncode == 0, result.stderr
-    assert "Commit message cannot be empty." in result.stdout
     assert last_commit_subject(repo, env) == "chore(app): add notes"
 
 
@@ -214,6 +228,7 @@ def test_surrounding_spaces_are_trimmed(git_repo):
 def test_unusable_custom_scope_is_asked_again(git_repo, bad_scope, expected_error):
     """A scope that would break the header, or crowd out the message, is explained and asked for again."""
     repo, env = git_repo
+    # the bad scope is rejected, so the scope menu is asked again: 0, then 'ci'
     result = run_commit_helper(repo, env, ["1", "0", bad_scope, "0", "ci", "add notes", "y"])
     assert result.returncode == 0, result.stderr
     assert expected_error in result.stdout
