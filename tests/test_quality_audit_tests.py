@@ -1,4 +1,4 @@
-# version: 4.0.6
+# version: 4.0.7
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality_maintenance/quality_audit_tests.md matches the test files and adds up."""
@@ -96,7 +96,7 @@ def test_moscow_table_matches_the_test_files():
 
     for name, path in scored_test_files().items():
         counts = actual_counts(path)
-        listed = [int(rows[name][column]) for column in (*SCORES, "Total")]
+        listed = [int(rows[name][column]) for column in (*SCORES, "Total (functions)")]
         assert listed == counts, f"{name}: table says {listed}, the file has {counts}"
         # Must + Should + Could + Won't must equal the number of tests, so no test is unscored
         assert sum(counts[:4]) == counts[4], f"{name}: every test function needs one '# MoSCoW:' comment"
@@ -104,14 +104,16 @@ def test_moscow_table_matches_the_test_files():
 
 # MoSCoW: Should — keeps the quality table in step with the MoSCoW table and the rubric
 def test_quality_table_fits_the_rubric():
-    """Both tables list the same rows, each Tests count matches, and each score is its themes' total."""
+    """Both tables list the same rows, both counts match, and each score is its themes' total."""
     moscow, _ = moscow_rows()
     quality = read_table(AUDIT, "⭐ Quality by script")
     # rows are matched by the file they link to, since the quality table may show a shorter label
     assert [row["link"] for row in quality] == [row["link"] for row in moscow], "list the same rows in both tables"
 
-    # each row's Tests column must match the Total column of its MoSCoW row
+    # each row's two counts must match the same columns in its MoSCoW row
     for moscow_row, quality_row in zip(moscow, quality):
-        assert quality_row["Tests"] == moscow_row["Total"], f"{quality_row['name']}: Tests doesn't match its Total"
+        name = quality_row["name"]
+        for column in ("Total (functions)", "Test Cases"):
+            assert quality_row[column] == moscow_row[column], f"{name}: {column} differs between the two tables"
 
     assert_quality_scores(quality, THEMES)
