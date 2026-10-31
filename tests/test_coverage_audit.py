@@ -1,7 +1,7 @@
-# version: 4.0.0
+# version: 4.0.1
 # created: 2026-10-31
 # updated: 2026-10-31
-"""Checks docs/maintenance/quality/audits/test_coverage_audit.md matches the test files and adds up."""
+"""Checks docs/maintenance/quality/audits/quality_audit_tests.md matches the test files and adds up."""
 
 import re
 from pathlib import Path
@@ -9,7 +9,7 @@ from pathlib import Path
 from _audit_tables import assert_links_work, assert_quality_scores, read_table
 from _paths import REPO_ROOT
 
-AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality" / "audits" / "test_coverage_audit.md"
+AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality" / "audits" / "quality_audit_tests.md"
 
 # the MoSCoW scores, as the audit's column headings
 SCORES = ("Must", "Should", "Could", "Won't")
