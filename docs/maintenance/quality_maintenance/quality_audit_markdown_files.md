@@ -1,7 +1,7 @@
-<!-- version: 1.0.1 -->
+<!-- version: 1.0.2 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
-# 📊 Docs Quality Audit
+# 📊 Markdown Quality Audit
 
 For maintainers of this template: how good each markdown doc is, scored out of 10.
 
