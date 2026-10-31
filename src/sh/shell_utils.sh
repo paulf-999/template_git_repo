@@ -1,8 +1,11 @@
 #!/bin/bash
-# version: 1.1.0
+# version: 1.1.1
 # created: 2025-09-12
-# updated: 2026-10-30
-# Reusable shell script vars & functions, sourced by other scripts (not run directly)
+# updated: 2026-10-31
+
+# Description: Reusable shell script vars & functions, sourced by other scripts (not run directly)
+# Usage: source src/sh/shell_utils.sh (from a script run at the repo root)
+
 # ignore shell warnings, re: variables being unused
 # shellcheck disable=SC2034
 
