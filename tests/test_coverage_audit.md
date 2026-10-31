@@ -1,4 +1,4 @@
-<!-- version: 3.0.0 -->
+<!-- version: 3.0.1 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -32,7 +32,12 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 
 Each script's tests are scored against [`docs/maintenance/quality_rubrics/test_quality_rubric.md`](../docs/maintenance/quality_rubrics/test_quality_rubric.md).
 
-**Key:** ✅ 2 = fully met · 🟡 1 = partly met · ❌ 0 = not met, and the score is their total out of 10.
+**Key:**
+
+- ✅ 2 = fully met
+- 🟡 1 = partly met
+- ❌ 0 = not met
+- The score is their total out of 10.
 
 | Script or check | Tests | Core coverage | Leanness | Clarity | Simplicity | Reliability | Score | Gaps |
 |---|---|---|---|---|---|---|---|---|

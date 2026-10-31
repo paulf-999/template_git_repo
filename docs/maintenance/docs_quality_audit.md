@@ -1,4 +1,4 @@
-<!-- version: 1.0.4 -->
+<!-- version: 1.0.5 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Docs Quality Audit
@@ -12,7 +12,12 @@ How good each markdown doc is, scored out of 10.
 
 Each doc is scored against [`docs/maintenance/quality_rubrics/markdown_quality_rubric.md`](quality_rubrics/markdown_quality_rubric.md).
 
-**Key:** ✅ 2 = fully met · 🟡 1 = partly met · ❌ 0 = not met, and the score is their total out of 10.
+**Key:**
+
+- ✅ 2 = fully met
+- 🟡 1 = partly met
+- ❌ 0 = not met
+- The score is their total out of 10.
 
 | Doc | Core coverage | Leanness | Clarity | Maintainability | Accuracy | Score | Gaps |
 |---|---|---|---|---|---|---|---|
