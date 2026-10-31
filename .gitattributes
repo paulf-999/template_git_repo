@@ -1,0 +1,5 @@
+# version: 1.0.0
+# created: 2026-10-31
+# updated: 2026-10-31
+# Store and check out text files with LF endings on every OS, so shell scripts and the Makefile still run on Windows
+* text=auto eol=lf

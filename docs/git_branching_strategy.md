@@ -1,4 +1,4 @@
-<!-- version: 1.0.2 -->
+<!-- version: 1.1.1 -->
 <!-- created: 2022-11-04 -->
 <!-- updated: 2026-10-31 -->
 # Git Branching Strategy
@@ -46,6 +46,8 @@ Regex pattern:
 ```bash
 ^(feature|hotfix|release)/[a-z0-9_]+$
 ```
+
+- **Dependabot exception:** CI skips this check for PRs opened by Dependabot, because its `dependabot/...` branch names can't be changed.
 
 ---
 
