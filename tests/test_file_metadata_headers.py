@@ -1,4 +1,4 @@
-# version: 1.0.3
+# version: 1.0.4
 # created: 2026-10-30
 # updated: 2026-10-31
 """Checks every tracked file opens with a version/created/updated header (see docs/maintenance/file_headers.md)."""
@@ -42,6 +42,7 @@ def header_pattern(path, field):
     return rf"# {field}: ({value})"
 
 
+# MoSCoW: Must — every tracked file needs a valid header
 @pytest.mark.parametrize("path", tracked_files())
 def test_file_has_metadata_header(path):
     """Each file has version, created and updated lines in order, with real dates and created <= updated."""

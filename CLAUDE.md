@@ -1,4 +1,4 @@
-<!-- version: 1.0.1 -->
+<!-- version: 1.0.4 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # CLAUDE.md — <project_name>
@@ -17,3 +17,4 @@
 
 - **Done means:** `make test` and `pre-commit run --all-files` both pass.
 - **Conventions:** follow `CONTRIBUTING.md` for branching, commits and PRs.
+- **Tests:** score and maintain tests per `docs/maintenance/test_maintenance.md`.
