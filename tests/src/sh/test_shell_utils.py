@@ -1,14 +1,14 @@
-# version: 1.1.0
+# version: 1.1.2
 # created: 2026-10-30
-# updated: 2026-10-30
+# updated: 2026-10-31
 """Tests for the shared shell helper functions."""
 
 import subprocess
-from pathlib import Path
 
 import pytest
+from _paths import SCRIPTS_DIR
 
-SCRIPT = Path(__file__).resolve().parents[3] / "src" / "sh" / "shell_utils.sh"
+SCRIPT = SCRIPTS_DIR / "shell_utils.sh"
 
 
 def run_with_utils(command):
