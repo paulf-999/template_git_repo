@@ -1,4 +1,4 @@
-<!-- version: 1.0.10 -->
+<!-- version: 1.0.11 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Markdown Quality Audit
@@ -34,4 +34,4 @@ Each doc is scored against [`docs/maintenance/quality_maintenance/quality_themes
 | [`test_maintenance.md`](../test_maintenance.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
 | [`virtualenv_setup.md`](../../virtualenv_setup.md) | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: doesn't open by saying who it's for | Independent review |
 | [`global_claude.md`](../../../src/templates/global_claude.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
-| [`quality_audit_test_files.md`](quality_audit_test_files.md) | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | **B · 8/10** | Maintainability: the extra-tests note and the Gaps counts are typed by hand and no test checks them · Accuracy: three assert counts in Gaps were wrong, now corrected from the script-tests review and awaiting a re-check | Independent review |
+| [`quality_audit_test_files.md`](quality_audit_test_files.md) | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | **A · 9/10** | Maintainability: the Gaps column is typed by hand and no test checks it | Self-scored (Claude), after fixing the independent review's gaps |

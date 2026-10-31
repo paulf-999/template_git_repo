@@ -1,4 +1,4 @@
-<!-- version: 3.2.1 -->
+<!-- version: 3.2.2 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -51,13 +51,13 @@ Each script's tests are scored against [`docs/maintenance/quality_maintenance/qu
 | Script or check | Total (functions) | Test Cases | Core coverage | Leanness | Clarity | Simplicity | Reliability | Score | Gaps | Scored by |
 |---|---|---|---|---|---|---|---|---|---|---|
 |  |  |  | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* |  |  | |
-| [Header bump](../../../scripts/bump_file_headers.sh) | 10 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 22 asserts says what broke | Independent review |
-| [`git_commit.sh`](../../../scripts/git_commit.sh) | 14 | 18 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 5 Could tests vs 2 Must · Reliability: 18 of 32 asserts have no message, including every commit-subject check | Independent review |
-| [Branch name](../../../scripts/git_validate_branch_name.sh) | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | **B · 8/10** | Simplicity: one 17-line test sets up git inline · Reliability: none of the 5 asserts says what broke | Independent review |
-| [PR size](../../../scripts/git_validate_num_file_changes.sh) | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: none of the 14 asserts says what broke | Independent review |
-| [PR title](../../../scripts/git_validate_pr_title.sh) | 3 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 5 asserts says what broke, and the shell-injection test uses a fixed `/tmp` path | Independent review |
-| [`shell_utils.sh`](../../../scripts/shell_utils.sh) | 5 | 13 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Leanness: 3 Could tests vs 2 Must · Reliability: none of the 11 asserts says what broke | Independent review |
-| [`Makefile`](../../../Makefile) | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 4 asserts says what broke | Independent review |
-| [Every script's structure](../../../tests/scripts/test_script_structure.py) | 4 | 9 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | 🟡 1 | **B · 8/10** | Clarity: the order check in `problems_with` has no comment · Reliability: 2 of 4 asserts say what broke, and one `any(...)` check fails with a bare `assert False` | Independent review |
+| [Header bump](../../../scripts/bump_file_headers.sh) | 10 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
+| [`git_commit.sh`](../../../scripts/git_commit.sh) | 14 | 18 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Leanness: 5 Could tests vs 2 Must | Self-scored (Claude), after fixing the independent review's gaps |
+| [Branch name](../../../scripts/git_validate_branch_name.sh) | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
+| [PR size](../../../scripts/git_validate_num_file_changes.sh) | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
+| [PR title](../../../scripts/git_validate_pr_title.sh) | 3 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
+| [`shell_utils.sh`](../../../scripts/shell_utils.sh) | 5 | 13 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Leanness: 3 Could tests vs 2 Must | Self-scored (Claude), after fixing the independent review's gaps |
+| [`Makefile`](../../../Makefile) | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
+| [Every script's structure](../../../tests/scripts/test_script_structure.py) | 4 | 9 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 49 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 1 | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |

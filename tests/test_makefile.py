@@ -1,4 +1,4 @@
-# version: 1.0.1
+# version: 1.0.2
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the Makefile's deps target, which must only install into an active virtualenv."""
@@ -19,8 +19,10 @@ def test_deps_stops_without_a_virtualenv():
     """Without VIRTUAL_ENV set, deps exits non-zero and points to the virtualenv setup doc."""
     env = {key: value for key, value in os.environ.items() if key != "VIRTUAL_ENV"}
     result = run_deps(env)
-    assert result.returncode != 0
-    assert "docs/virtualenv_setup.md" in result.stdout
+    assert result.returncode != 0, "make deps should stop without a virtualenv"
+    assert "docs/virtualenv_setup.md" in result.stdout, (
+        f"expected a pointer to the virtualenv setup doc: {result.stdout}"
+    )
 
 
 # MoSCoW: Must — make deps must install through the virtualenv's python
@@ -37,4 +39,6 @@ def test_deps_installs_with_the_virtualenv_python(tmp_path):
     result = run_deps(env)
 
     assert result.returncode == 0, result.stdout + result.stderr
-    assert log.read_text().splitlines() == ["-m pip install -r requirements.txt", "-m pre_commit install"]
+    assert log.read_text().splitlines() == ["-m pip install -r requirements.txt", "-m pre_commit install"], (
+        "deps should install requirements, then the git hooks, through the virtualenv's python"
+    )

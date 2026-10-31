@@ -1,4 +1,4 @@
-# version: 1.2.2
+# version: 1.2.3
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the PR file-count check, which skips release/ branches."""
@@ -65,7 +65,7 @@ def test_pr_at_the_limit_passes(git_repo):
     """A PR changing exactly 20 files passes."""
     repo, env = git_repo
     commit_files(repo, env, "feature/at_limit", 20)
-    assert run_check(repo, env, "feature/at_limit") == 0
+    assert run_check(repo, env, "feature/at_limit") == 0, "20 files should pass, since the limit is 20"
 
 
 # MoSCoW: Must — a PR over the limit must be blocked
@@ -73,7 +73,7 @@ def test_pr_over_the_limit_fails(git_repo):
     """A feature PR changing 21 files fails."""
     repo, env = git_repo
     commit_files(repo, env, "feature/too_big", 21)
-    assert run_check(repo, env, "feature/too_big") == 1
+    assert run_check(repo, env, "feature/too_big") == 1, "21 files should be blocked"
 
 
 # MoSCoW: Must — release branches exist for bulk changes
@@ -81,7 +81,7 @@ def test_release_branch_skips_the_check(git_repo):
     """A release/ PR changing 21 files passes, since release branches are for bulk changes."""
     repo, env = git_repo
     commit_files(repo, env, "release/bulk_change", 21)
-    assert run_check(repo, env, "release/bulk_change") == 0
+    assert run_check(repo, env, "release/bulk_change") == 0, "a release/ branch should skip the check"
 
 
 # MoSCoW: Should — the main option for changing the limit
@@ -89,7 +89,9 @@ def test_max_files_allowed_overrides_the_limit(git_repo):
     """MAX_FILES_ALLOWED raises the limit, so 21 files pass under a limit of 25."""
     repo, env = git_repo
     commit_files(repo, env, "feature/custom_limit", 21)
-    assert run_check(repo, env, "feature/custom_limit", {"MAX_FILES_ALLOWED": "25"}) == 0
+    assert run_check(repo, env, "feature/custom_limit", {"MAX_FILES_ALLOWED": "25"}) == 0, (
+        "a limit of 25 should let 21 files pass"
+    )
 
 
 # MoSCoW: Should — deletions are a common way to exceed the limit
@@ -102,7 +104,7 @@ def test_deleted_files_count_towards_the_limit(git_repo):
     subprocess.run(["git", "switch", "-q", "-c", "feature/delete_all"], cwd=repo, env=env, check=True)
     subprocess.run(["git", "rm", "-q", "file_*.txt"], cwd=repo, env=env, check=True)
     subprocess.run(["git", "commit", "-q", "-m", "delete"], cwd=repo, env=env, check=True)
-    assert run_check(repo, env, "feature/delete_all") == 1
+    assert run_check(repo, env, "feature/delete_all") == 1, "deleting 21 files should be blocked"
 
 
 # MoSCoW: Should — a missing base ref must fail clearly, not pass
@@ -111,8 +113,8 @@ def test_missing_base_ref_fails(git_repo):
     repo, env = git_repo
     commit_files(repo, env, "feature/small", 1)
     result = run_script(repo, env, "feature/small", base="does_not_exist")
-    assert result.returncode == 1
-    assert "not found, locally or on origin" in result.stdout
+    assert result.returncode == 1, "a missing base ref should fail"
+    assert "not found, locally or on origin" in result.stdout, f"expected the missing-ref explanation: {result.stdout}"
 
 
 # MoSCoW: Could — renames are an edge case of the count
@@ -126,8 +128,8 @@ def test_renamed_file_counts_once(git_repo):
     subprocess.run(["git", "mv", "file_0.txt", "renamed.txt"], cwd=repo, env=env, check=True)
     subprocess.run(["git", "commit", "-q", "-m", "rename"], cwd=repo, env=env, check=True)
     result = run_script(repo, env, "feature/rename")
-    assert result.returncode == 0
-    assert "Files changed (1):" in result.stdout
+    assert result.returncode == 0, "one renamed file should pass"
+    assert "Files changed (1):" in result.stdout, f"a rename should count as 1 file: {result.stdout}"
 
 
 # MoSCoW: Could — output length only
@@ -136,8 +138,8 @@ def test_long_file_lists_are_summarised(git_repo):
     repo, env = git_repo
     commit_files(repo, env, "feature/many_files", 60)
     result = run_script(repo, env, "feature/many_files", extra_env={"MAX_FILES_ALLOWED": "100"})
-    assert result.returncode == 0
-    assert "... and 10 more" in result.stdout
+    assert result.returncode == 0, "60 files should pass under a limit of 100"
+    assert "... and 10 more" in result.stdout, f"expected the last 10 files summarised: {result.stdout}"
 
 
 # MoSCoW: Should — a bad limit must fail clearly, not pass
@@ -147,8 +149,8 @@ def test_non_numeric_limit_fails_clearly(git_repo, bad_limit):
     repo, env = git_repo
     commit_files(repo, env, "feature/small", 1)
     result = run_script(repo, env, "feature/small", extra_env={"MAX_FILES_ALLOWED": bad_limit})
-    assert result.returncode == 1
-    assert "must be a whole number" in result.stdout
+    assert result.returncode == 1, f"a limit of {bad_limit!r} should fail"
+    assert "must be a whole number" in result.stdout, f"expected the whole-number explanation: {result.stdout}"
 
 
 # MoSCoW: Could — rare mix of release branch and bad limit
@@ -156,4 +158,6 @@ def test_release_branch_ignores_a_bad_limit(git_repo):
     """release/ branches skip the check, so a malformed MAX_FILES_ALLOWED doesn't fail them."""
     repo, env = git_repo
     commit_files(repo, env, "release/bulk_change", 1)
-    assert run_check(repo, env, "release/bulk_change", {"MAX_FILES_ALLOWED": "25files"}) == 0
+    assert run_check(repo, env, "release/bulk_change", {"MAX_FILES_ALLOWED": "25files"}) == 0, (
+        "a release/ branch should pass with a bad limit"
+    )
