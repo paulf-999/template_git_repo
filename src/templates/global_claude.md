@@ -7,73 +7,66 @@
 
 ## Behavioural Guidelines
 
-*From [Andrej Karpathy's guidelines](https://github.com/multica-ai/andrej-karpathy-skills/blob/main/CLAUDE.md)*
+*Adapted from [Andrej Karpathy's guidelines](https://github.com/multica-ai/andrej-karpathy-skills/blob/main/CLAUDE.md)*
 
-Behavioural guidelines to reduce common LLM coding mistakes.
+Guidelines to cut the coding mistakes LLMs make most often.
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgement.
+- **Bias:** these favour care over speed, so use judgement on trivial tasks.
 
 ### 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
 
-Before implementing:
-
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
+- **Assumptions:** state what you're assuming before you start, and ask when unsure.
+- **Ambiguity:** when a request can be read more than one way, lay out the readings — never choose one quietly.
+- **Simpler options:** say so when an easier route exists, and push back when it's warranted.
+- **Confusion:** when something is unclear, stop, name the unclear part, and ask.
 
 ### 2. Simplicity First
 
 **Minimum code that solves the problem. Nothing speculative.**
 
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
-
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+- **Scope:** build only what was asked for.
+- **Abstractions:** don't wrap code in an abstraction when it's used only once.
+- **Options:** don't add settings or flexibility nobody requested.
+- **Errors:** don't handle cases that can't happen.
+- **Size:** if 50 lines would do the job of 200, rewrite it.
+- **Check:** ask whether a senior engineer would call it overcomplicated — if so, simplify.
 
 ### 3. Surgical Changes
 
 **Touch only what you must. Clean up only your own mess.**
 
-When editing existing code:
-
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-
-When your changes create orphans:
-
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
-
-The test: Every changed line should trace directly to the user's request.
+- **Neighbouring code:** leave surrounding code, comments and formatting as they are.
+- **Working code:** don't refactor what isn't broken.
+- **Style:** match the existing style, even where you'd choose differently.
+- **Dead code:** mention unrelated dead code rather than deleting it.
+- **Your leftovers:** remove the imports, variables and functions your own change left unused.
+- **Test:** every changed line should trace back to the request.
 
 ### 4. Goal-Driven Execution
 
 **Define success criteria. Loop until verified.**
 
-Transform tasks into verifiable goals:
+- **Verifiable goals:** restate each task as something you can check.
 
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
+| Task | Becomes |
+|---|---|
+| Add validation | Write tests for bad inputs, then make them pass |
+| Fix a bug | Write a test that reproduces it, then make it pass |
+| Refactor | Confirm the tests pass both before and after |
 
-For multi-step tasks, state a brief plan:
+- **Plans:** for multi-step work, give a short plan with a check for each step.
 
 ```text
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
+1. <step> → verify: <check>
+2. <step> → verify: <check>
 ```
 
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+- **Why:** clear criteria let you work on your own, while vague ones ("make it work") need constant clarification.
 
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+---
+
+- **Working if:** diffs carry fewer unneeded changes, fewer rewrites come from overcomplication, and clarifying questions come before the work rather than after mistakes.
 
 <!-- Imports (optional): @-import files Claude needs every session; each import loads in full at startup, so add sparingly -->
