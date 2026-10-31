@@ -1,4 +1,4 @@
-<!-- version: 3.2.10 -->
+<!-- version: 3.2.12 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -11,7 +11,7 @@ For maintainers of this template: how many tests each script has, and how good t
 
 ## 🏷️ MoSCoW scores by script
 
-Each test's `# MoSCoW:` comment, counted per script or check, where each script's tests live in the matching `test_<name>.py` file (see [`docs/maintenance/test_maintenance.md`](../test_maintenance.md)).
+Each test's `# MoSCoW:` comment, counted per script or check, where each script's tests live in the matching `test_<name>.py` file (see [`docs/maintenance/quality/test_maintenance.md`](test_maintenance.md)).
 
 - **Won't:** stays at 0, because a test scored `Won't` is deleted.
 - **Total (functions) vs Test Cases:** Total (functions) counts test functions, which the MoSCoW scores label, and **Test Cases** counts the test cases pytest runs, since a parametrised function runs once per input.
@@ -30,14 +30,14 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
 | [This audit's checker](../../../tests/test_quality_audit_test_files.py) | 0 | 2 | 0 | 0 | 2 | **2** |
-| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **50** |
-| **Totals** | | | | | **53** | **137** |
+| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **51** |
+| **Totals** | | | | | **53** | **138** |
 
 ## ⭐ Quality by script
 
 Long script names are shortened to a label here, to keep the table narrow, and each label links to its script.
 
-Each script's tests are scored against [`docs/maintenance/quality_maintenance/quality_themes/quality_rubrics_test_files.md`](quality_themes/quality_rubrics_test_files.md).
+Each script's tests are scored against [`docs/maintenance/quality/quality_themes_test_files.md`](quality_themes_test_files.md).
 
 **Scored by:** who gave each row its scores.
 
@@ -60,4 +60,4 @@ Each script's tests are scored against [`docs/maintenance/quality_maintenance/qu
 | [`Makefile`](../../../Makefile) | Independent review | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Every script's structure](../../../tests/src/sh/test_script_structure.py) | Independent review | 4 | 9 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | Independent review | 1 | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | Independent review | 1 | 50 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | Independent review | 1 | 51 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
