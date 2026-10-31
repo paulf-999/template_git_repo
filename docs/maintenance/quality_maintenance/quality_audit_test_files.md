@@ -1,4 +1,4 @@
-<!-- version: 3.2.3 -->
+<!-- version: 3.2.4 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -48,16 +48,16 @@ Each script's tests are scored against [`docs/maintenance/quality_maintenance/qu
 - ❌ 0 = not met
 - The score is their total out of 10.
 
-| Script or check | Total (functions) | Test Cases | Core coverage | Leanness | Clarity | Simplicity | Reliability | Score | Gaps | Scored by |
+| Script or check | Scored by | Total (functions) | Test Cases | Core coverage | Leanness | Clarity | Simplicity | Reliability | Score | Gaps |
 |---|---|---|---|---|---|---|---|---|---|---|
-|  |  |  | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* |  |  | |
-| [Header bump](../../../scripts/bump_file_headers.sh) | 10 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
-| [`git_commit.sh`](../../../scripts/git_commit.sh) | 12 | 16 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
-| [Branch name](../../../scripts/git_validate_branch_name.sh) | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
-| [PR size](../../../scripts/git_validate_num_file_changes.sh) | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
-| [PR title](../../../scripts/git_validate_pr_title.sh) | 3 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
-| [`shell_utils.sh`](../../../scripts/shell_utils.sh) | 5 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
-| [`Makefile`](../../../Makefile) | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
-| [Every script's structure](../../../tests/scripts/test_script_structure.py) | 4 | 9 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
-| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 49 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
-| [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 1 | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
+| | | | | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* | | |
+| [Header bump](../../../scripts/bump_file_headers.sh) | Self-scored (Claude), after fixing the independent review's gaps | 10 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`git_commit.sh`](../../../scripts/git_commit.sh) | Self-scored (Claude), after fixing the independent review's gaps | 12 | 16 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Branch name](../../../scripts/git_validate_branch_name.sh) | Self-scored (Claude), after fixing the independent review's gaps | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [PR size](../../../scripts/git_validate_num_file_changes.sh) | Self-scored (Claude), after fixing the independent review's gaps | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [PR title](../../../scripts/git_validate_pr_title.sh) | Self-scored (Claude), after fixing the independent review's gaps | 3 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`shell_utils.sh`](../../../scripts/shell_utils.sh) | Self-scored (Claude), after fixing the independent review's gaps | 5 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`Makefile`](../../../Makefile) | Self-scored (Claude), after fixing the independent review's gaps | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Every script's structure](../../../tests/scripts/test_script_structure.py) | Self-scored (Claude), after fixing the independent review's gaps | 4 | 9 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | Independent review | 1 | 49 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | Independent review | 1 | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
