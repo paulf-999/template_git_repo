@@ -1,4 +1,4 @@
-<!-- version: 1.0.1 -->
+<!-- version: 1.0.2 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🧪 Test Maintenance
@@ -56,5 +56,6 @@ At each template release, count the tests by score:
 grep -rh "# MoSCoW:" tests | awk '{print $3}' | sort | uniq -c
 ```
 
+- **By script:** `tests/test_coverage_audit.md` shows the same counts for each script, and `tests/test_coverage_audit.py` fails if it falls out of date.
 - **Cut:** delete `Could` tests that no longer earn their run time, and any test that now duplicates another.
 - **Check:** every test function still has exactly one `# MoSCoW:` comment.
