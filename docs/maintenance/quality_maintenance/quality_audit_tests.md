@@ -1,4 +1,4 @@
-<!-- version: 3.1.6 -->
+<!-- version: 3.1.7 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -13,20 +13,21 @@ For maintainers of this template: how many tests each script has, and how good t
 Each test's `# MoSCoW:` comment, counted per script or check, where each script's tests live in the matching `test_<name>.py` file (see [`docs/maintenance/test_maintenance.md`](../test_maintenance.md)).
 
 - **Won't:** stays at 0, because a test scored `Won't` is deleted.
+- **Total vs Test Cases:** Total counts test functions, which the MoSCoW scores label, and **Test Cases** counts the test cases pytest runs, since a parametrised function runs once per input.
 
-| Script or check | Must | Should | Could | Won't | **Total** |
-|---|---|---|---|---|---|
-| [`bump_file_headers.sh`](../../../src/sh/bump_file_headers.sh) | 3 | 5 | 2 | 0 | **10** |
-| [`git_commit.sh`](../../../src/sh/git_commit.sh) | 2 | 7 | 5 | 0 | **14** |
-| [`git_validate_branch_name.sh`](../../../src/sh/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | **4** |
-| [`git_validate_num_file_changes.sh`](../../../src/sh/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | **10** |
-| [`git_validate_pr_title.sh`](../../../src/sh/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | **3** |
-| [`shell_utils.sh`](../../../src/sh/shell_utils.sh) | 2 | 0 | 3 | 0 | **5** |
-| [`Makefile`](../../../Makefile) | 2 | 0 | 0 | 0 | **2** |
-| [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | **4** |
-| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | **1** |
-| [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | **1** |
-| **Totals** | | | | | **54** |
+| Script or check | Must | Should | Could | Won't | Total | **Test Cases** |
+|---|---|---|---|---|---|---|
+| [`bump_file_headers.sh`](../../../src/sh/bump_file_headers.sh) | 3 | 5 | 2 | 0 | 10 | **10** |
+| [`git_commit.sh`](../../../src/sh/git_commit.sh) | 2 | 7 | 5 | 0 | 14 | **18** |
+| [`git_validate_branch_name.sh`](../../../src/sh/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | 4 | **10** |
+| [`git_validate_num_file_changes.sh`](../../../src/sh/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | 10 | **12** |
+| [`git_validate_pr_title.sh`](../../../src/sh/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | 3 | **13** |
+| [`shell_utils.sh`](../../../src/sh/shell_utils.sh) | 2 | 0 | 3 | 0 | 5 | **13** |
+| [`Makefile`](../../../Makefile) | 2 | 0 | 0 | 0 | 2 | **2** |
+| [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
+| [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **45** |
+| [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
+| **Totals** | | | | | | **133** |
 
 ## ⭐ Quality by script
 
