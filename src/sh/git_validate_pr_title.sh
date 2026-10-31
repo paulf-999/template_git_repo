@@ -1,5 +1,5 @@
 #!/bin/bash
-# version: 1.1.0
+# version: 1.1.1
 # created: 2026-10-31
 # updated: 2026-10-31
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
@@ -22,6 +22,8 @@ PR_TITLE="${1:?Required: PR title (arg 1)}"
 VALID_PR_TITLE="^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z0-9._/-]+\))?!?: .+$"
 # longest header commitlint allows (header-max-length)
 MAX_TITLE_LENGTH=100
+# why the title would fail commitlint, set in the main logic (empty means it's valid)
+PROBLEM=""
 
 #=======================================================================
 # Functions
