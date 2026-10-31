@@ -1,4 +1,4 @@
-<!-- version: 1.0.4 -->
+<!-- version: 1.0.5 -->
 <!-- created: 2025-09-18 -->
 <!-- updated: 2026-10-31 -->
 # 🐍 Virtual Environment Setup
@@ -17,7 +17,7 @@ Run the following in the project root:
 python3 -m venv .venv
 ```
 
-Use the Python version CI uses, set by `python-version` in [`ci.yml`](../.github/workflows/ci.yml), so local results match CI.
+Use the Python version CI uses, set by `python-version` in [`ci.yml`](../.github/workflows/ci.yml), so local results match CI. To pick that version, call it by name in place of `python3`, such as `python3.13 -m venv .venv` for `python-version: '3.13'`.
 
 This will create a hidden `.venv/` directory containing the environment.
 
