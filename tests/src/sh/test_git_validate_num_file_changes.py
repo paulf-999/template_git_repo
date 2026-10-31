@@ -1,4 +1,4 @@
-# version: 1.2.1
+# version: 1.2.2
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the PR file-count check, which skips release/ branches."""
@@ -6,12 +6,11 @@
 import os
 import shutil
 import subprocess
-from pathlib import Path
 
 import pytest
+from _paths import SCRIPTS_DIR
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-SCRIPT = REPO_ROOT / "src" / "sh" / "git_validate_num_file_changes.sh"
+SCRIPT = SCRIPTS_DIR / "git_validate_num_file_changes.sh"
 
 
 @pytest.fixture
@@ -29,7 +28,7 @@ def git_repo(tmp_path):
     subprocess.run(["git", "init", "-q", "-b", "main"], cwd=tmp_path, env=env, check=True)
     # the script sources src/sh/shell_utils.sh from the repo root, as in the real repo
     (tmp_path / "src" / "sh").mkdir(parents=True)
-    shutil.copy(REPO_ROOT / "src" / "sh" / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
+    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
     subprocess.run(["git", "add", "."], cwd=tmp_path, env=env, check=True)
     subprocess.run(["git", "commit", "-q", "-m", "base"], cwd=tmp_path, env=env, check=True)
     return tmp_path, env

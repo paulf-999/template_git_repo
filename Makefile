@@ -1,4 +1,4 @@
-# version: 1.0.1
+# version: 1.1.0
 # created: 2022-11-04
 # updated: 2026-10-31
 SHELL = /bin/sh
@@ -32,8 +32,9 @@ help:
 
 deps:
 	@echo "${INFO}\nCalled makefile target 'deps'. Download any required libraries.${COLOUR_OFF}\n"
-	@pip install -r requirements.txt
-	@pre-commit install
+	@test -n "$$VIRTUAL_ENV" || { echo "Activate the virtualenv first: see docs/virtualenv_setup.md"; exit 1; }
+	@python -m pip install -r requirements.txt
+	@python -m pre_commit install
 
 install:
 	@echo "${INFO}\nCalled makefile target 'install'. Run the setup & install targets.\n${COLOUR_OFF}"
