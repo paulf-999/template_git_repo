@@ -1,4 +1,4 @@
-# version: 4.1.1
+# version: 4.1.2
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality/quality_audit_test_files.md matches the test files and adds up."""
@@ -20,7 +20,7 @@ SCORES = ("Must", "Should", "Could", "Won't")
 # this file, which has a MoSCoW row but no quality scores, since the audit doesn't score its own checker
 THIS_FILE = str(Path(__file__).relative_to(REPO_ROOT))
 
-# the themes in quality/quality_rubrics_test_files.md, as the audit's column headings
+# the themes in quality/quality_themes_test_files.md, as the audit's column headings
 THEMES = ("Core coverage", "Leanness", "Clarity", "Simplicity", "Reliability")
 
 

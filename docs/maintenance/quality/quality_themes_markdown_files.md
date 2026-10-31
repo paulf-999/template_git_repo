@@ -19,7 +19,7 @@ For maintainers of this template: how to score each markdown doc out of 10, with
 
 ## 🔢 Scores
 
-Scores work exactly as in [the test rubric's Scores section](quality_rubrics_test_files.md#-scores): each Theme (Rubric) gets ✅ 2, 🟡 1 or ❌ 0 points, and the five add up to a graded score out of 10.
+Scores work exactly as in [the test rubric's Scores section](quality_themes_test_files.md#-scores): each Theme (Rubric) gets ✅ 2, 🟡 1 or ❌ 0 points, and the five add up to a graded score out of 10.
 
 ## 📏 How to score
 
