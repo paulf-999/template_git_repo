@@ -1,4 +1,4 @@
-# version: 1.0.0
+# version: 1.1.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the pre-commit hook that bumps each changed file's version header."""
@@ -134,3 +134,25 @@ def test_file_without_a_header_is_left_alone(git_repo):
     (repo / "template.md").write_text("# New title\n")
     assert run_hook(repo, env, "template.md").returncode == 0
     assert (repo / "template.md").read_text() == "# New title\n"
+
+
+def test_header_without_an_updated_line_fails_with_a_clear_error(git_repo):
+    """A header missing its updated line stops the commit with an error, instead of failing silently on every run."""
+    repo, env = git_repo
+    commit(repo, env, {"app.py": "# version: 1.0.0\nx = 1\n"})
+    (repo / "app.py").write_text("# version: 1.0.0\nx = 2\n")
+    result = run_hook(repo, env, "app.py")
+    assert result.returncode == 1
+    assert "no 'updated' line" in result.stdout
+    assert (repo / "app.py").read_text() == "# version: 1.0.0\nx = 2\n", "the file should be left untouched"
+
+
+def test_malformed_version_fails_with_a_clear_error(git_repo):
+    """A version that isn't MAJOR.MINOR.PATCH stops the commit with an error and leaves the file untouched."""
+    repo, env = git_repo
+    commit(repo, env, {"app.py": header(version="1.0") + "x = 1\n"})
+    (repo / "app.py").write_text(header(version="1.0") + "x = 2\n")
+    result = run_hook(repo, env, "app.py")
+    assert result.returncode == 1
+    assert "isn't MAJOR.MINOR.PATCH" in result.stdout
+    assert (repo / "app.py").read_text() == header(version="1.0") + "x = 2\n"

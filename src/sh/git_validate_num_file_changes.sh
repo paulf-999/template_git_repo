@@ -1,10 +1,10 @@
 #!/bin/bash
-# version: 1.2.0
+# version: 1.2.1
 # created: 2026-10-30
-# updated: 2026-10-30
+# updated: 2026-10-31
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
-# Fail a PR that changes more than the max number of files, unless it's on a release/ branch
+# Description: Fail a PR that changes more than the max number of files, unless it's on a release/ branch
 # Usage: src/sh/git_validate_num_file_changes.sh <git branch name> <base ref> [head ref]
 #        (head ref defaults to HEAD; run from the repo root)
 
