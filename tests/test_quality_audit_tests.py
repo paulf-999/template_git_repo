@@ -1,9 +1,12 @@
-# version: 4.0.4
+# version: 4.0.7
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality_maintenance/quality_audit_tests.md matches the test files and adds up."""
 
 import re
+import subprocess
+import sys
+from collections import Counter
 from pathlib import Path
 
 from _audit_tables import assert_links_work, assert_quality_scores, read_table
@@ -52,6 +55,20 @@ def scored_test_files():
     return {str(path.relative_to(REPO_ROOT)): path for path in paths if path.name != Path(__file__).name}
 
 
+def collected_cases():
+    """Return how many test cases pytest collects from each test file, keyed by its path from the repo root."""
+    # ask pytest itself, so a parametrised test counts once per input, as it does in a real run
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "--collect-only", "-q", "tests"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    # each collected case is a line like 'tests/test_x.py::test_name[input]'
+    return Counter(line.split("::")[0] for line in result.stdout.splitlines() if "::" in line)
+
+
 def moscow_rows():
     """Return the MoSCoW table's script and check rows, and its final Totals row, separately."""
     rows = read_table(AUDIT, "🏷️ MoSCoW scores by script")
@@ -61,19 +78,25 @@ def moscow_rows():
 
 # MoSCoW: Should — keeps the MoSCoW table true to the test files
 def test_moscow_table_matches_the_test_files():
-    """Links work, every test file has one row, counts match the '# MoSCoW:' comments, and Totals adds up."""
+    """Links work, every test file has one row, counts match the comments and pytest, and Totals adds up."""
     assert_links_work(AUDIT)
     script_rows, totals = moscow_rows()
     rows = {find_test_file(row): row for row in script_rows}
     assert set(rows) == set(scored_test_files()), "add or remove MoSCoW rows so the table lists every test file"
 
-    # the Totals row gives only the overall number of tests, the sum of the Total column
-    expected_total = str(sum(int(row["Total"]) for row in script_rows))
-    assert totals["Total"] == expected_total, f"Totals says {totals['Total']}, the rows add up to {expected_total}"
+    # each row's Test Cases must match what pytest collects from its test file
+    cases = collected_cases()
+    for name, row in rows.items():
+        listed, found = row["Test Cases"], str(cases[name])
+        assert listed == found, f"{name}: Test Cases says {listed}, pytest finds {found}"
+
+    # the Totals row gives only the overall number of test cases, the sum of the Test Cases column
+    listed, expected = totals["Test Cases"], str(sum(int(row["Test Cases"]) for row in script_rows))
+    assert listed == expected, f"Totals says {listed}, the rows add up to {expected}"
 
     for name, path in scored_test_files().items():
         counts = actual_counts(path)
-        listed = [int(rows[name][column]) for column in (*SCORES, "Total")]
+        listed = [int(rows[name][column]) for column in (*SCORES, "Total (functions)")]
         assert listed == counts, f"{name}: table says {listed}, the file has {counts}"
         # Must + Should + Could + Won't must equal the number of tests, so no test is unscored
         assert sum(counts[:4]) == counts[4], f"{name}: every test function needs one '# MoSCoW:' comment"
@@ -81,13 +104,16 @@ def test_moscow_table_matches_the_test_files():
 
 # MoSCoW: Should — keeps the quality table in step with the MoSCoW table and the rubric
 def test_quality_table_fits_the_rubric():
-    """Both tables list the same rows, each Tests count matches, and each score is its themes' total."""
+    """Both tables list the same rows, both counts match, and each score is its themes' total."""
     moscow, _ = moscow_rows()
     quality = read_table(AUDIT, "⭐ Quality by script")
-    assert [row["name"] for row in quality] == [row["name"] for row in moscow], "list the same rows in both tables"
+    # rows are matched by the file they link to, since the quality table may show a shorter label
+    assert [row["link"] for row in quality] == [row["link"] for row in moscow], "list the same rows in both tables"
 
-    # each row's Tests column must match the Total column of its MoSCoW row
+    # each row's two counts must match the same columns in its MoSCoW row
     for moscow_row, quality_row in zip(moscow, quality):
-        assert quality_row["Tests"] == moscow_row["Total"], f"{quality_row['name']}: Tests doesn't match its Total"
+        name = quality_row["name"]
+        for column in ("Total (functions)", "Test Cases"):
+            assert quality_row[column] == moscow_row[column], f"{name}: {column} differs between the two tables"
 
     assert_quality_scores(quality, THEMES)
