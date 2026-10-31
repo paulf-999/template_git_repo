@@ -1,0 +1,37 @@
+---
+# version: 1.0.0
+# created: 2026-10-31
+# updated: 2026-10-31
+# Check the pinned requirements for known vulnerabilities, weekly and on any PR that changes them,
+# so the CI that runs on every PR stays fast
+name: pip-audit
+
+on:
+    pull_request:
+        branches: [main]
+        paths: [requirements*.txt]
+    schedule:
+        # Mondays at 06:00 UTC, to catch vulnerabilities published since the requirements last changed
+        - cron: 0 6 * * 1
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    pip_audit:
+        name: Requirements audit (pip-audit)
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+            - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
+              with:
+                  python-version: '3.13'
+                  cache: pip
+                  cache-dependency-path: requirements*.txt
+            # Only pip-audit is needed, at the version pinned in requirements-dev.txt
+            - name: Install pip-audit
+              run: pip install "$(grep -oE '^pip-audit==[^ ]+' requirements-dev.txt)"
+            - name: Check requirements for known vulnerabilities
+              run: pip-audit -r requirements-dev.txt
