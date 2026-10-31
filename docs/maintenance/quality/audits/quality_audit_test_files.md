@@ -1,4 +1,4 @@
-<!-- version: 3.2.17 -->
+<!-- version: 3.2.18 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -38,7 +38,7 @@ Long script names are shortened to a label here, to keep the table narrow, and e
 
 Each script's tests are scored against [`docs/maintenance/quality/themes/quality_themes_test_files.md`](../themes/quality_themes_test_files.md).
 
-**Scored by:** says who gave each row its scores, so self-scored rows stand out until someone else checks them.
+**Scored by:** says who gave each row its scores — every row is scored by an independent review in a fresh context, never by the model that wrote the tests.
 
 **Key:**
 
@@ -50,7 +50,7 @@ Each script's tests are scored against [`docs/maintenance/quality/themes/quality
 | Script or check | Scored by | Total (functions) | Test Cases | Core coverage | Leanness | Clarity | Simplicity | Reliability | Score | Gaps |
 |---|---|---|---|---|---|---|---|---|---|---|
 | | | | | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* | | |
-| [Header bump](../../../../src/sh/bump_file_headers.sh) | Self-scored (Claude), after adding the two move tests | 12 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Header bump](../../../../src/sh/bump_file_headers.sh) | Independent review | 12 | 12 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: no test runs the hook on more than one file at once |
 | [`git_commit.sh`](../../../../src/sh/git_commit.sh) | Independent review | 13 | 17 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Branch name](../../../../src/sh/git_validate_branch_name.sh) | Independent review | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [PR size](../../../../src/sh/git_validate_num_file_changes.sh) | Independent review | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
@@ -58,5 +58,5 @@ Each script's tests are scored against [`docs/maintenance/quality/themes/quality
 | [`shell_utils.sh`](../../../../src/sh/shell_utils.sh) | Independent review | 5 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`Makefile`](../../../../Makefile) | Independent review | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | Independent review | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Markdown quality audit](../../../../tests/test_quality_audit_markdown_files.py) | Self-scored (Claude), after fixing the independent review's gaps | 2 | 4 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Every tracked file's header](../../../../tests/test_file_metadata_headers.py) | Self-scored (Claude), after fixing the independent review's gaps | 2 | 4 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Markdown quality audit](../../../../tests/test_quality_audit_markdown_files.py) | Independent review | 2 | 4 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Core coverage: no failing case for a theme cell that isn't allowed, such as `✅ 1` · Reliability: the failing cases are named only change0–2 and fail with a bare "DID NOT RAISE" |
+| [Every tracked file's header](../../../../tests/test_file_metadata_headers.py) | Independent review | 2 | 4 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
