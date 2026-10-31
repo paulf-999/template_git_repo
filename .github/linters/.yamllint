@@ -1,7 +1,7 @@
 ---
-# version: 1.0.0
+# version: 1.0.1
 # created: 2022-11-24
-# updated: 2026-10-30
+# updated: 2026-10-31
 
 yaml-files:
     - '*.yaml'
@@ -34,6 +34,8 @@ rules:
     trailing-spaces: enable
     truthy:
         level: warning
+        # GitHub Actions needs the `on:` key, which yamllint would otherwise read as a true/false value
+        check-keys: false
     # 120 chars should be enough, but don't fail if line is longer
     line-length:
         max: 120
