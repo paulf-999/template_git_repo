@@ -1,4 +1,4 @@
-<!-- version: 3.1.1 -->
+<!-- version: 3.1.2 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -25,7 +25,8 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [`Makefile`](../../../Makefile) | 2 | 0 | 0 | 0 | **2** |
 | [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | **4** |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | **1** |
-| [Docs quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | **1** |
+| [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | **1** |
+| **Totals** | | | | | **54** |
 
 ## ⭐ Quality by script
 
@@ -50,4 +51,4 @@ Each script's tests are scored against [`docs/maintenance/quality_maintenance/ru
 | [`Makefile`](../../../Makefile) | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: 1 of 3 asserts says what broke |
 | [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 4 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: the order check in `problems_with` has no comment |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Docs quality audit](../../../tests/test_quality_audit_markdown_files.py) | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |

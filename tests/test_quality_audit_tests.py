@@ -1,4 +1,4 @@
-# version: 4.0.3
+# version: 4.0.4
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality_maintenance/quality_audit_tests.md matches the test files and adds up."""
@@ -52,12 +52,24 @@ def scored_test_files():
     return {str(path.relative_to(REPO_ROOT)): path for path in paths if path.name != Path(__file__).name}
 
 
+def moscow_rows():
+    """Return the MoSCoW table's script and check rows, and its final Totals row, separately."""
+    rows = read_table(AUDIT, "🏷️ MoSCoW scores by script")
+    assert rows[-1]["name"] == "Totals", "end the MoSCoW table with a Totals row"
+    return rows[:-1], rows[-1]
+
+
 # MoSCoW: Should — keeps the MoSCoW table true to the test files
 def test_moscow_table_matches_the_test_files():
-    """Links work, every test file has one row, and each row's counts match its '# MoSCoW:' comments."""
+    """Links work, every test file has one row, counts match the '# MoSCoW:' comments, and Totals adds up."""
     assert_links_work(AUDIT)
-    rows = {find_test_file(row): row for row in read_table(AUDIT, "🏷️ MoSCoW scores by script")}
+    script_rows, totals = moscow_rows()
+    rows = {find_test_file(row): row for row in script_rows}
     assert set(rows) == set(scored_test_files()), "add or remove MoSCoW rows so the table lists every test file"
+
+    # the Totals row gives only the overall number of tests, the sum of the Total column
+    expected_total = str(sum(int(row["Total"]) for row in script_rows))
+    assert totals["Total"] == expected_total, f"Totals says {totals['Total']}, the rows add up to {expected_total}"
 
     for name, path in scored_test_files().items():
         counts = actual_counts(path)
@@ -70,7 +82,7 @@ def test_moscow_table_matches_the_test_files():
 # MoSCoW: Should — keeps the quality table in step with the MoSCoW table and the rubric
 def test_quality_table_fits_the_rubric():
     """Both tables list the same rows, each Tests count matches, and each score is its themes' total."""
-    moscow = read_table(AUDIT, "🏷️ MoSCoW scores by script")
+    moscow, _ = moscow_rows()
     quality = read_table(AUDIT, "⭐ Quality by script")
     assert [row["name"] for row in quality] == [row["name"] for row in moscow], "list the same rows in both tables"
 
