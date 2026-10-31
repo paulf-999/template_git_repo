@@ -1,11 +1,13 @@
-<!-- version: 1.1.0 -->
+<!-- version: 1.1.1 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🏷️ File Headers
 
-For maintainers of this template: how the version header at the top of each file works.
+For maintainers of this repo: how the version header at the top of each file works, and how it's kept up to date automatically.
 
 ---
+
+## 📄 Format
 
 Every file opens with a three-line header, as HTML comments in markdown and `#` comments elsewhere, placed after any shebang or YAML `---` line:
 
@@ -14,6 +16,8 @@ Every file opens with a three-line header, as HTML comments in markdown and `#` 
 <!-- created: 2026-10-30 -->
 <!-- updated: 2026-10-30 -->
 ```
+
+## 📏 Rules
 
 - **New file:** start at `version: 1.0.0`, with `created` and `updated` both set to today.
 - **Every edit:** set `updated` to today and bump `version`, but never change `created`.
@@ -25,8 +29,14 @@ Every file opens with a three-line header, as HTML comments in markdown and `#` 
 
 ## ⚙️ Automation
 
-- **Hook:** the `bump_file_headers` pre-commit hook in `.pre-commit-config.yaml` runs `src/sh/bump_file_headers.sh` on each commit.
-- **What it does:** for each changed file, it sets `updated` to today and adds 1 to PATCH, then stops the commit so you can review and re-stage.
-- **By hand:** raise MINOR or MAJOR yourself when a change warrants it, and the hook keeps your version and only updates the date.
-- **Skipped:** new files (they start at 1.0.0), files with no header, and files unchanged since the last commit.
-- **Errors:** a header with no `updated` line, or a version that isn't `MAJOR.MINOR.PATCH`, stops the commit with a message naming the file.
+A check that runs on every commit keeps headers up to date, so most bumps happen without you doing anything.
+
+| When you commit a file that… | The check… |
+|---|---|
+| Has changed since the last commit | Sets `updated` to today and raises PATCH by 1 |
+| Has a version you already raised by hand | Keeps your version and only updates the date |
+| Is new, has no header, or hasn't changed | Leaves it alone |
+| Has no `updated` line, or a version like `1.0` | Stops the commit and says what to fix |
+
+- **After a bump:** the commit stops so you can check the change, then re-add the file and commit again.
+- **Where it lives:** `src/sh/bump_file_headers.sh`, run by the `bump_file_headers` hook in `.pre-commit-config.yaml`.
