@@ -20,7 +20,7 @@ permissions:
 
 jobs:
     pip_audit:
-        name: Requirements audit (pip-audit)
+        name: 'Dependencies: scan requirements for known vulnerabilities'
         runs-on: ubuntu-latest
         timeout-minutes: 10
         steps:

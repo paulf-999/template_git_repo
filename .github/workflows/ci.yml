@@ -2,25 +2,28 @@
 # version: 1.1.0
 # created: 2026-10-30
 # updated: 2026-10-31
-# Re-run the local git hooks, commit message checks and tests on every PR,
-# so `git commit --no-verify` can't skip them, and enforce the 20-file PR limit
+# Re-run the local git hooks and tests on every PR, so `git commit --no-verify` can't skip them,
+# and check the PR's title and size
 name: CI
 
 on:
     pull_request:
         branches: [main]
+    # Also run on main, so its caches are saved where every new PR can reuse them
+    push:
+        branches: [main]
 
 permissions:
     contents: read
 
-# Cancel an older run on the same PR when new commits are pushed
+# Cancel an older run on the same PR (or on main) when new commits are pushed
 concurrency:
-    group: ci-${{ github.event.pull_request.number }}
+    group: ci-${{ github.event.pull_request.number || github.ref }}
     cancel-in-progress: true
 
 jobs:
     lint:
-        name: Lint (pre-commit hooks)
+        name: 'Lint: run the pre-commit hooks'
         runs-on: ubuntu-latest
         timeout-minutes: 10
         steps:
@@ -35,6 +38,7 @@ jobs:
               run: pip install "$(grep -oE '^pre-commit==[^ ]+' requirements-dev.txt)"
             # Passed through env, not ${{ }} in the script, so a crafted branch name can't inject shell
             - name: Validate branch name
+              if: github.event_name == 'pull_request'
               env:
                   BRANCH_NAME: ${{ github.head_ref }}
               run: src/sh/git_validate_branch_name.sh "${BRANCH_NAME}"
@@ -48,36 +52,23 @@ jobs:
                   SKIP: no-commit-to-branch,git_branch_name_validation
               run: pre-commit run --all-files --show-diff-on-failure
 
-    commitlint:
-        name: Commit messages (commitlint)
+    pr_title:
+        name: 'PR title: check it follows Conventional Commits'
+        if: github.event_name == 'pull_request'
         runs-on: ubuntu-latest
         timeout-minutes: 10
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-              with:
-                  # full history, so the PR's commit range can be read
-                  fetch-depth: 0
-            # The versions are pinned, so the installed packages can be reused between runs (keep the key in step)
-            - id: commitlint_cache
-              uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
-              with:
-                  path: node_modules
-                  key: commitlint-21.2.4-${{ runner.os }}
-            # Same commitlint version the pre-commit hook bundles, so local and CI agree
-            - name: Install commitlint
-              if: steps.commitlint_cache.outputs.cache-hit != 'true'
-              run: npm install --no-save @commitlint/cli@21.2.4 @commitlint/config-conventional@21.2.4
-            # Catches messages committed with --no-verify, which pre-commit run --all-files can't see
-            - name: Lint the PR's commit messages
+            # Squash merges use the PR title as the commit message on main, so that's what gets checked.
+            # Passed through env, not ${{ }} in the script, so a crafted title can't inject shell
+            - name: Validate PR title
               env:
-                  BASE_SHA: ${{ github.event.pull_request.base.sha }}
-                  HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-              run: >-
-                  npx commitlint --extends @commitlint/config-conventional
-                  --from "${BASE_SHA}" --to "${HEAD_SHA}" --verbose
+                  PR_TITLE: ${{ github.event.pull_request.title }}
+              run: src/sh/git_validate_pr_title.sh "${PR_TITLE}"
 
     pr_size:
-        name: PR size (20-file limit)
+        name: "PR size: check it's 20 files or fewer"
+        if: github.event_name == 'pull_request'
         runs-on: ubuntu-latest
         timeout-minutes: 10
         steps:
@@ -94,7 +85,7 @@ jobs:
               run: src/sh/git_validate_num_file_changes.sh "${BRANCH_NAME}" "${BASE_SHA}" "${HEAD_SHA}"
 
     test:
-        name: Test (pytest)
+        name: 'Tests: run pytest'
         runs-on: ubuntu-latest
         timeout-minutes: 10
         steps:
