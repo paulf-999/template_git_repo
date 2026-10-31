@@ -1,4 +1,4 @@
-<!-- version: 1.0.7 -->
+<!-- version: 1.0.8 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🧪 Test Maintenance
@@ -58,6 +58,6 @@ grep -rh --include='*.py' '^# MoSCoW:' tests | awk '{print $3}' | sort | uniq -c
 ```
 
 - **By script:** `docs/maintenance/quality_maintenance/quality_audit_tests.md` shows the same counts for each script, and `tests/test_quality_audit_tests.py` fails if it falls out of date.
-- **Quality:** rescore each script out of 10 in the same audit, using `docs/maintenance/quality_maintenance/rubrics/test_quality_rubric.md`.
+- **Quality:** rescore each script out of 10 in the same audit, using `docs/maintenance/quality_maintenance/quality_themes/test_quality_rubric.md`.
 - **Cut:** delete `Could` tests that no longer earn their run time, and any test that now duplicates another.
 - **Check:** every test function still has exactly one `# MoSCoW:` comment.

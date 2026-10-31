@@ -1,4 +1,4 @@
-# version: 4.0.8
+# version: 4.0.9
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality_maintenance/quality_audit_tests.md matches the test files and adds up."""
@@ -20,7 +20,7 @@ SCORES = ("Must", "Should", "Could", "Won't")
 # test files that run once per tracked file, shown as a rule, since their count changes with every new file
 PER_TRACKED_FILE = {"tests/test_file_metadata_headers.py": "1 per tracked file"}
 
-# the themes in docs/maintenance/quality_maintenance/rubrics/test_quality_rubric.md, as the audit's column headings
+# the themes in quality_maintenance/quality_themes/test_quality_rubric.md, as the audit's column headings
 THEMES = ("Core coverage", "Leanness", "Clarity", "Simplicity", "Reliability")
 
 

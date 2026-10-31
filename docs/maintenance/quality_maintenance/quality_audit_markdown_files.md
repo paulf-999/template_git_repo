@@ -1,4 +1,4 @@
-<!-- version: 1.0.3 -->
+<!-- version: 1.0.4 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Markdown Quality Audit
@@ -10,7 +10,7 @@ For maintainers of this template: how good each markdown doc is, scored out of 1
 
 ## ⭐ Quality by doc
 
-Each doc is scored against [`docs/maintenance/quality_maintenance/rubrics/markdown_quality_rubric.md`](rubrics/markdown_quality_rubric.md).
+Each doc is scored against [`docs/maintenance/quality_maintenance/quality_themes/markdown_quality_rubric.md`](quality_themes/markdown_quality_rubric.md).
 
 **Key:**
 
@@ -27,8 +27,8 @@ Each doc is scored against [`docs/maintenance/quality_maintenance/rubrics/markdo
 | [`README.md`](../../../README.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`git_branching_strategy.md`](../../git_branching_strategy.md) | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | ✅ 2 | **B · 8/10** | Clarity: the `release/` example name is jargon from another project, and the naming rules don't say why · Maintainability: copies the branch-name regex from the script |
 | [`file_headers.md`](../file_headers.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`markdown_quality_rubric.md`](rubrics/markdown_quality_rubric.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`test_quality_rubric.md`](rubrics/test_quality_rubric.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`markdown_quality_rubric.md`](quality_themes/markdown_quality_rubric.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`test_quality_rubric.md`](quality_themes/test_quality_rubric.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`test_maintenance.md`](../test_maintenance.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`virtualenv_setup.md`](../../virtualenv_setup.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`global_claude.md`](../../../src/templates/global_claude.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
