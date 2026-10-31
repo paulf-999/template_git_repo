@@ -32,7 +32,7 @@ help:
 
 deps:
 	@echo "${INFO}\nCalled makefile target 'deps'. Download any required libraries.${COLOUR_OFF}\n"
-	@pip install -r requirements-dev.txt
+	@pip install -r requirements.txt
 	@pre-commit install
 
 install:

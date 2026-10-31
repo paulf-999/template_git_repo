@@ -32,10 +32,10 @@ jobs:
               with:
                   python-version: '3.13'
                   cache: pip
-                  cache-dependency-path: requirements*.txt
-            # Only pre-commit is needed here (each hook installs its own tools), at the version pinned in requirements-dev.txt
+                  cache-dependency-path: requirements.txt
+            # Only pre-commit is needed here (each hook installs its own tools), at the version pinned in requirements.txt
             - name: Install pre-commit
-              run: pip install "$(grep -oE '^pre-commit==[^ ]+' requirements-dev.txt)"
+              run: pip install "$(grep -oE '^pre-commit==[^ ]+' requirements.txt)"
             # Passed through env, not ${{ }} in the script, so a crafted branch name can't inject shell
             - name: Validate branch name
               if: github.event_name == 'pull_request'
@@ -94,9 +94,9 @@ jobs:
               with:
                   python-version: '3.13'
                   cache: pip
-                  cache-dependency-path: requirements*.txt
-            # The tests only need pytest, at the version pinned in requirements-dev.txt
+                  cache-dependency-path: requirements.txt
+            # The tests only need pytest, at the version pinned in requirements.txt
             - name: Install pytest
-              run: pip install "$(grep -oE '^pytest==[^ ]+' requirements-dev.txt)"
+              run: pip install "$(grep -oE '^pytest==[^ ]+' requirements.txt)"
             - name: Run tests
               run: pytest

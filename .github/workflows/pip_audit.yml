@@ -9,7 +9,7 @@ name: pip-audit
 on:
     pull_request:
         branches: [main]
-        paths: [requirements*.txt]
+        paths: [requirements.txt]
     schedule:
         # Mondays at 06:00 UTC, to catch vulnerabilities published since the requirements last changed
         - cron: 0 6 * * 1
@@ -29,9 +29,9 @@ jobs:
               with:
                   python-version: '3.13'
                   cache: pip
-                  cache-dependency-path: requirements*.txt
-            # Only pip-audit is needed, at the version pinned in requirements-dev.txt
+                  cache-dependency-path: requirements.txt
+            # Only pip-audit is needed, at the version pinned in requirements.txt
             - name: Install pip-audit
-              run: pip install "$(grep -oE '^pip-audit==[^ ]+' requirements-dev.txt)"
+              run: pip install "$(grep -oE '^pip-audit==[^ ]+' requirements.txt)"
             - name: Check requirements for known vulnerabilities
-              run: pip-audit -r requirements-dev.txt
+              run: pip-audit -r requirements.txt
