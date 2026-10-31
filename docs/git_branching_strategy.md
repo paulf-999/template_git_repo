@@ -1,7 +1,9 @@
-<!-- version: 1.1.3 -->
+<!-- version: 1.1.4 -->
 <!-- created: 2022-11-04 -->
 <!-- updated: 2026-10-31 -->
-# Git Branching Strategy
+# 🌿 Git Branching Strategy
+
+For anyone contributing to a repo made from this template: which branches to use and how to name them.
 
 This repository uses a **simplified branching strategy**, with branch names enforced by a [pre-commit hook](../src/sh/git_validate_branch_name.sh).
 
