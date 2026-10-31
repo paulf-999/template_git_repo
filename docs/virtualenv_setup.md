@@ -48,7 +48,7 @@ Once activated, your shell prompt will typically show `(.venv)`.
 With the environment active, install the dependencies and the development tools (linters, tests, git hooks):
 
 ```bash
-pip install -r requirements-dev.txt
+pip install -r requirements.txt
 ```
 
 Or run `make deps`, which also installs the pre-commit git hooks.
