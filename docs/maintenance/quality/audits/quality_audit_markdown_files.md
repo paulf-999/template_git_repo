@@ -1,11 +1,11 @@
-<!-- version: 1.0.26 -->
+<!-- version: 1.0.27 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Markdown Quality Audit
 
 For maintainers of this template: how good each markdown doc is, scored out of 10.
 
-- **Kept accurate by:** [`tests/test_quality_audit_markdown_files.py`](../../../../tests/test_quality_audit_markdown_files.py), which fails if a tracked doc has no row, a score or grade doesn't match its themes, or Gaps doesn't name a theme below ✅.
+- **Kept accurate by:** [`tests/docs/maintenance/quality/test_quality_audit_markdown_files.py`](../../../../tests/docs/maintenance/quality/test_quality_audit_markdown_files.py), which fails if a tracked doc has no row, a score or grade doesn't match its themes, or Gaps doesn't name a theme below ✅.
 - **Scored by:** who gave each row its scores — every row is scored by an independent review in a fresh context, never by the model that wrote the doc.
 - **Not scored:** the PR and issue templates, which are forms to fill in rather than docs to read, and this audit, which can't fairly score itself.
 

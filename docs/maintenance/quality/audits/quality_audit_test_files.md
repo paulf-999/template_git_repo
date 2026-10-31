@@ -1,11 +1,11 @@
-<!-- version: 3.2.18 -->
+<!-- version: 3.2.19 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
 
 For maintainers of this template: how many tests each script has, and how good those tests are.
 
-- **Kept accurate by:** [`tests/test_quality_audit_test_files.py`](../../../../tests/test_quality_audit_test_files.py), which fails if either table falls out of step with the test files.
+- **Kept accurate by:** [`tests/docs/maintenance/quality/test_quality_audit_test_files.py`](../../../../tests/docs/maintenance/quality/test_quality_audit_test_files.py), which fails if either table falls out of step with the test files.
 - **Own checker:** this audit's checker has a MoSCoW row, so the Totals row matches `make test`, but it isn't given quality scores, because the audit can't fairly score its own checker.
 - **Gaps:** written by hand when a script is scored, and checked to name every theme below ✅, so recheck them whenever its tests change.
 
@@ -27,8 +27,8 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [`shell_utils.sh`](../../../../src/sh/shell_utils.sh) | 2 | 1 | 2 | 0 | 5 | **13** |
 | [`Makefile`](../../../../Makefile) | 2 | 0 | 0 | 0 | 2 | **2** |
 | [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **10** |
-| [Markdown quality audit](../../../../tests/test_quality_audit_markdown_files.py) | 0 | 2 | 0 | 0 | 2 | **4** |
-| [This audit's checker](../../../../tests/test_quality_audit_test_files.py) | 0 | 2 | 0 | 0 | 2 | **2** |
+| [Markdown quality audit](../../../../tests/docs/maintenance/quality/test_quality_audit_markdown_files.py) | 0 | 2 | 0 | 0 | 2 | **4** |
+| [This audit's checker](../../../../tests/docs/maintenance/quality/test_quality_audit_test_files.py) | 0 | 2 | 0 | 0 | 2 | **2** |
 | [Every tracked file's header](../../../../tests/test_file_metadata_headers.py) | 2 | 0 | 0 | 0 | 2 | **4** |
 | **Totals** | | | | | **59** | **100** |
 
@@ -58,5 +58,5 @@ Each script's tests are scored against [`docs/maintenance/quality/themes/quality
 | [`shell_utils.sh`](../../../../src/sh/shell_utils.sh) | Independent review | 5 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`Makefile`](../../../../Makefile) | Independent review | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | Independent review | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Markdown quality audit](../../../../tests/test_quality_audit_markdown_files.py) | Independent review | 2 | 4 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Core coverage: no failing case for a theme cell that isn't allowed, such as `✅ 1` · Reliability: the failing cases are named only change0–2 and fail with a bare "DID NOT RAISE" |
+| [Markdown quality audit](../../../../tests/docs/maintenance/quality/test_quality_audit_markdown_files.py) | Independent review | 2 | 4 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **B · 8/10** | Core coverage: no failing case for a theme cell that isn't allowed, such as `✅ 1` · Reliability: the failing cases are named only change0–2 and fail with a bare "DID NOT RAISE" |
 | [Every tracked file's header](../../../../tests/test_file_metadata_headers.py) | Independent review | 2 | 4 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
