@@ -5,8 +5,8 @@
 
 For maintainers of this template: how many tests each script has, and how good those tests are.
 
-- **Kept accurate by:** [`tests/test_quality_audit_tests.py`](../../../tests/test_quality_audit_tests.py), which fails if either table falls out of step with the test files.
-- **Not listed:** the audit's own checker, `tests/test_quality_audit_tests.py`, so a grep of every `# MoSCoW:` comment finds its 3 extra tests.
+- **Kept accurate by:** [`tests/test_quality_audit_test_files.py`](../../../tests/test_quality_audit_test_files.py), which fails if either table falls out of step with the test files.
+- **Not listed:** the audit's own checker, `tests/test_quality_audit_test_files.py`, so a grep of every `# MoSCoW:` comment finds its 3 extra tests.
 - **Gaps:** written by hand when a script is scored, so recheck them whenever its tests change.
 
 ## 🏷️ MoSCoW scores by script
