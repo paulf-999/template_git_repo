@@ -1,4 +1,4 @@
-# version: 1.0.6
+# version: 1.0.7
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks the markdown files quality audit (quality_audit_markdown_files.md) lists every doc and adds up."""
@@ -13,14 +13,17 @@ AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality_maintenance" / "quality_au
 # the themes in quality_maintenance/quality_themes/quality_rubrics_markdown_files.md, as the audit's column headings
 THEMES = ("Core coverage", "Leanness", "Clarity", "Maintainability", "Accuracy")
 
+# the PR and issue templates, which are forms to fill in rather than docs to score
+TEMPLATES = (".github/ISSUE_TEMPLATE/", ".github/pull_request_template.md")
+
 
 def tracked_docs():
     """Return every markdown file git tracks, minus the PR and issue templates and this audit."""
     # ask git, so untracked drafts and ignored folders like .venv/ are left out
     output = subprocess.run(["git", "ls-files", "*.md"], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
-    # the templates under .github/ are forms to fill in, and the audit can't fairly score itself
+    # the audit can't fairly score itself
     skipped = str(AUDIT.relative_to(REPO_ROOT))
-    return {path for path in output.stdout.splitlines() if not path.startswith(".github/") and path != skipped}
+    return {path for path in output.stdout.splitlines() if not path.startswith(TEMPLATES) and path != skipped}
 
 
 # MoSCoW: Should — keeps the docs audit true to the repo's docs

@@ -1,5 +1,5 @@
 ---
-# version: 1.2.1
+# version: 1.2.2
 # created: 2022-11-04
 # updated: 2026-10-31
 # all commands by default will run on every commit
@@ -81,8 +81,8 @@ repos:
     - repo: https://github.com/adrienverge/yamllint.git
       rev: v1.38.0
       hooks:
-          - id: yamllint # Lint YAML files using rules specified in .yamllint
-            args: [-c=.yamllint]
+          - id: yamllint # Lint YAML files using rules specified in .github/linters/.yamllint
+            args: [-c=.github/linters/.yamllint]
             name: YAML checks — linter (using yamllint)
     - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
       rev: 0.2.3
@@ -95,7 +95,7 @@ repos:
       hooks:
           - id: markdownlint
             name: Markdown checks — linter
-            args: [--config, .markdownlint.yaml]
+            args: [--config, .github/linters/.markdownlint.yaml]
     # 🧹 Ruff — fast linter, formatter, and import sorter (rules live in ruff.toml, so editors use them too)
     - repo: https://github.com/astral-sh/ruff-pre-commit
       rev: v0.17.3
