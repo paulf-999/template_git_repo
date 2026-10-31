@@ -1,46 +1,38 @@
-# version: 2.0.0
+# version: 4.0.0
 # created: 2026-10-31
 # updated: 2026-10-31
-"""Checks tests/test_coverage_audit.md matches the test files and adds up."""
+"""Checks docs/maintenance/quality/audits/test_coverage_audit.md matches the test files and adds up."""
 
 import re
+from pathlib import Path
 
+from _audit_tables import assert_links_work, assert_quality_scores, read_table
 from _paths import REPO_ROOT
 
-AUDIT = REPO_ROOT / "tests" / "test_coverage_audit.md"
+AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality" / "audits" / "test_coverage_audit.md"
 
-# the MoSCoW scores, in the same order as the audit table's columns
+# the MoSCoW scores, as the audit's column headings
 SCORES = ("Must", "Should", "Could", "Won't")
 
-# a markdown link like '[text](target)', capturing the text and the target
-LINK = re.compile(r"\[([^\]]*)\]\(([^)]*)\)")
-
-# the only allowed theme cells in the quality table, as [symbol, points] pairs
-THEME_SCORES = (["✅", "2"], ["🟡", "1"], ["❌", "0"])
+# the themes in docs/maintenance/quality/rubrics/test_quality_rubric.md, as the audit's column headings
+THEMES = ("Core coverage", "Leanness", "Clarity", "Simplicity", "Reliability")
 
 
-def grade(total):
-    """Return the letter grade for a total score out of 10."""
-    # grade cut-offs from docs/maintenance/quality_rubrics/test_quality_rubric.md
-    for letter, floor in (("A", 9), ("B", 8), ("C", 7), ("D", 6)):
-        if total >= floor:
-            return letter
-    return "F"
+def find_test_file(row):
+    """Return the test file, relative to the repo root, for a row of the MoSCoW table."""
+    assert row["link"], f"{row['name']}: link the first cell to its script, or to its test file"
+    target = Path(row["link"])
 
+    # a check with no script, like 'Every tracked file's header', links straight to its test file
+    if target.name.startswith("test_"):
+        return row["link"]
 
-def table_rows(heading):
-    """Return the body rows of the table under the given '## ' heading, as lists of cell text."""
-    # keep only the text between this heading and the next '## ' heading
-    section = AUDIT.read_text().split(f"## {heading}")[1].split("\n## ")[0]
-
-    # split each table line into cells, e.g. '| a | b |' becomes [' a ', ' b ']
-    rows = [line.strip("|").split("|") for line in section.splitlines() if line.startswith("|")]
-
-    # skip the header and '|---|' rows, and any row with an empty first cell (the theme descriptions)
-    rows = [row for row in rows[2:] if row[0].strip()]
-
-    # keep only each link's text, e.g. '[`a.sh`](../a.sh)' becomes 'a.sh', and drop bold and code marks
-    return [[LINK.sub(r"\1", cell).strip().strip("*`") for cell in row] for row in rows]
+    # a script's tests live in the matching test_<name>.py, e.g. git_commit.sh -> test_git_commit.py
+    # (lowercased, so the Makefile maps to test_makefile.py)
+    test_name = f"test_{target.stem.lower()}.py"
+    matches = list((REPO_ROOT / "tests").rglob(test_name))
+    assert len(matches) == 1, f"{target.name}: expected one {test_name} in tests/, found {len(matches)}"
+    return str(matches[0].relative_to(REPO_ROOT))
 
 
 def actual_counts(path):
@@ -53,49 +45,37 @@ def actual_counts(path):
     return [scores.count(score) for score in SCORES] + [test_functions]
 
 
-# MoSCoW: Should — keeps the audit tables true to the test files
-def test_audit_matches_the_test_files():
-    """Links work, MoSCoW counts match, every test is scored, totals add up, and quality scores fit their themes."""
-    # --- links: every file link in the audit must point at a file that exists ---
-    for _, target in LINK.findall(AUDIT.read_text()):
-        assert (AUDIT.parent / target).is_file(), f"the audit links to {target}, which doesn't exist"
+def scored_test_files():
+    """Return every test file the audit should list, keyed by its path from the repo root."""
+    # every test file in tests/, except this one, which the audit doesn't score
+    paths = (REPO_ROOT / "tests").rglob("test_*.py")
+    return {str(path.relative_to(REPO_ROOT)): path for path in paths if path.name != Path(__file__).name}
 
-    # --- table 1: MoSCoW counts per test file ---
-    moscow = table_rows("🏷️ MoSCoW scores by script")
-    # map each test file (column 2) to its numbers: Must, Should, Could, Won't and Total
-    rows = {row[1]: [int(cell) for cell in row[2:]] for row in moscow if row[0] != "Total"}
 
-    # every test file in tests/ must have exactly one row
-    test_files = {str(path.relative_to(REPO_ROOT)): path for path in (REPO_ROOT / "tests").rglob("test_*.py")}
-    assert set(rows) == set(test_files), "add or remove MoSCoW rows so the table lists every test file"
+# MoSCoW: Should — keeps the MoSCoW table true to the test files
+def test_moscow_table_matches_the_test_files():
+    """Links work, every test file has one row, and each row's counts match its '# MoSCoW:' comments."""
+    assert_links_work(AUDIT)
+    rows = {find_test_file(row): row for row in read_table(AUDIT, "🏷️ MoSCoW scores by script")}
+    assert set(rows) == set(scored_test_files()), "add or remove MoSCoW rows so the table lists every test file"
 
-    for name, path in test_files.items():
-        # the row's numbers must match the comments actually in the file
+    for name, path in scored_test_files().items():
         counts = actual_counts(path)
-        assert rows[name] == counts, f"{name}: table says {rows[name]}, the file has {counts}"
+        listed = [int(rows[name][column]) for column in (*SCORES, "Total")]
+        assert listed == counts, f"{name}: table says {listed}, the file has {counts}"
         # Must + Should + Could + Won't must equal the number of tests, so no test is unscored
         assert sum(counts[:4]) == counts[4], f"{name}: every test function needs one '# MoSCoW:' comment"
 
-    # the last row is the Total row, and each of its columns must be the sum of that column
-    total = [int(cell) for cell in moscow[-1][2:]]
-    assert total == [sum(column) for column in zip(*rows.values())], "the MoSCoW Total row doesn't add up"
 
-    # --- table 2: quality score per script ---
-    quality = table_rows("⭐ Quality by script")
-    # both tables must list the same scripts, in the same order
-    assert [row[0] for row in quality] == [row[0] for row in moscow[:-1]], "list the same scripts in both tables"
+# MoSCoW: Should — keeps the quality table in step with the MoSCoW table and the rubric
+def test_quality_table_fits_the_rubric():
+    """Both tables list the same rows, each Tests count matches, and each score is its themes' total."""
+    moscow = read_table(AUDIT, "🏷️ MoSCoW scores by script")
+    quality = read_table(AUDIT, "⭐ Quality by script")
+    assert [row["name"] for row in quality] == [row["name"] for row in moscow], "list the same rows in both tables"
 
-    # each script's Tests column must match the Total column of its MoSCoW row
-    moscow_totals = {row[0]: row[-1] for row in moscow[:-1]}
-    for row in quality:
-        expected_tests = moscow_totals[row[0]]
-        assert row[1] == expected_tests, f"{row[0]}: Tests says {row[1]}, the MoSCoW table says {expected_tests}"
+    # each row's Tests column must match the Total column of its MoSCoW row
+    for moscow_row, quality_row in zip(moscow, quality):
+        assert quality_row["Tests"] == moscow_row["Total"], f"{quality_row['name']}: Tests doesn't match its Total"
 
-        # columns 3-7 hold the five theme cells, e.g. '✅ 2', each split into [symbol, points]
-        cells = [cell.split() for cell in row[2:7]]
-        assert all(cell in THEME_SCORES for cell in cells), f"{row[0]}: theme cells must be one of {THEME_SCORES}"
-
-        # the Score column must be the grade and total of the five themes' points, e.g. 'A · 9/10'
-        total = sum(int(points) for _, points in cells)
-        expected = f"{grade(total)} · {total}/10"
-        assert row[7] == expected, f"{row[0]}: score says '{row[7]}', its theme points give '{expected}'"
+    assert_quality_scores(quality, THEMES)
