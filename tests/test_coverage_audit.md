@@ -1,4 +1,4 @@
-<!-- version: 1.1.0 -->
+<!-- version: 1.2.0 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -28,15 +28,15 @@ Each test's `# MoSCoW:` comment, counted per script (see `docs/maintenance/test_
 
 ## ⭐ Quality by script
 
-Each script's tests scored against `docs/maintenance/quality_rubrics/test_quality_rubric.md`, where every Theme (Rubric) scores 0–2.
+Each script's tests scored against `docs/maintenance/quality_rubrics/test_quality_rubric.md`: ✅ 10 = fully met, 🟡 5 = partly met, ❌ 0 = not met, and the score is their average.
 
-| Script | Core coverage (0–2) | Leanness (0–2) | Clarity (0–2) | Simplicity (0–2) | Reliability (0–2) | Quality /10 | Why not 10 |
-|---|---|---|---|---|---|---|---|
-| `src/sh/bump_file_headers.sh` | 2 | 2 | 2 | 2 | 2 | 10 | — |
-| `src/sh/git_commit.sh` | 2 | 1 | 2 | 1 | 2 | 8 | 5 Could tests vs 2 Must; one 13-line test |
-| `src/sh/git_validate_branch_name.sh` | 2 | 2 | 2 | 1 | 1 | 8 | One 17-line test sets up git inline; 1 of 5 asserts says what broke |
-| `src/sh/git_validate_num_file_changes.sh` | 2 | 2 | 2 | 2 | 2 | 10 | — |
-| `src/sh/git_validate_pr_title.sh` | 2 | 2 | 2 | 2 | 1 | 9 | 1 of 5 asserts says what broke |
-| `src/sh/shell_utils.sh` | 2 | 1 | 2 | 2 | 1 | 8 | 3 Could tests vs 2 Must; no assert says what broke |
-| Every tracked file's header | 2 | 2 | 2 | 2 | 2 | 10 | — |
-| This audit | 2 | 2 | 2 | 2 | 2 | 10 | — |
+| Script | Core coverage<br>*Every Must-level behaviour has a test* | Leanness<br>*No duplicate or cosmetic tests, and no more Could than Must* | Clarity<br>*A newcomer can tell what each test checks* | Simplicity<br>*Short tests in plain pytest, with no mocking of internals* | Maintainability<br>*A harmless change breaks at most one test* | Reliability<br>*Isolated, repeatable, and a failure says what broke* | Score | Gaps |
+|---|---|---|---|---|---|---|---|---|
+| `src/sh/bump_file_headers.sh` | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
+| `src/sh/git_commit.sh` | ✅ 10 | 🟡 5 | ✅ 10 | 🟡 5 | 🟡 5 | ✅ 10 | **C · 7.5/10** | Leanness: 5 Could tests vs 2 Must · Simplicity: one 13-line test · Maintainability: the empty-message text is asserted in 2 tests |
+| `src/sh/git_validate_branch_name.sh` | ✅ 10 | ✅ 10 | ✅ 10 | 🟡 5 | ✅ 10 | 🟡 5 | **B · 8.3/10** | Simplicity: one 17-line test sets up git inline · Reliability: 1 of 5 asserts says what broke |
+| `src/sh/git_validate_num_file_changes.sh` | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
+| `src/sh/git_validate_pr_title.sh` | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | 🟡 5 | **A · 9.2/10** | Reliability: 1 of 5 asserts says what broke |
+| `src/sh/shell_utils.sh` | ✅ 10 | 🟡 5 | ✅ 10 | ✅ 10 | ✅ 10 | 🟡 5 | **B · 8.3/10** | Leanness: 3 Could tests vs 2 Must · Reliability: no assert says what broke |
+| Every tracked file's header | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |
+| This audit | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | ✅ 10 | **A · 10/10** | — |

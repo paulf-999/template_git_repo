@@ -1,4 +1,4 @@
-# version: 1.1.0
+# version: 1.2.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks tests/test_coverage_audit.md matches the test files and adds up."""
@@ -9,6 +9,15 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 AUDIT = REPO_ROOT / "tests" / "test_coverage_audit.md"
 SCORES = ("Must", "Should", "Could", "Won't")
+THEME_SCORES = (["✅", "10"], ["🟡", "5"], ["❌", "0"])
+
+
+def grade(average):
+    """Return the letter grade for an average theme score out of 10."""
+    for letter, floor in (("A", 9), ("B", 8), ("C", 7), ("D", 6)):
+        if average >= floor:
+            return letter
+    return "F"
 
 
 def table_rows(heading):
@@ -27,7 +36,7 @@ def actual_counts(path):
 
 # MoSCoW: Should — keeps the audit tables true to the test files
 def test_audit_matches_the_test_files():
-    """Each test file's MoSCoW counts match, every test is scored, totals add up, and quality is its points' sum."""
+    """MoSCoW counts match, every test is scored, totals add up, and quality scores fit their themes."""
     moscow = table_rows("🏷️ MoSCoW scores by script")
     rows = {row[1]: [int(cell) for cell in row[2:]] for row in moscow if row[0] != "Total"}
     test_files = {str(path.relative_to(REPO_ROOT)): path for path in (REPO_ROOT / "tests").rglob("test_*.py")}
@@ -42,6 +51,8 @@ def test_audit_matches_the_test_files():
     quality = table_rows("⭐ Quality by script")
     assert [row[0] for row in quality] == [row[0] for row in moscow[:-1]], "list the same scripts in both tables"
     for row in quality:
-        points, score = [int(cell) for cell in row[1:6]], int(row[6])
-        assert all(0 <= point <= 2 for point in points), f"{row[0]}: each Theme (Rubric) scores 0-2"
-        assert score == sum(points), f"{row[0]}: quality {score} isn't the sum of its points {points}"
+        cells = [cell.split() for cell in row[1:7]]
+        assert all(cell in THEME_SCORES for cell in cells), f"{row[0]}: theme cells must be one of {THEME_SCORES}"
+        average = sum(int(score) for _, score in cells) / len(cells)
+        expected = f"{grade(average)} · {average:.1f}".removesuffix(".0") + "/10"
+        assert row[7] == expected, f"{row[0]}: score says '{row[7]}', its theme scores give '{expected}'"
