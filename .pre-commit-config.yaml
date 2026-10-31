@@ -1,5 +1,5 @@
 ---
-# version: 1.0.1
+# version: 1.0.2
 # created: 2022-11-04
 # updated: 2026-10-30
 # all commands by default will run on every commit
@@ -52,7 +52,7 @@ repos:
     - repo: local
       hooks:
           - id: git_branch_name_validation # Custom Git branch validation hook
-            name: Git checks — Git branch name validation
+            name: Git checks — branch name validation
             description: This hook validates the Git branch name.
             entry: src/sh/git_validate_branch_name.sh
             language: script

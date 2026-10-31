@@ -1,4 +1,4 @@
-# version: 1.0.0
+# version: 1.2.0
 # created: 2026-10-30
 # updated: 2026-10-30
 """Tests for the PR file-count check, which skips release/ branches."""
@@ -131,3 +131,36 @@ def test_long_file_lists_are_summarised(git_repo):
     result = run_script(repo, env, "feature/many_files", extra_env={"MAX_FILES_ALLOWED": "100"})
     assert result.returncode == 0
     assert "... and 10 more" in result.stdout
+
+
+def test_leading_zero_limit_is_read_as_decimal(git_repo):
+    """MAX_FILES_ALLOWED=020 means 20, so 20 files pass (bash alone would read 020 as octal 16)."""
+    repo, env = git_repo
+    commit_files(repo, env, "feature/at_limit", 20)
+    assert run_check(repo, env, "feature/at_limit", {"MAX_FILES_ALLOWED": "020"}) == 0
+
+
+@pytest.mark.parametrize("bad_limit", ["abc", "-5", "1.5"])
+def test_non_numeric_limit_fails_clearly(git_repo, bad_limit):
+    """A MAX_FILES_ALLOWED that isn't a whole number exits 1 with an explanation."""
+    repo, env = git_repo
+    commit_files(repo, env, "feature/small", 1)
+    result = run_script(repo, env, "feature/small", extra_env={"MAX_FILES_ALLOWED": bad_limit})
+    assert result.returncode == 1
+    assert "must be a whole number" in result.stdout
+
+
+def test_release_branch_ignores_a_bad_limit(git_repo):
+    """release/ branches skip the check, so a malformed MAX_FILES_ALLOWED doesn't fail them."""
+    repo, env = git_repo
+    commit_files(repo, env, "release/bulk_change", 1)
+    assert run_check(repo, env, "release/bulk_change", {"MAX_FILES_ALLOWED": "25files"}) == 0
+
+
+def test_huge_limit_is_rejected_not_wrapped(git_repo):
+    """A 20-digit limit fails clearly, rather than wrapping past 64 bits to a negative number."""
+    repo, env = git_repo
+    commit_files(repo, env, "feature/small", 1)
+    result = run_script(repo, env, "feature/small", extra_env={"MAX_FILES_ALLOWED": "99999999999999999999"})
+    assert result.returncode == 1
+    assert "must be a whole number" in result.stdout

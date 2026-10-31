@@ -1,4 +1,4 @@
-# version: 1.0.0
+# version: 1.2.0
 # created: 2026-10-30
 # updated: 2026-10-30
 """Tests for the interactive git commit helper."""
@@ -131,3 +131,86 @@ def test_empty_message_is_rejected(git_repo):
     result = run_commit_helper(repo, env, ["1", "1", ""])
     assert result.returncode == 1
     assert "Commit message cannot be empty." in result.stdout
+
+
+def test_leading_zero_menu_choice_is_read_as_decimal(git_repo):
+    """'010' picks menu item 10, not item 8 (which bash would read from octal 010)."""
+    repo, env = git_repo
+    result = run_commit_helper(repo, env, ["010", "1", "add notes", "y"])
+    assert result.returncode == 0, result.stderr
+    assert last_commit_subject(repo, env) == f"{read_script_types()[9]}(app): add notes"
+
+
+def test_menu_choice_bash_cannot_read_as_octal_still_works(git_repo):
+    """'08' picks item 8, where bash on its own would stop with a 'value too great for base' error."""
+    repo, env = git_repo
+    result = run_commit_helper(repo, env, ["08", "1", "add notes", "y"])
+    assert result.returncode == 0, result.stderr
+    assert "value too great" not in result.stderr
+    assert last_commit_subject(repo, env) == f"{read_script_types()[7]}(app): add notes"
+
+
+def test_custom_scope_is_lowercased(git_repo):
+    """A typed scope is lowercased, since commitlint's scope-case rule rejects 'CI'."""
+    repo, env = git_repo
+    result = run_commit_helper(repo, env, ["1", "0", "CI", "add notes", "y"])
+    assert result.returncode == 0, result.stderr
+    assert last_commit_subject(repo, env) == "chore(ci): add notes"
+
+
+@pytest.mark.parametrize(
+    ("bad_message", "expected_error"),
+    [
+        ("Add notes", "lowercase letter"),
+        ("add notes.", "full stop"),
+        ("x" * 100, "characters"),
+    ],
+)
+def test_messages_commitlint_would_reject_are_asked_again(git_repo, bad_message, expected_error):
+    """A message commitlint would refuse is explained and asked for again, instead of failing at the hook."""
+    repo, env = git_repo
+    result = run_commit_helper(repo, env, ["1", "1", bad_message, "add notes", "y"])
+    assert result.returncode == 0, result.stderr
+    assert expected_error in result.stdout
+    assert last_commit_subject(repo, env) == "chore(app): add notes"
+
+
+def test_non_ascii_file_name_gives_a_clean_scope(git_repo):
+    """A staged file like résumé.md gives the scope 'résumé', not a quoted, escaped path."""
+    repo, env = git_repo
+    (repo / "résumé.md").write_text("x\n")
+    subprocess.run(["git", "add", "résumé.md"], cwd=repo, env=env, check=True)
+    result = run_commit_helper(repo, env, ["1", "2", "add notes", "y"])
+    assert result.returncode == 0, result.stderr
+    assert last_commit_subject(repo, env) == "chore(résumé): add notes"
+
+
+def test_surrounding_spaces_are_trimmed(git_repo):
+    """Spaces around the message are dropped, and an all-spaces message counts as empty and is asked again."""
+    repo, env = git_repo
+    result = run_commit_helper(repo, env, ["1", "1", "   ", "  add notes  ", "y"])
+    assert result.returncode == 0, result.stderr
+    assert "Commit message cannot be empty." in result.stdout
+    assert last_commit_subject(repo, env) == "chore(app): add notes"
+
+
+@pytest.mark.parametrize(
+    ("bad_scope", "expected_error"),
+    [("a)b", "Use only letters"), ("x" * 31, "Keep the scope to 30 characters")],
+)
+def test_unusable_custom_scope_is_asked_again(git_repo, bad_scope, expected_error):
+    """A scope that would break the header, or crowd out the message, is explained and asked for again."""
+    repo, env = git_repo
+    result = run_commit_helper(repo, env, ["1", "0", bad_scope, "0", "ci", "add notes", "y"])
+    assert result.returncode == 0, result.stderr
+    assert expected_error in result.stdout
+    assert last_commit_subject(repo, env) == "chore(ci): add notes"
+
+
+def test_huge_menu_number_is_rejected_not_wrapped(git_repo):
+    """A 20-digit answer is invalid, rather than wrapping past 64 bits to a real menu item."""
+    repo, env = git_repo
+    result = run_commit_helper(repo, env, ["18446744073709551617", "1", "1", "add notes", "y"])
+    assert result.returncode == 0, result.stderr
+    assert "Invalid selection" in result.stdout
+    assert last_commit_subject(repo, env) == "chore(app): add notes"
