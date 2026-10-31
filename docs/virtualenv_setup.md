@@ -1,4 +1,4 @@
-<!-- version: 1.0.1 -->
+<!-- version: 1.0.2 -->
 <!-- created: 2025-09-18 -->
 <!-- updated: 2026-10-31 -->
 # 🐍 Virtual Environment Setup
@@ -45,7 +45,7 @@ Once activated, your shell prompt will typically show `(.venv)`.
 
 ## 3. Install Requirements
 
-With the environment active, install the dependencies and the development tools (linters, tests, git hooks):
+With the environment active, install the dependencies and the development tools (linters and tests):
 
 ```bash
 pip install -r requirements.txt

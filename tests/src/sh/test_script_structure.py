@@ -1,4 +1,4 @@
-# version: 1.0.2
+# version: 1.0.3
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks every script in src/sh/, and the bash script template itself, follows the template's structure."""
@@ -45,11 +45,13 @@ def problems_with(path):
     return problems
 
 
+# MoSCoW: Should — stops an empty scan from passing every other test
 def test_scripts_are_found():
     """The scan finds the scripts, so an empty glob can't make every other test pass by default."""
     assert len(SCRIPTS) >= 5, f"expected at least 5 scripts in src/sh/, found {[p.name for p in SCRIPTS]}"
 
 
+# MoSCoW: Must — every script must follow the bash script template
 @pytest.mark.parametrize("path", [TEMPLATE, *SCRIPTS], ids=lambda path: path.name)
 def test_script_follows_the_template(path):
     """Each script keeps every part of the bash script template, in the template's order."""
@@ -57,6 +59,7 @@ def test_script_follows_the_template(path):
     assert not problems, f"{path.relative_to(REPO_ROOT)} doesn't follow {TEMPLATE.relative_to(REPO_ROOT)}: {problems}"
 
 
+# MoSCoW: Should — proves the check catches a missing part
 def test_a_missing_part_is_reported(tmp_path):
     """A script with no completed message is caught, so the check can't silently pass everything."""
     script = tmp_path / "broken.sh"
@@ -64,6 +67,7 @@ def test_a_missing_part_is_reported(tmp_path):
     assert problems_with(script) == ["missing the completed message"]
 
 
+# MoSCoW: Could — rarer case of every part present but reordered
 def test_an_out_of_order_part_is_reported(tmp_path):
     """A section moved above an earlier one is reported as out of order."""
     script = tmp_path / "reordered.sh"
