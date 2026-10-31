@@ -1,5 +1,5 @@
 #!/bin/bash
-# version: 1.1.0
+# version: 1.1.1
 # created: 2023-07-09
 # updated: 2026-10-31
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
@@ -50,8 +50,7 @@ print_section_header "${DEBUG}" "Script execution started."
 
 # Validate the Git branch name used
 # the regex must stay unquoted, or [[ =~ ]] matches it as a literal string
-if [[ ! "${LOCAL_GIT_BRANCH_NAME}" =~ ${VALID_GIT_BRANCH_NAME} ]]
-then
+if [[ ! "${LOCAL_GIT_BRANCH_NAME}" =~ ${VALID_GIT_BRANCH_NAME} ]]; then
     print_branch_name_error
     exit 1
 fi

@@ -1,4 +1,4 @@
-<!-- version: 3.2.15 -->
+<!-- version: 3.2.16 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -27,11 +27,11 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [`git_validate_pr_title.sh`](../../../../src/sh/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | 3 | **14** |
 | [`shell_utils.sh`](../../../../src/sh/shell_utils.sh) | 2 | 1 | 2 | 0 | 5 | **13** |
 | [`Makefile`](../../../../Makefile) | 2 | 0 | 0 | 0 | 2 | **2** |
-| [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
+| [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **10** |
 | [Markdown quality audit](../../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
 | [This audit's checker](../../../../tests/test_quality_audit_test_files.py) | 0 | 2 | 0 | 0 | 2 | **2** |
 | [Every tracked file's header](../../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **51** |
-| **Totals** | | | | | **57** | **143** |
+| **Totals** | | | | | **57** | **144** |
 
 ## ⭐ Quality by script
 
@@ -58,6 +58,6 @@ Each script's tests are scored against [`docs/maintenance/quality/themes/quality
 | [PR title](../../../../src/sh/git_validate_pr_title.sh) | Independent review | 3 | 14 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`shell_utils.sh`](../../../../src/sh/shell_utils.sh) | Independent review | 5 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`Makefile`](../../../../Makefile) | Independent review | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | Independent review | 4 | 9 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | Independent review | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Markdown quality audit](../../../../tests/test_quality_audit_markdown_files.py) | Independent review | 1 | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Every tracked file's header](../../../../tests/test_file_metadata_headers.py) | Independent review | 1 | 51 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |

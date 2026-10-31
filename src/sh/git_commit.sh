@@ -1,5 +1,5 @@
 #!/bin/bash
-# version: 1.3.0
+# version: 1.3.1
 # created: 2025-10-14
 # updated: 2026-10-31
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
@@ -183,11 +183,12 @@ prompt_message() {
     done
 }
 
-# Build and commit (type, scope and message are already checked as they're entered)
+# Build the commit message (type, scope and message are already checked as they're entered)
 build_commit_message() {
     COMMIT_MSG="${TYPE}(${SCOPE}): ${MSG}"
 }
 
+# Show the final message and commit once the user confirms
 confirm_and_commit() {
     echo -e "\n${DEBUG}Final commit:${COLOUR_OFF} ${COMMIT_MSG}"
     read -rp "Proceed? [y/N] " confirm

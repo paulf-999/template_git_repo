@@ -1,7 +1,7 @@
-# version: 1.0.4
+# version: 1.0.5
 # created: 2026-10-31
 # updated: 2026-10-31
-"""Checks every script in src/sh/, and the bash script template itself, follows the template's structure."""
+"""Checks every script in src/sh/, shell_utils.sh and the bash script template follow the template's structure."""
 
 import re
 
@@ -12,6 +12,7 @@ TEMPLATE = REPO_ROOT / "src" / "templates" / "bash_script_template.sh"
 # shell_utils.sh is a library that other scripts source, not a script that runs on its own
 LIBRARIES = {"shell_utils.sh"}
 SCRIPTS = sorted(path for path in SCRIPTS_DIR.glob("*.sh") if path.name not in LIBRARIES)
+LIBRARY_PATHS = sorted(SCRIPTS_DIR / name for name in LIBRARIES)
 
 # the parts of src/templates/bash_script_template.sh every script must keep, in this order
 REQUIRED_PARTS = [
@@ -28,13 +29,20 @@ REQUIRED_PARTS = [
     ("start message", r'print_section_header "\$\{DEBUG\}" "Script execution started\."'),
     ("completed message", r'print_section_header "\$\{DEBUG\}" "Script execution completed\."( && echo)?'),
 ]
+# a sourced library skips strict mode, the trap and the start/end messages, so it doesn't change its caller's shell
+LIBRARY_PARTS = [
+    part
+    for part in REQUIRED_PARTS
+    if part[0]
+    in {"shebang", "version header", "description line", "usage line", "Variables section", "Functions section"}
+]
 
 
-def problems_with(path):
+def problems_with(path, parts=REQUIRED_PARTS):
     """Return each required part that's missing or out of order in the script, as readable messages."""
     lines = path.read_text().splitlines()
     problems, last_found = [], -1
-    for name, pattern in REQUIRED_PARTS:
+    for name, pattern in parts:
         found = next((n for n, line in enumerate(lines) if re.fullmatch(pattern, line)), None)
         if found is None:
             problems.append(f"missing the {name}")
@@ -52,11 +60,15 @@ def test_scripts_are_found():
     assert len(SCRIPTS) >= 5, f"expected at least 5 scripts in src/sh/, found {[p.name for p in SCRIPTS]}"
 
 
-# MoSCoW: Must — every script must follow the bash script template
-@pytest.mark.parametrize("path", [TEMPLATE, *SCRIPTS], ids=lambda path: path.name)
-def test_script_follows_the_template(path):
-    """Each script keeps every part of the bash script template, in the template's order."""
-    problems = problems_with(path)
+# MoSCoW: Must — every script and library must follow the bash script template
+@pytest.mark.parametrize(
+    ("path", "parts"),
+    [(path, REQUIRED_PARTS) for path in [TEMPLATE, *SCRIPTS]] + [(path, LIBRARY_PARTS) for path in LIBRARY_PATHS],
+    ids=lambda value: value.name if hasattr(value, "name") else None,
+)
+def test_script_follows_the_template(path, parts):
+    """Each script keeps every template part, and each library the parts it can, in the template's order."""
+    problems = problems_with(path, parts)
     assert not problems, f"{path.relative_to(REPO_ROOT)} doesn't follow {TEMPLATE.relative_to(REPO_ROOT)}: {problems}"
 
 
