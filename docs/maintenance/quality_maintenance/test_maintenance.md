@@ -56,7 +56,7 @@ At each template release, count the tests by score:
 grep -rh --include='*.py' '^# MoSCoW:' tests | awk '{print $3}' | sort | uniq -c
 ```
 
-- **By script:** `docs/maintenance/quality/audits/quality_audit_tests.md` shows the same counts for each script, and `tests/test_coverage_audit.py` fails if it falls out of date.
-- **Quality:** rescore each script out of 10 in the same audit, using `docs/maintenance/quality/rubrics/test_quality_rubric.md`.
+- **By script:** `docs/maintenance/quality_maintenance/audits/quality_audit_tests.md` shows the same counts for each script, and `tests/test_coverage_audit.py` fails if it falls out of date.
+- **Quality:** rescore each script out of 10 in the same audit, using `docs/maintenance/quality_maintenance/rubrics/test_quality_rubric.md`.
 - **Cut:** delete `Could` tests that no longer earn their run time, and any test that now duplicates another.
 - **Check:** every test function still has exactly one `# MoSCoW:` comment.

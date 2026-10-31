@@ -37,5 +37,5 @@ Scores work exactly as in [the test rubric's Scores section](test_quality_rubric
 
 ## 📊 Where scores live
 
-- **Audit:** `docs/maintenance/quality/audits/quality_audit_docs.md` holds each doc's theme scores, overall score and gaps.
+- **Audit:** `docs/maintenance/quality_maintenance/audits/quality_audit_docs.md` holds each doc's theme scores, overall score and gaps.
 - **Checked by:** `tests/test_docs_quality_audit.py`, which fails if a tracked doc has no row, or a score or grade doesn't match its themes.

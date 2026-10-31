@@ -1,16 +1,16 @@
-# version: 1.0.1
+# version: 1.0.2
 # created: 2026-10-31
 # updated: 2026-10-31
-"""Checks docs/maintenance/quality/audits/quality_audit_docs.md lists every doc and its scores add up."""
+"""Checks docs/maintenance/quality_maintenance/audits/quality_audit_docs.md lists every doc and its scores add up."""
 
 import subprocess
 
 from _audit_tables import assert_links_work, assert_quality_scores, read_table
 from _paths import REPO_ROOT
 
-AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality" / "audits" / "quality_audit_docs.md"
+AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality_maintenance" / "audits" / "quality_audit_docs.md"
 
-# the themes in docs/maintenance/quality/rubrics/markdown_quality_rubric.md, as the audit's column headings
+# the themes in docs/maintenance/quality_maintenance/rubrics/markdown_quality_rubric.md, as the audit's column headings
 THEMES = ("Core coverage", "Leanness", "Clarity", "Maintainability", "Accuracy")
 
 

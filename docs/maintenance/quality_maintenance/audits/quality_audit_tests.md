@@ -10,7 +10,7 @@ For maintainers of this template: how many tests each script has, and how good t
 
 ## 🏷️ MoSCoW scores by script
 
-Each test's `# MoSCoW:` comment, counted per script or check, where each script's tests live in the matching `test_<name>.py` file (see [`docs/maintenance/quality/test_maintenance.md`](../test_maintenance.md)).
+Each test's `# MoSCoW:` comment, counted per script or check, where each script's tests live in the matching `test_<name>.py` file (see [`docs/maintenance/quality_maintenance/test_maintenance.md`](../test_maintenance.md)).
 
 - **Won't:** stays at 0, because a test scored `Won't` is deleted.
 
@@ -29,7 +29,7 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 
 ## ⭐ Quality by script
 
-Each script's tests are scored against [`docs/maintenance/quality/rubrics/test_quality_rubric.md`](../rubrics/test_quality_rubric.md).
+Each script's tests are scored against [`docs/maintenance/quality_maintenance/rubrics/test_quality_rubric.md`](../rubrics/test_quality_rubric.md).
 
 **Key:**
 

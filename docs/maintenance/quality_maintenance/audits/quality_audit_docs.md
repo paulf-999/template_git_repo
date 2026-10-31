@@ -10,7 +10,7 @@ For maintainers of this template: how good each markdown doc is, scored out of 1
 
 ## ⭐ Quality by doc
 
-Each doc is scored against [`docs/maintenance/quality/rubrics/markdown_quality_rubric.md`](../rubrics/markdown_quality_rubric.md).
+Each doc is scored against [`docs/maintenance/quality_maintenance/rubrics/markdown_quality_rubric.md`](../rubrics/markdown_quality_rubric.md).
 
 **Key:**
 

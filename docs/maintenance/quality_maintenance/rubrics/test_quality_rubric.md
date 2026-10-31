@@ -47,5 +47,5 @@ Each Theme (Rubric) gets a symbol and 0, 1 or 2 points, so the five add up to a 
 
 ## 📊 Where scores live
 
-- **Audit:** `docs/maintenance/quality/audits/quality_audit_tests.md` holds each script's theme scores, overall score and gaps.
+- **Audit:** `docs/maintenance/quality_maintenance/audits/quality_audit_tests.md` holds each script's theme scores, overall score and gaps.
 - **Checked by:** `tests/test_coverage_audit.py`, which fails if a symbol doesn't match its score, or an overall score or grade doesn't match the theme scores.
