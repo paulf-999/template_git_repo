@@ -1,10 +1,10 @@
 #!/bin/bash
-# version: 1.2.0
+# version: 1.2.1
 # created: 2025-10-14
-# updated: 2026-10-30
+# updated: 2026-10-31
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
-# Interactive commit helper that enforces "<type>(<scope>): <message>", where scope is the area of the repo changed
+# Description: Interactive commit helper that enforces "<type>(<scope>): <message>", where scope is the area of the repo changed
 # Usage: src/sh/git_commit.sh [git commit flags, e.g. --no-verify] (run from the repo root)
 
 # Load reusable shell script vars & functions
