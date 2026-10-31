@@ -1,12 +1,12 @@
-# version: 1.2.1
+# version: 1.2.2
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks tests/test_coverage_audit.md matches the test files and adds up."""
 
 import re
-from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+from _paths import REPO_ROOT
+
 AUDIT = REPO_ROOT / "tests" / "test_coverage_audit.md"
 
 # the MoSCoW scores, in the same order as the audit table's columns
