@@ -1,4 +1,4 @@
-<!-- version: 3.2.6 -->
+<!-- version: 3.2.7 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -24,14 +24,14 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [`git_commit.sh`](../../../scripts/git_commit.sh) | 2 | 8 | 2 | 0 | 12 | **16** |
 | [`git_validate_branch_name.sh`](../../../scripts/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | 4 | **10** |
 | [`git_validate_num_file_changes.sh`](../../../scripts/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | 10 | **12** |
-| [`git_validate_pr_title.sh`](../../../scripts/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | 3 | **13** |
+| [`git_validate_pr_title.sh`](../../../scripts/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | 3 | **14** |
 | [`shell_utils.sh`](../../../scripts/shell_utils.sh) | 2 | 1 | 2 | 0 | 5 | **13** |
 | [`Makefile`](../../../Makefile) | 2 | 0 | 0 | 0 | 2 | **2** |
 | [Every script's structure](../../../tests/scripts/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
 | [This audit's checker](../../../tests/test_quality_audit_test_files.py) | 0 | 2 | 0 | 0 | 2 | **2** |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **49** |
-| **Totals** | | | | | **54** | **137** |
+| **Totals** | | | | | **54** | **138** |
 
 ## ⭐ Quality by script
 
@@ -52,12 +52,12 @@ Each script's tests are scored against [`docs/maintenance/quality_maintenance/qu
 |---|---|---|---|---|---|---|---|---|---|---|
 | | | | | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* | | |
 | [Header bump](../../../scripts/bump_file_headers.sh) | Independent review | 10 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`git_commit.sh`](../../../scripts/git_commit.sh) | Independent review | 12 | 16 | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | 🟡 1 | **C · 7/10** | Clarity: the non-ASCII test picks scope 2 with no comment on why · Simplicity: 5 tests hard-code `chore` as type 1 · Reliability: 10 asserts show only stderr, but the script reports errors on stdout |
+| [`git_commit.sh`](../../../scripts/git_commit.sh) | Self-scored (Claude) | 12 | 16 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Branch name](../../../scripts/git_validate_branch_name.sh) | Independent review | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [PR size](../../../scripts/git_validate_num_file_changes.sh) | Independent review | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [PR title](../../../scripts/git_validate_pr_title.sh) | Independent review | 3 | 13 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: no test that a 100-character title passes |
+| [PR title](../../../scripts/git_validate_pr_title.sh) | Self-scored (Claude) | 3 | 14 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`shell_utils.sh`](../../../scripts/shell_utils.sh) | Independent review | 5 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`Makefile`](../../../Makefile) | Independent review | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | **A · 9/10** | Reliability: the no-virtualenv test runs the real `make deps`, so a broken guard would really install |
+| [`Makefile`](../../../Makefile) | Self-scored (Claude) | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Every script's structure](../../../tests/scripts/test_script_structure.py) | Independent review | 4 | 9 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | Independent review | 1 | 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | Independent review | 1 | 49 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
