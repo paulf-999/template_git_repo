@@ -1,4 +1,4 @@
-# version: 1.3.0
+# version: 2.0.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks tests/test_coverage_audit.md matches the test files and adds up."""
@@ -15,15 +15,15 @@ SCORES = ("Must", "Should", "Could", "Won't")
 # a markdown link like '[text](target)', capturing the text and the target
 LINK = re.compile(r"\[([^\]]*)\]\(([^)]*)\)")
 
-# the only allowed theme cells in the quality table, as [symbol, score] pairs
-THEME_SCORES = (["✅", "10"], ["🟡", "5"], ["❌", "0"])
+# the only allowed theme cells in the quality table, as [symbol, points] pairs
+THEME_SCORES = (["✅", "2"], ["🟡", "1"], ["❌", "0"])
 
 
-def grade(average):
-    """Return the letter grade for an average theme score out of 10."""
+def grade(total):
+    """Return the letter grade for a total score out of 10."""
     # grade cut-offs from docs/maintenance/quality_rubrics/test_quality_rubric.md
     for letter, floor in (("A", 9), ("B", 8), ("C", 7), ("D", 6)):
-        if average >= floor:
+        if total >= floor:
             return letter
     return "F"
 
@@ -85,12 +85,17 @@ def test_audit_matches_the_test_files():
     # both tables must list the same scripts, in the same order
     assert [row[0] for row in quality] == [row[0] for row in moscow[:-1]], "list the same scripts in both tables"
 
+    # each script's Tests column must match the Total column of its MoSCoW row
+    moscow_totals = {row[0]: row[-1] for row in moscow[:-1]}
     for row in quality:
-        # columns 2-7 hold the six theme cells, e.g. '✅ 10', each split into [symbol, score]
-        cells = [cell.split() for cell in row[1:7]]
+        expected_tests = moscow_totals[row[0]]
+        assert row[1] == expected_tests, f"{row[0]}: Tests says {row[1]}, the MoSCoW table says {expected_tests}"
+
+        # columns 3-7 hold the five theme cells, e.g. '✅ 2', each split into [symbol, points]
+        cells = [cell.split() for cell in row[2:7]]
         assert all(cell in THEME_SCORES for cell in cells), f"{row[0]}: theme cells must be one of {THEME_SCORES}"
 
-        # the Score column must be the grade and average of the six themes, e.g. 'A · 9.2/10' or 'A · 10/10'
-        average = sum(int(score) for _, score in cells) / len(cells)
-        expected = f"{grade(average)} · {average:.1f}".removesuffix(".0") + "/10"
-        assert row[7] == expected, f"{row[0]}: score says '{row[7]}', its theme scores give '{expected}'"
+        # the Score column must be the grade and total of the five themes' points, e.g. 'A · 9/10'
+        total = sum(int(points) for _, points in cells)
+        expected = f"{grade(total)} · {total}/10"
+        assert row[7] == expected, f"{row[0]}: score says '{row[7]}', its theme points give '{expected}'"
