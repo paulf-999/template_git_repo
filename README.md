@@ -1,4 +1,4 @@
-<!-- version: 2.1.3 -->
+<!-- version: 2.1.4 -->
 <!-- created: 2022-11-04 -->
 <!-- updated: 2026-10-31 -->
 # 🧩 Template Git Repo
@@ -27,7 +27,7 @@ A **generic starting point** for new projects, providing:
 
 Before raising a PR, please:
 
-* Follow the [Contributing Guidelines](CONTRIBUTING.md) – overview of branch naming, commit messages and PR rules.
+* Follow the [Contributing Guidelines](.github/CONTRIBUTING.md) – overview of branch naming, commit messages and PR rules.
 * Use the [Git Branching Strategy](docs/git_branching_strategy.md) – includes branch types and naming rules.
 * Rely on [CODEOWNERS](.github/CODEOWNERS) – reviewers are auto-assigned by repo area.
 * Complete the [Pull Request Template](.github/pull_request_template.md) – summary, change type, testing.
