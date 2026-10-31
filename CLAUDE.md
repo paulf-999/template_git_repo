@@ -3,13 +3,26 @@
 <!-- updated: 2026-10-31 -->
 # CLAUDE.md — <project_name>
 
-<!-- Keep this file short: Claude reads all of it every session. Add only what Claude can't work out from the code. -->
+> 🧩 **Starting point** — fill in the TODOs, then keep this file lean.
+>
+> - **Why:** Claude Code reads all of it every session, so every line costs context.
+> - **Add a line:** only when Claude repeatedly gets something wrong, or can't work it out from the code.
+> - **Point, don't copy:** link to `CONTRIBUTING.md` and `docs/` rather than repeating them.
 
-## 🎯 Overview
+## Core Principles
 
-<!-- TODO: what this repo does, and who uses it -->
+*Adapted from [Andrej Karpathy's guidelines](https://github.com/multica-ai/andrej-karpathy-skills/)*
 
-## ⌨️ Commands
+1. **Don't assume. Don't hide confusion. Surface tradeoffs.**
+2. **Minimum code that solves the problem. Nothing speculative.**
+3. **Touch only what you must. Clean up only your own mess.**
+4. **Define success criteria. Loop until verified.**
+
+- **Rule:** if any detail, requirement or architecture choice is unclear, ask one clarifying question before writing code or making changes.
+
+## Project
+
+<!-- TODO: what this repo does, who uses it, and anything Claude keeps getting wrong here -->
 
 | Task | Command |
 |---|---|
@@ -17,15 +30,15 @@
 | Run the tests | `make test` |
 | Run every check | `pre-commit run --all-files` |
 
-## ✅ Definition of done
+- **Done means:** `make test` and `pre-commit run --all-files` both pass.
+- **Conventions:** follow `CONTRIBUTING.md` for branching, commits, file headers and PRs.
 
-- `make test` and `pre-commit run --all-files` both pass.
-- New code has a test, and edited files have their version header bumped.
+## Imports
 
-## 📚 Conventions
+<!-- Optional: @-import files Claude needs every session; each import loads in full at startup, so add sparingly -->
 
-Follow `CONTRIBUTING.md` for branching, commits, file headers and PRs.
+---
 
-## ⚠️ Gotchas
+## References
 
-<!-- TODO: things Claude gets wrong in this repo -->
+- [Andrej Karpathy's guidelines](https://github.com/multica-ai/andrej-karpathy-skills/) — source of the Core Principles above
