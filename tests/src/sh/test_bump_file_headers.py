@@ -1,4 +1,4 @@
-# version: 1.2.0
+# version: 1.3.0
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the pre-commit hook that bumps each changed file's version header."""
@@ -205,3 +205,20 @@ def test_malformed_version_fails_with_a_clear_error(git_repo):
     assert result.returncode == 1, "a malformed version should stop the commit"
     assert "isn't MAJOR.MINOR.PATCH" in result.stdout, f"expected an error about the version format: {result.stdout}"
     assert (repo / "app.py").read_text() == header(version="1.0") + "x = 2\n", "the file should be left untouched"
+
+
+# MoSCoW: Should — a real commit passes several files, and each is judged on its own
+def test_each_file_is_judged_on_its_own_when_several_are_passed(git_repo):
+    """With a file needing a bump passed before one already bumped by hand, only the first is bumped and listed."""
+    repo, env = git_repo
+    commit(repo, env, {"stale.py": header() + "x = 1\n", "ready.py": header() + "y = 1\n"})
+    (repo / "stale.py").write_text(header() + "x = 2\n")
+    ready = header(version="1.0.1", updated=TODAY) + "y = 2\n"
+    (repo / "ready.py").write_text(ready)
+    result = run_hook(repo, env, "stale.py", "ready.py")
+    assert (repo / "stale.py").read_text() == header(version="1.0.1", updated=TODAY) + "x = 2\n", (
+        "stale.py should be bumped"
+    )
+    # ready.py comes second, so a bump flag left over from stale.py would wrongly list it
+    assert (repo / "ready.py").read_text() == ready, "ready.py is already bumped, so it shouldn't change"
+    assert "ready.py" not in result.stdout, f"only the bumped file should be listed: {result.stdout}"

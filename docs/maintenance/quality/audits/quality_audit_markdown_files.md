@@ -1,4 +1,4 @@
-<!-- version: 1.0.26 -->
+<!-- version: 1.0.27 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Markdown Quality Audit
@@ -26,16 +26,16 @@ Each doc is scored against [`docs/maintenance/quality/themes/quality_themes_mark
 |---|---|---|---|---|---|---|---|---|
 | | | *Covers reader's tasks* | *Short, no repeats* | *Easy to follow and skim* | *Won't drift* | *Correct today* | | |
 | [`CLAUDE.md`](../../../../CLAUDE.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`CONTRIBUTING.md`](../../../../CONTRIBUTING.md) | Independent review | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: says to run `make deps` straight after cloning without saying a virtualenv must be active first, so it fails |
+| [`CONTRIBUTING.md`](../../../../CONTRIBUTING.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`README.md`](../../../../README.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`SECURITY.md`](../../../../.github/SECURITY.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`docs` README](../../../README.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Branching strategy](../../../git_branching_strategy.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | **A · 9/10** | Maintainability: hard-codes the 20-file limit even though it points to the script default |
+| [Branching strategy](../../../git_branching_strategy.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`file_headers.md`](../../file_headers.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Markdown rubric](../themes/quality_themes_markdown_files.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Test rubric](../themes/quality_themes_test_files.md) | Independent review | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: no reason for "ignore the user's git config", and "cosmetic tests" isn't explained |
+| [Test rubric](../themes/quality_themes_test_files.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Test maintenance](../../test_maintenance.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Virtualenv setup](../../../virtualenv_setup.md) | Independent review | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: doesn't say which Python version is needed |
+| [Virtualenv setup](../../../virtualenv_setup.md) | Independent review | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: says to use CI's Python version but not how to create the virtualenv with it |
 | [`src` README](../../../../src/README.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Global CLAUDE.md](../../../../src/templates/global_claude.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Tests audit](quality_audit_test_files.md) | Independent review | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Leanness: the Key repeats the rubric's Scores table instead of linking to it |
+| [Tests audit](quality_audit_test_files.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
