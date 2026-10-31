@@ -1,4 +1,4 @@
-<!-- version: 1.0.5 -->
+<!-- version: 1.0.6 -->
 <!-- created: 2025-09-18 -->
 <!-- updated: 2026-10-31 -->
 # 🐍 Virtual Environment Setup
@@ -6,6 +6,8 @@
 For anyone setting up this repo locally for the first time: how to create the Python virtualenv it needs.
 
 Using a virtualenv keeps dependencies isolated and avoids conflicts with system Python packages.
+
+The commands below are for Linux, macOS or [WSL](https://learn.microsoft.com/windows/wsl/) on Windows, because the repo's `make` targets and bash hook scripts don't run in plain PowerShell or Command Prompt.
 
 ---
 
@@ -25,23 +27,9 @@ This will create a hidden `.venv/` directory containing the environment.
 
 ## 2. Activate the Virtual Environment
 
-* **Linux / macOS**
-
-  ```bash
-  source .venv/bin/activate
-  ```
-
-* **Windows (PowerShell)**
-
-  ```powershell
-  .venv\Scripts\Activate.ps1
-  ```
-
-* **Windows (Command Prompt)**
-
-  ```bat
-  .venv\Scripts\activate.bat
-  ```
+```bash
+source .venv/bin/activate
+```
 
 Once activated, your shell prompt will typically show `(.venv)`.
 
