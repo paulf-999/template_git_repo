@@ -1,4 +1,4 @@
-<!-- version: 1.0.5 -->
+<!-- version: 1.0.6 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🧪 Test Maintenance
@@ -25,6 +25,7 @@ For maintainers of this template: how many tests to write, how to score them and
 
 - **Format:** put `# MoSCoW: <score> — <reason>` on the line above the test's decorators, or above `def` when it has none.
 - **Reason:** keep it to about 12 words, and say what the test protects, not how it works.
+- **Tests only:** score `test_` functions, not helpers or fixtures, which take their importance from the tests that use them.
 - **Example:**
 
 ```python
