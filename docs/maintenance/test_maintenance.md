@@ -1,4 +1,4 @@
-<!-- version: 1.0.0 -->
+<!-- version: 1.0.1 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 🧪 Test Maintenance
@@ -38,12 +38,15 @@ def test_title_with_shell_characters_is_not_executed():
 - **Lowest level once:** test a shared helper in `test_shell_utils.py`, and give each script that uses it one wiring test, not a copy of every edge case.
 - **Parametrise:** cover input variants with parametrised cases instead of near-duplicate functions.
 - **Bug fixes:** each fix adds one regression test, scored by the impact of the bug.
-
-## 🔁 Keeping tests current
-
-- **Same PR:** a change to a script reviews that script's test scores, and deletes tests for behaviour it removes.
-- **Current behaviour only:** docstrings describe what the code does now, never what is "new" or "added".
 - **No new `Won't` tests:** if a test would score `Won't`, don't add it.
+
+## 🍂 Keeping tests from going stale
+
+A stale test checks or describes behaviour the code no longer has, so it still passes but protects nothing.
+
+- **Same PR:** a change to a script updates that script's tests in the same PR, and deletes tests for behaviour it removes.
+- **Rescore:** the same PR rechecks those tests' scores, since a change can turn a `Could` into a `Must`, or a test into a duplicate.
+- **Names and docstrings:** describe what the code does now, never what is "new", "added" or "old", since that wording goes stale on the next change.
 
 ## 🔍 Periodic review
 
