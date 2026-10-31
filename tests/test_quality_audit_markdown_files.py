@@ -1,4 +1,4 @@
-# version: 1.0.7
+# version: 1.0.8
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks the markdown files quality audit (quality_audit_markdown_files.md) lists every doc and adds up."""
@@ -8,9 +8,9 @@ import subprocess
 from _audit_tables import assert_links_work, assert_quality_scores, read_table
 from _paths import REPO_ROOT
 
-AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality_maintenance" / "quality_audit_markdown_files.md"
+AUDIT = REPO_ROOT / "docs" / "maintenance" / "quality" / "quality_audit_markdown_files.md"
 
-# the themes in quality_maintenance/quality_themes/quality_rubrics_markdown_files.md, as the audit's column headings
+# the themes in quality/quality_rubrics_markdown_files.md, as the audit's column headings
 THEMES = ("Core coverage", "Leanness", "Clarity", "Maintainability", "Accuracy")
 
 # the PR and issue templates, which are forms to fill in rather than docs to score
