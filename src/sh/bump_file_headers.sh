@@ -1,10 +1,11 @@
 #!/bin/bash
-# version: 1.2.1
+# version: 1.3.0
 # created: 2026-10-31
 # updated: 2026-10-31
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
 # Description: Bump the version header of each changed file (PATCH +1, updated = today), unless its version was already raised
+#              A file moved with git mv is compared with its old path, so moving and editing it still bumps it
 # Usage: src/sh/bump_file_headers.sh <file> [file ...] (run from the repo root; pre-commit passes the staged files)
 
 # Load reusable shell script vars & functions
@@ -22,6 +23,8 @@ TODAY="$(date +%F)"
 HEADER_PREFIX='^(<!-- |# )'
 VERSION_FORMAT='^[0-9]+\.[0-9]+\.[0-9]+$'
 BUMPED_FILES=()
+# the current file's path in the last commit, set by needs_header_check
+HEAD_PATH=""
 # set to true by bump_version or bump_updated when they edit the current file
 FILE_CHANGED=false
 
@@ -50,13 +53,26 @@ set_field() {
     rm -f "${tmp}"
 }
 
-# Succeed only for an existing file with a header that was in the last commit and has changed since
-# new files keep their starting 1.0.0, and unchanged files are skipped (e.g. under pre-commit run --all-files)
+# Print the path a file had in the last commit: its own, or the old path of a staged move, else nothing
+head_path() {
+    local file="${1}"
+    if git cat-file -e "HEAD:${file}" 2>/dev/null; then
+        echo "${file}"
+        return 0
+    fi
+    # git lists a staged move as 'R<similarity><TAB>old path<TAB>new path'
+    git diff --cached --name-status -M HEAD | awk -F'\t' -v f="${file}" '$1 ~ /^R/ && $3 == f { print $2; exit }'
+}
+
+# Succeed only for an existing file with a header that was in the last commit, at this path or a moved one,
+# and has changed since. New files keep their starting 1.0.0, and unchanged ones are skipped (e.g. under
+# pre-commit run --all-files), including a file that was moved but not edited
 needs_header_check() {
     local file="${1}"
     [[ -f "${file}" && -n "$(header_line_number "${file}" version)" ]] || return 1
-    git cat-file -e "HEAD:${file}" 2>/dev/null || return 1
-    ! git diff --quiet HEAD -- "${file}"
+    HEAD_PATH="$(head_path "${file}")"
+    [[ -n "${HEAD_PATH}" ]] || return 1
+    ! git show "HEAD:${HEAD_PATH}" | cmp -s - "${file}"
 }
 
 # Stop with an error, before anything is edited, if the header can't be bumped safely
@@ -76,7 +92,7 @@ validate_header() {
 # Raise the PATCH version, unless it was already raised by hand (e.g. to a new MINOR or MAJOR)
 bump_version() {
     local file="${1}" old_version new_version major minor patch
-    old_version="$(git show "HEAD:${file}" | field_value version)"
+    old_version="$(git show "HEAD:${HEAD_PATH}" | field_value version)"
     new_version="$(field_value version < "${file}")"
     if [[ "${new_version}" != "${old_version}" ]]; then
         return 0
