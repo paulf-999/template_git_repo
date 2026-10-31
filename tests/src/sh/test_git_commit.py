@@ -1,4 +1,4 @@
-# version: 1.2.3
+# version: 1.2.4
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the interactive git commit helper."""
@@ -147,6 +147,16 @@ def test_leading_zero_menu_choice_is_read_as_decimal(git_repo):
     result = run_commit_helper(repo, env, ["010", "1", "add notes", "y"])
     assert result.returncode == 0, result.stderr
     assert last_commit_subject(repo, env) == f"{read_script_types()[9]}(app): add notes"
+
+
+# MoSCoW: Should — a mistyped menu number is explained and asked again
+def test_invalid_type_number_is_asked_again(git_repo):
+    """A number that isn't on the type menu is rejected, and the next valid answer is used."""
+    repo, env = git_repo
+    result = run_commit_helper(repo, env, ["99", "1", "1", "add notes", "y"])
+    assert result.returncode == 0, result.stderr
+    assert "Invalid selection" in result.stdout
+    assert last_commit_subject(repo, env) == f"{read_script_types()[0]}(app): add notes"
 
 
 # MoSCoW: Should — commitlint rejects uppercase scopes
