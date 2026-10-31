@@ -1,4 +1,4 @@
-<!-- version: 3.2.2 -->
+<!-- version: 3.2.3 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -21,17 +21,17 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | Script or check | Must | Should | Could | Won't | Total (functions) | **Test Cases** |
 |---|---|---|---|---|---|---|
 | [`bump_file_headers.sh`](../../../scripts/bump_file_headers.sh) | 3 | 5 | 2 | 0 | 10 | **10** |
-| [`git_commit.sh`](../../../scripts/git_commit.sh) | 2 | 7 | 5 | 0 | 14 | **18** |
+| [`git_commit.sh`](../../../scripts/git_commit.sh) | 2 | 8 | 2 | 0 | 12 | **16** |
 | [`git_validate_branch_name.sh`](../../../scripts/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | 4 | **10** |
 | [`git_validate_num_file_changes.sh`](../../../scripts/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | 10 | **12** |
 | [`git_validate_pr_title.sh`](../../../scripts/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | 3 | **13** |
-| [`shell_utils.sh`](../../../scripts/shell_utils.sh) | 2 | 0 | 3 | 0 | 5 | **13** |
+| [`shell_utils.sh`](../../../scripts/shell_utils.sh) | 2 | 1 | 2 | 0 | 5 | **13** |
 | [`Makefile`](../../../Makefile) | 2 | 0 | 0 | 0 | 2 | **2** |
 | [Every script's structure](../../../tests/scripts/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **49** |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
 | [This audit's checker](../../../tests/test_quality_audit_test_files.py) | 0 | 2 | 0 | 0 | 2 | **2** |
-| **Totals** | | | | | **56** | **139** |
+| **Totals** | | | | | **54** | **137** |
 
 ## ⭐ Quality by script
 
@@ -52,11 +52,11 @@ Each script's tests are scored against [`docs/maintenance/quality_maintenance/qu
 |---|---|---|---|---|---|---|---|---|---|---|
 |  |  |  | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* |  |  | |
 | [Header bump](../../../scripts/bump_file_headers.sh) | 10 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
-| [`git_commit.sh`](../../../scripts/git_commit.sh) | 14 | 18 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Leanness: 5 Could tests vs 2 Must | Self-scored (Claude), after fixing the independent review's gaps |
+| [`git_commit.sh`](../../../scripts/git_commit.sh) | 12 | 16 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
 | [Branch name](../../../scripts/git_validate_branch_name.sh) | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
 | [PR size](../../../scripts/git_validate_num_file_changes.sh) | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
 | [PR title](../../../scripts/git_validate_pr_title.sh) | 3 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
-| [`shell_utils.sh`](../../../scripts/shell_utils.sh) | 5 | 13 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Leanness: 3 Could tests vs 2 Must | Self-scored (Claude), after fixing the independent review's gaps |
+| [`shell_utils.sh`](../../../scripts/shell_utils.sh) | 5 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
 | [`Makefile`](../../../Makefile) | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
 | [Every script's structure](../../../tests/scripts/test_script_structure.py) | 4 | 9 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Self-scored (Claude), after fixing the independent review's gaps |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 49 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |

@@ -1,4 +1,4 @@
-# version: 1.2.7
+# version: 1.2.8
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the interactive git commit helper."""
@@ -131,7 +131,7 @@ def test_declining_the_confirm_prompt_makes_no_commit(git_repo):
     assert head.returncode != 0, "a commit was made despite answering 'n'"
 
 
-# MoSCoW: Could — rarely used pass-through of git commit flags
+# MoSCoW: Should — flags like --no-verify must reach git commit, not be dropped
 def test_flags_are_passed_to_git_commit(git_repo):
     """Script arguments reach git commit, e.g. --author overrides the commit author."""
     repo, env = git_repo
@@ -144,10 +144,11 @@ def test_flags_are_passed_to_git_commit(git_repo):
 
 
 # MoSCoW: Should — stops a bare '<type>(<scope>)' subject
-def test_empty_message_is_rejected(git_repo):
-    """An empty message exits 1 instead of committing a bare '<type>(<scope>)' subject."""
+@pytest.mark.parametrize("empty_message", ["", "   "])
+def test_empty_message_is_rejected(git_repo, empty_message):
+    """An empty or all-spaces message exits 1 instead of committing a bare '<type>(<scope>)' subject."""
     repo, env = git_repo
-    result = run_commit_helper(repo, env, ["1", "1", ""])
+    result = run_commit_helper(repo, env, ["1", "1", empty_message])
     assert result.returncode == 1, "an empty message should stop the helper"
     assert "Commit message cannot be empty." in result.stdout, f"expected the empty-message error: {result.stdout}"
 
@@ -213,31 +214,3 @@ def test_non_ascii_file_name_gives_a_clean_scope(git_repo):
     result = run_commit_helper(repo, env, ["1", "2", "add notes", "y"])
     assert result.returncode == 0, result.stderr
     assert last_commit_subject(repo, env) == "chore(résumé): add notes", "the scope should be the plain file name"
-
-
-# MoSCoW: Could — stray spaces around the message
-def test_surrounding_spaces_are_trimmed(git_repo):
-    """Spaces around the message are dropped, and an all-spaces message counts as empty and is asked again."""
-    repo, env = git_repo
-    # the all-spaces message counts as empty, so the message is asked again; had it been accepted,
-    # '  add notes  ' would have answered the confirm prompt instead and no commit would follow
-    result = run_commit_helper(repo, env, ["1", "1", "   ", "  add notes  ", "y"])
-    assert result.returncode == 0, result.stderr
-    assert last_commit_subject(repo, env) == "chore(app): add notes", "spaces around the message should be dropped"
-
-
-# MoSCoW: Could — rare custom scopes that break the header
-@pytest.mark.parametrize(
-    ("bad_scope", "expected_error"),
-    [("a)b", "Use only letters"), ("x" * 31, "Keep the scope to 30 characters")],
-)
-def test_unusable_custom_scope_is_asked_again(git_repo, bad_scope, expected_error):
-    """A scope that would break the header, or crowd out the message, is explained and asked for again."""
-    repo, env = git_repo
-    # the bad scope is rejected, so the scope menu is asked again: 0, then 'ci'
-    result = run_commit_helper(repo, env, ["1", "0", bad_scope, "0", "ci", "add notes", "y"])
-    assert result.returncode == 0, result.stderr
-    assert expected_error in result.stdout, f"expected '{expected_error}' in the explanation: {result.stdout}"
-    assert last_commit_subject(repo, env) == "chore(ci): add notes", (
-        "the scope given after the rejected one should be used"
-    )

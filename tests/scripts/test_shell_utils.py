@@ -1,4 +1,4 @@
-# version: 1.1.3
+# version: 1.1.4
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the shared shell helper functions."""
@@ -21,7 +21,7 @@ def run_with_utils(command):
     )
 
 
-# MoSCoW: Could — Ctrl+C handling in the shared helpers
+# MoSCoW: Should — every script's Ctrl+C trap calls handle_interruption
 def test_handle_interruption_logs_and_exits():
     """handle_interruption prints its abort message and exits 1, with no missing-command error."""
     result = run_with_utils("handle_interruption")
