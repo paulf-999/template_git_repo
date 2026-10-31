@@ -1,5 +1,5 @@
 ---
-# version: 1.2.5
+# version: 1.2.6
 # created: 2022-11-04
 # updated: 2026-10-31
 # all commands by default will run on every commit
@@ -24,7 +24,7 @@ repos:
           - id: name-tests-test
             name: Python checks — pytest test files named correctly?
             args: [--pytest-test-first]
-            exclude: ^tests/(_paths|_audit_tables)\.py$  # shared helper modules for the tests, not test files
+            exclude: ^tests/(_paths|_audit_tables|_git_repo)\.py$  # shared helper modules for the tests, not test files
           # General/housekeeping hooks
           - id: end-of-file-fixer  # ensures that a file is either empty, or ends with one newline.
             name: General fixes — fix end of files

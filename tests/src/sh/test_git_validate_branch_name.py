@@ -1,13 +1,12 @@
-# version: 1.0.3
+# version: 1.0.4
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the git branch name validation pre-commit hook."""
 
-import os
-import shutil
 import subprocess
 
 import pytest
+from _git_repo import isolated_git_repo
 from _paths import REPO_ROOT, SCRIPTS_DIR
 
 SCRIPT = SCRIPTS_DIR / "git_validate_branch_name.sh"
@@ -20,20 +19,8 @@ def run_hook(branch_name):
 
 def repo_on_branch(repo, branch):
     """Make the folder a git repo with one commit on the branch, and return an env that skips the user's git config."""
-    env = {
-        **os.environ,
-        "GIT_CONFIG_GLOBAL": os.devnull,
-        "GIT_CONFIG_NOSYSTEM": "1",
-        "GIT_AUTHOR_NAME": "Test",
-        "GIT_AUTHOR_EMAIL": "test@example.com",
-        "GIT_COMMITTER_NAME": "Test",
-        "GIT_COMMITTER_EMAIL": "test@example.com",
-    }
-    subprocess.run(["git", "init", "-q", "-b", branch], cwd=repo, env=env, check=True)
+    env = isolated_git_repo(repo, branch=branch)
     subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "x"], cwd=repo, env=env, check=True)
-    # the script sources src/sh/shell_utils.sh from the repo root, as in the real repo
-    (repo / "src" / "sh").mkdir(parents=True)
-    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", repo / "src" / "sh" / "shell_utils.sh")
     return env
 
 
