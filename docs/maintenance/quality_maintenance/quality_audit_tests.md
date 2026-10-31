@@ -1,4 +1,4 @@
-<!-- version: 3.1.10 -->
+<!-- version: 3.1.11 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -28,7 +28,7 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **9** |
 | [Every tracked file's header](../../../tests/test_file_metadata_headers.py) | 1 | 0 | 0 | 0 | 1 | **1 per tracked file** |
 | [Markdown quality audit](../../../tests/test_quality_audit_markdown_files.py) | 0 | 1 | 0 | 0 | 1 | **1** |
-| **Totals** | | | | | | **88 + 1 per tracked file** |
+| **Totals** | | | | | **54** | **88 + 1 per tracked file** |
 
 ## ⭐ Quality by script
 

@@ -1,4 +1,4 @@
-# version: 4.0.9
+# version: 4.0.10
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality_maintenance/quality_audit_tests.md matches the test files and adds up."""
@@ -93,7 +93,11 @@ def test_moscow_table_matches_the_test_files():
         listed, found = row["Test Cases"], PER_TRACKED_FILE.get(name, str(cases[name]))
         assert listed == found, f"{name}: Test Cases says {listed}, expected {found}"
 
-    # the Totals row adds up the numeric Test Cases, plus the per-file rule if any row uses it
+    # the Totals row gives the total number of test functions
+    listed, expected = totals["Total (functions)"], str(sum(int(row["Total (functions)"]) for row in script_rows))
+    assert listed == expected, f"Totals says {listed} functions, the rows add up to {expected}"
+
+    # it also adds up the numeric Test Cases, plus the per-file rule if any row uses it
     counted = sum(int(row["Test Cases"]) for row in rows.values() if row["Test Cases"].isdigit())
     rules = sorted({row["Test Cases"] for row in rows.values() if not row["Test Cases"].isdigit()})
     listed, expected = totals["Test Cases"], " + ".join([str(counted), *rules])
