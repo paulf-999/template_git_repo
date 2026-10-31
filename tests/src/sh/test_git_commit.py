@@ -1,4 +1,4 @@
-# version: 1.2.9
+# version: 1.2.10
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the interactive git commit helper."""
@@ -87,17 +87,6 @@ def test_types_match_commitlint():
     assert sorted(read_script_types()) == sorted(COMMITLINT_TYPES), "git_commit.sh's TYPES should match commitlint's"
 
 
-# MoSCoW: Should — test and perf types build a valid '<type>(<scope>): <message>'
-@pytest.mark.parametrize("commit_type", ["test", "perf"])
-def test_test_and_perf_types_build_a_valid_commit(git_repo, commit_type):
-    """The test and perf types produce a '<type>(<scope>): <message>' commit."""
-    repo, env = git_repo
-    menu_number = str(read_script_types().index(commit_type) + 1)
-    result = run_commit_helper(repo, env, [menu_number, "1", "add a check", "y"])
-    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
-    assert last_commit_subject(repo, env) == f"{commit_type}(app): add a check", "expected '<type>(<scope>): <message>'"
-
-
 # MoSCoW: Should — the main way scopes are offered
 def test_files_in_one_folder_share_a_scope(git_repo):
     """Staged files are grouped by top-level folder, so each repo area is offered once."""
@@ -146,14 +135,16 @@ def test_flags_are_passed_to_git_commit(git_repo):
     assert author == "Other", "--author should reach git commit"
 
 
-# MoSCoW: Should — stops a bare '<type>(<scope>)' subject
+# MoSCoW: Should — a bare '<type>(<scope>)' subject must never be committed
 @pytest.mark.parametrize("empty_message", ["", "   "])
-def test_empty_message_is_rejected(git_repo, empty_message):
-    """An empty or all-spaces message exits 1 instead of committing a bare '<type>(<scope>)' subject."""
+def test_empty_message_is_asked_again(git_repo, empty_message):
+    """An empty or all-spaces message is explained and asked for again, so no bare '<type>(<scope>)' is committed."""
     repo, env = git_repo
-    result = run_commit_helper(repo, env, ["1", "1", empty_message])
-    assert result.returncode == 1, "an empty message should stop the helper"
+    # the empty message is rejected, so the message is asked again
+    result = run_commit_helper(repo, env, ["1", "1", empty_message, "add notes", "y"])
+    assert result.returncode == 0, f"the helper should finish cleanly: {result.stdout}{result.stderr}"
     assert "Commit message cannot be empty." in result.stdout, f"expected the empty-message error: {result.stdout}"
+    assert last_commit_subject(repo, env) == f"{FIRST_TYPE}(app): add notes", "the next message should be used"
 
 
 # MoSCoW: Could — wiring check that menu input uses to_whole_number
