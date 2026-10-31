@@ -1,4 +1,4 @@
-<!-- version: 1.0.5 -->
+<!-- version: 1.0.6 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Markdown Quality Audit
@@ -11,7 +11,7 @@ For maintainers of this template: how good each markdown doc is, scored out of 1
 
 ## ⭐ Quality by doc
 
-Each doc is scored against [`docs/maintenance/quality_maintenance/quality_themes/markdown_quality_rubric.md`](quality_themes/markdown_quality_rubric.md).
+Each doc is scored against [`docs/maintenance/quality_maintenance/quality_themes/quality_rubrics_markdown_files.md`](quality_themes/quality_rubrics_markdown_files.md).
 
 **Key:**
 
@@ -28,8 +28,8 @@ Each doc is scored against [`docs/maintenance/quality_maintenance/quality_themes
 | [`README.md`](../../../README.md) | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: leaves out `make test`, the CI checks, the `CLAUDE.md` TODOs and `global_claude.md` | Independent review |
 | [`git_branching_strategy.md`](../../git_branching_strategy.md) | ✅ 2 | ✅ 2 | 🟡 1 | 🟡 1 | ✅ 2 | **B · 8/10** | Clarity: the `release/` example name is jargon from another project, and the naming rules don't say why · Maintainability: copies the branch-name regex from the script | Independent review |
 | [`file_headers.md`](../file_headers.md) | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | **A · 9/10** | Maintainability: lists the exempt files instead of pointing to the `EXEMPT` set in its test | Independent review |
-| [`markdown_quality_rubric.md`](quality_themes/markdown_quality_rubric.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
-| [`test_quality_rubric.md`](quality_themes/test_quality_rubric.md) | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: gives no reason for the 'no more Could than Must' cap | Independent review |
+| [`quality_rubrics_markdown_files.md`](quality_themes/quality_rubrics_markdown_files.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
+| [`quality_rubrics_test_files.md`](quality_themes/quality_rubrics_test_files.md) | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: gives no reason for the 'no more Could than Must' cap | Independent review |
 | [`test_maintenance.md`](../test_maintenance.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
 | [`virtualenv_setup.md`](../../virtualenv_setup.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |
 | [`global_claude.md`](../../../src/templates/global_claude.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — | Independent review |

@@ -1,4 +1,4 @@
-<!-- version: 3.1.12 -->
+<!-- version: 3.1.13 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -34,7 +34,7 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 
 Long script names are shortened to a label here, to keep the table narrow, and each label links to its script.
 
-Each script's tests are scored against [`docs/maintenance/quality_maintenance/quality_themes/test_quality_rubric.md`](quality_themes/test_quality_rubric.md).
+Each script's tests are scored against [`docs/maintenance/quality_maintenance/quality_themes/quality_rubrics_test_files.md`](quality_themes/quality_rubrics_test_files.md).
 
 **Key:**
 
