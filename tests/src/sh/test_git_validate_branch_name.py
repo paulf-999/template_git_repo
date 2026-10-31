@@ -1,4 +1,4 @@
-# version: 1.0.1
+# version: 1.0.2
 # created: 2026-10-30
 # updated: 2026-10-31
 """Tests for the git branch name validation pre-commit hook."""
@@ -8,9 +8,9 @@ import shutil
 import subprocess
 
 import pytest
-from _paths import REPO_ROOT, SH_DIR
+from _paths import REPO_ROOT, SCRIPTS_DIR
 
-SCRIPT = SH_DIR / "git_validate_branch_name.sh"
+SCRIPT = SCRIPTS_DIR / "git_validate_branch_name.sh"
 
 
 def run_hook(branch_name):
@@ -53,6 +53,6 @@ def test_defaults_to_the_current_branch(tmp_path, current_branch, expected_code)
     subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "x"], cwd=tmp_path, env=env, check=True)
     # the script sources src/sh/shell_utils.sh from the repo root, as in the real repo
     (tmp_path / "src" / "sh").mkdir(parents=True)
-    shutil.copy(SH_DIR / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
+    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
     result = subprocess.run([str(SCRIPT)], cwd=tmp_path, env=env, capture_output=True, check=False)
     assert result.returncode == expected_code

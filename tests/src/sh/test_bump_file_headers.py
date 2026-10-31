@@ -1,4 +1,4 @@
-# version: 1.1.1
+# version: 1.1.2
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the pre-commit hook that bumps each changed file's version header."""
@@ -9,9 +9,9 @@ import subprocess
 from datetime import date
 
 import pytest
-from _paths import SH_DIR
+from _paths import SCRIPTS_DIR
 
-SCRIPT = SH_DIR / "bump_file_headers.sh"
+SCRIPT = SCRIPTS_DIR / "bump_file_headers.sh"
 TODAY = date.today().isoformat()
 OLD_DATE = "2026-01-01"
 
@@ -39,7 +39,7 @@ def git_repo(tmp_path):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, env=env, check=True)
     # the script sources src/sh/shell_utils.sh from the repo root, as in the real repo
     (tmp_path / "src" / "sh").mkdir(parents=True)
-    shutil.copy(SH_DIR / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
+    shutil.copy(SCRIPTS_DIR / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
     return tmp_path, env
 
 

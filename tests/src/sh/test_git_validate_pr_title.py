@@ -1,4 +1,4 @@
-# version: 1.0.1
+# version: 1.0.2
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the PR title check, which keeps squash-merge commit messages on main valid."""
@@ -7,9 +7,9 @@ import subprocess
 from pathlib import Path
 
 import pytest
-from _paths import REPO_ROOT, SH_DIR
+from _paths import REPO_ROOT, SCRIPTS_DIR
 
-SCRIPT = SH_DIR / "git_validate_pr_title.sh"
+SCRIPT = SCRIPTS_DIR / "git_validate_pr_title.sh"
 
 
 def run_check(title):
