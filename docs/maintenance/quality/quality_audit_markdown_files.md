@@ -1,4 +1,4 @@
-<!-- version: 1.0.18 -->
+<!-- version: 1.0.19 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Markdown Quality Audit
@@ -38,4 +38,4 @@ Each doc is scored against [`docs/maintenance/quality/quality_rubrics_markdown_f
 | [Virtualenv setup](../../virtualenv_setup.md) | Independent review | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: doesn't open by saying who it's for |
 | [`src` README](../../../src/README.md) | Self-scored (Claude), after fixing the independent review's gaps | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Global CLAUDE.md](../../../src/templates/global_claude.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Tests audit](quality_audit_test_files.md) | Self-scored (Claude) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Tests audit](quality_audit_test_files.md) | Self-scored (Claude) | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | **A · 9/10** | Maintainability: scores and Gaps are typed by hand with no check, and the header check's count changes with every tracked file |
