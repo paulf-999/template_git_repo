@@ -1,4 +1,4 @@
-# version: 1.1.2
+# version: 1.1.3
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the pre-commit hook that bumps each changed file's version header."""
@@ -64,9 +64,11 @@ def test_changed_file_gets_a_patch_bump_and_todays_date(git_repo):
     commit(repo, env, {"app.py": header() + "x = 1\n"})
     (repo / "app.py").write_text(header() + "x = 2\n")
     result = run_hook(repo, env, "app.py")
-    assert result.returncode == 1
-    assert "app.py" in result.stdout
-    assert (repo / "app.py").read_text() == header(version="1.0.1", updated=TODAY) + "x = 2\n"
+    assert result.returncode == 1, "an edited file should stop the commit, so the bump can be staged"
+    assert "app.py" in result.stdout, f"the bumped file should be listed: {result.stdout}"
+    assert (repo / "app.py").read_text() == header(version="1.0.1", updated=TODAY) + "x = 2\n", (
+        "expected the next PATCH version and today's date"
+    )
 
 
 # MoSCoW: Must — a bumped file must commit, or every commit is blocked
@@ -77,8 +79,8 @@ def test_second_run_after_a_bump_passes(git_repo):
     (repo / "app.py").write_text(header() + "x = 2\n")
     run_hook(repo, env, "app.py")
     bumped = (repo / "app.py").read_text()
-    assert run_hook(repo, env, "app.py").returncode == 0
-    assert (repo / "app.py").read_text() == bumped
+    assert run_hook(repo, env, "app.py").returncode == 0, "a file already bumped should pass on the next run"
+    assert (repo / "app.py").read_text() == bumped, "a second run shouldn't bump the file again"
 
 
 # MoSCoW: Should — a hand-set MINOR or MAJOR bump must survive
@@ -88,8 +90,10 @@ def test_version_raised_by_hand_is_kept(git_repo):
     commit(repo, env, {"app.py": header() + "x = 1\n"})
     (repo / "app.py").write_text(header(version="1.1.0") + "x = 2\n")
     result = run_hook(repo, env, "app.py")
-    assert result.returncode == 1
-    assert (repo / "app.py").read_text() == header(version="1.1.0", updated=TODAY) + "x = 2\n"
+    assert result.returncode == 1, "the date change should stop the commit, so it can be staged"
+    assert (repo / "app.py").read_text() == header(version="1.1.0", updated=TODAY) + "x = 2\n", (
+        "a version raised by hand should be kept, with only the date updated"
+    )
 
 
 # MoSCoW: Must — run --all-files must not rewrite every untouched file
@@ -97,8 +101,8 @@ def test_unchanged_file_is_left_alone(git_repo):
     """A file with no changes since the last commit, as under pre-commit run --all-files, isn't touched."""
     repo, env = git_repo
     commit(repo, env, {"app.py": header() + "x = 1\n"})
-    assert run_hook(repo, env, "app.py").returncode == 0
-    assert (repo / "app.py").read_text() == header() + "x = 1\n"
+    assert run_hook(repo, env, "app.py").returncode == 0, "an unchanged file should pass"
+    assert (repo / "app.py").read_text() == header() + "x = 1\n", "an unchanged file shouldn't be edited"
 
 
 # MoSCoW: Should — markdown files use the HTML-comment header form
@@ -108,7 +112,8 @@ def test_markdown_header_is_bumped(git_repo):
     commit(repo, env, {"README.md": header(markdown=True) + "# Title\n"})
     (repo / "README.md").write_text(header(markdown=True) + "# New title\n")
     run_hook(repo, env, "README.md")
-    assert (repo / "README.md").read_text() == header(version="1.0.1", updated=TODAY, markdown=True) + "# New title\n"
+    expected = header(version="1.0.1", updated=TODAY, markdown=True) + "# New title\n"
+    assert (repo / "README.md").read_text() == expected, "a markdown header should get the next PATCH and today's date"
 
 
 # MoSCoW: Should — every script has a shebang before its header
@@ -119,8 +124,10 @@ def test_header_after_a_shebang_is_bumped_and_stays_executable(git_repo):
     (repo / "run.sh").chmod(0o755)
     (repo / "run.sh").write_text("#!/bin/bash\n" + header() + "echo 2\n")
     run_hook(repo, env, "run.sh")
-    assert (repo / "run.sh").read_text() == "#!/bin/bash\n" + header(version="1.0.1", updated=TODAY) + "echo 2\n"
-    assert os.access(repo / "run.sh", os.X_OK)
+    assert (repo / "run.sh").read_text() == "#!/bin/bash\n" + header(version="1.0.1", updated=TODAY) + "echo 2\n", (
+        "a header after a shebang should get the next PATCH version and today's date"
+    )
+    assert os.access(repo / "run.sh", os.X_OK), "the script should stay executable after the bump"
 
 
 # MoSCoW: Should — new files keep the version they were created with
@@ -129,8 +136,10 @@ def test_new_file_is_left_at_its_starting_version(git_repo):
     repo, env = git_repo
     commit(repo, env, {"other.py": header() + "y = 1\n"})
     (repo / "new.py").write_text(header(updated=TODAY) + "z = 1\n")
-    assert run_hook(repo, env, "new.py").returncode == 0
-    assert (repo / "new.py").read_text() == header(updated=TODAY) + "z = 1\n"
+    assert run_hook(repo, env, "new.py").returncode == 0, "a new file should pass"
+    assert (repo / "new.py").read_text() == header(updated=TODAY) + "z = 1\n", (
+        "a new file should keep its starting version"
+    )
 
 
 # MoSCoW: Should — exempt files like PR templates are never edited
@@ -139,8 +148,8 @@ def test_file_without_a_header_is_left_alone(git_repo):
     repo, env = git_repo
     commit(repo, env, {"template.md": "# Title\n"})
     (repo / "template.md").write_text("# New title\n")
-    assert run_hook(repo, env, "template.md").returncode == 0
-    assert (repo / "template.md").read_text() == "# New title\n"
+    assert run_hook(repo, env, "template.md").returncode == 0, "a file with no header should pass"
+    assert (repo / "template.md").read_text() == "# New title\n", "a file with no header shouldn't be edited"
 
 
 # MoSCoW: Could — rare broken header, caught with a clear message
@@ -150,8 +159,8 @@ def test_header_without_an_updated_line_fails_with_a_clear_error(git_repo):
     commit(repo, env, {"app.py": "# version: 1.0.0\nx = 1\n"})
     (repo / "app.py").write_text("# version: 1.0.0\nx = 2\n")
     result = run_hook(repo, env, "app.py")
-    assert result.returncode == 1
-    assert "no 'updated' line" in result.stdout
+    assert result.returncode == 1, "a header with no updated line should stop the commit"
+    assert "no 'updated' line" in result.stdout, f"expected an error naming the missing updated line: {result.stdout}"
     assert (repo / "app.py").read_text() == "# version: 1.0.0\nx = 2\n", "the file should be left untouched"
 
 
@@ -162,6 +171,6 @@ def test_malformed_version_fails_with_a_clear_error(git_repo):
     commit(repo, env, {"app.py": header(version="1.0") + "x = 1\n"})
     (repo / "app.py").write_text(header(version="1.0") + "x = 2\n")
     result = run_hook(repo, env, "app.py")
-    assert result.returncode == 1
-    assert "isn't MAJOR.MINOR.PATCH" in result.stdout
-    assert (repo / "app.py").read_text() == header(version="1.0") + "x = 2\n"
+    assert result.returncode == 1, "a malformed version should stop the commit"
+    assert "isn't MAJOR.MINOR.PATCH" in result.stdout, f"expected an error about the version format: {result.stdout}"
+    assert (repo / "app.py").read_text() == header(version="1.0") + "x = 2\n", "the file should be left untouched"

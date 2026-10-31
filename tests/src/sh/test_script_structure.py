@@ -1,4 +1,4 @@
-# version: 1.0.3
+# version: 1.0.4
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks every script in src/sh/, and the bash script template itself, follows the template's structure."""
@@ -38,6 +38,7 @@ def problems_with(path):
         found = next((n for n, line in enumerate(lines) if re.fullmatch(pattern, line)), None)
         if found is None:
             problems.append(f"missing the {name}")
+        # each part must come after the one before it, so a part found above the last one is out of order
         elif found < last_found:
             problems.append(f"the {name} (line {found + 1}) is out of order")
         else:
@@ -64,7 +65,7 @@ def test_a_missing_part_is_reported(tmp_path):
     """A script with no completed message is caught, so the check can't silently pass everything."""
     script = tmp_path / "broken.sh"
     script.write_text(TEMPLATE.read_text().replace('"Script execution completed."', '"Done."'))
-    assert problems_with(script) == ["missing the completed message"]
+    assert problems_with(script) == ["missing the completed message"], "only the completed message should be missing"
 
 
 # MoSCoW: Could — rarer case of every part present but reordered
@@ -73,4 +74,7 @@ def test_an_out_of_order_part_is_reported(tmp_path):
     script = tmp_path / "reordered.sh"
     text = TEMPLATE.read_text().replace("# Functions\n", "# Placeholder\n")
     script.write_text("# Functions\n" + text)
-    assert any("Functions section" in problem and "out of order" in problem for problem in problems_with(script))
+    problems = problems_with(script)
+    assert any("Functions section" in problem and "out of order" in problem for problem in problems), (
+        f"expected the Functions section to be reported as out of order, got {problems}"
+    )

@@ -1,10 +1,10 @@
-# version: 1.0.2
+# version: 1.0.3
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the PR title check, which keeps squash-merge commit messages on main valid."""
 
+import os
 import subprocess
-from pathlib import Path
 
 import pytest
 from _paths import REPO_ROOT, SCRIPTS_DIR
@@ -50,13 +50,17 @@ def test_valid_titles_pass(title):
 def test_invalid_titles_fail_with_a_reason(title, expected_error):
     """A title commitlint would reject exits 1 and says what to fix."""
     result = run_check(title)
-    assert result.returncode == 1
-    assert expected_error in result.stdout
+    assert result.returncode == 1, f"{title!r} should be blocked"
+    assert expected_error in result.stdout, f"expected '{expected_error}' in the reason: {result.stdout}"
 
 
 # MoSCoW: Must — security: a PR title must never run as code
-def test_title_with_shell_characters_is_not_executed():
+def test_title_with_shell_characters_is_not_executed(tmp_path):
     """The title is treated as text, so shell syntax in it is never run."""
-    result = run_check("feat(ci): add $(touch /tmp/should_not_exist_pr_title) check")
-    assert result.returncode == 0
-    assert not Path("/tmp/should_not_exist_pr_title").exists()
+    # the path is passed in a variable, so the title stays under the 100-character limit
+    marker = tmp_path / "should_not_exist"
+    title = "feat(ci): add $(touch $MARKER) check"
+    env = {**os.environ, "MARKER": str(marker)}
+    result = subprocess.run([str(SCRIPT), title], cwd=REPO_ROOT, env=env, capture_output=True, text=True, check=False)
+    assert result.returncode == 0, f"the title is valid once its shell syntax is read as text: {result.stdout}"
+    assert not marker.exists(), "the $(...) in the title was run as a command"
