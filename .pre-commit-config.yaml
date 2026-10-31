@@ -1,5 +1,5 @@
 ---
-# version: 1.2.5
+# version: 1.2.7
 # created: 2022-11-04
 # updated: 2026-10-31
 # all commands by default will run on every commit
@@ -24,7 +24,7 @@ repos:
           - id: name-tests-test
             name: Python checks — pytest test files named correctly?
             args: [--pytest-test-first]
-            exclude: ^tests/(_paths|_audit_tables)\.py$  # shared helper modules for the tests, not test files
+            exclude: ^tests/(_paths|_audit_tables|_git_repo)\.py$  # shared helper modules for the tests, not test files
           # General/housekeeping hooks
           - id: end-of-file-fixer  # ensures that a file is either empty, or ends with one newline.
             name: General fixes — fix end of files
@@ -96,7 +96,7 @@ repos:
           - id: markdownlint
             name: Markdown checks — linter
             args: [--config, .github/linters/.markdownlint.yaml]
-    # 🧹 Ruff — fast linter, formatter, and import sorter (rules live in ruff.toml, so editors use them too)
+    # 🧹 Ruff — fast linter, formatter, and import sorter (rules live in pyproject.toml, so editors use them too)
     - repo: https://github.com/astral-sh/ruff-pre-commit
       rev: v0.17.3
       hooks:
