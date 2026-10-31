@@ -1,10 +1,10 @@
 #!/bin/bash
-# version: 1.0.0
+# version: 1.0.1
 # created: 2026-10-31
 # updated: 2026-10-31
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
-# Bump the version header of each changed file (PATCH +1, updated = today), unless its version was already raised
+# Description: Bump the version header of each changed file (PATCH +1, updated = today), unless its version was already raised
 # Usage: src/sh/bump_file_headers.sh <file> [file ...] (run from the repo root; pre-commit passes the staged files)
 
 # Load reusable shell script vars & functions

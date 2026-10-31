@@ -1,4 +1,4 @@
-<!-- version: 1.1.0 -->
+<!-- version: 2.0.0 -->
 <!-- created: 2025-09-18 -->
 <!-- updated: 2026-10-31 -->
 # 🤝 Contributing
@@ -37,8 +37,6 @@ Every file opens with a three-line header, as HTML comments in markdown and `#` 
   - **MAJOR:** behaviour or guidance reversed or removed.
   - **MINOR:** behaviour or guidance added.
   - **PATCH:** wording, typo or formatting fix only.
-  - **Automatic:** the `bump_file_headers` pre-commit hook does a PATCH bump and sets `updated` for each changed file, then stops the commit so you can re-stage.
-  - **By hand:** raise MINOR or MAJOR yourself when a change warrants it, and the hook leaves your version alone.
 - **Exempt:** the PR and issue templates, which are copied into every new PR or issue, and empty `.gitkeep` files.
 - **Checked by:** `tests/test_file_metadata_headers.py`, which fails on a missing or malformed header.
 
