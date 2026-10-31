@@ -1,4 +1,4 @@
-# version: 1.0.2
+# version: 1.0.3
 # created: 2026-10-30
 # updated: 2026-10-31
 """Checks every tracked file opens with a version/created/updated header (see docs/maintenance/file_headers.md)."""
@@ -6,11 +6,10 @@
 import re
 import subprocess
 from datetime import date
-from pathlib import Path
 
 import pytest
+from _paths import REPO_ROOT
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
 HEADER_FIELDS = ("version", "created", "updated")
 
 # copied into every new PR or issue body, or kept empty, so they carry no header

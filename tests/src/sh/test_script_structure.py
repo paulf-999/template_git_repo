@@ -1,18 +1,17 @@
-# version: 1.0.0
+# version: 1.0.1
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks every script in src/sh/, and the bash script template itself, follows the template's structure."""
 
 import re
-from pathlib import Path
 
 import pytest
+from _paths import REPO_ROOT, SH_DIR
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
 TEMPLATE = REPO_ROOT / "src" / "templates" / "bash_script_template.sh"
 # shell_utils.sh is a library that other scripts source, not a script that runs on its own
 LIBRARIES = {"shell_utils.sh"}
-SCRIPTS = sorted(path for path in (REPO_ROOT / "src" / "sh").glob("*.sh") if path.name not in LIBRARIES)
+SCRIPTS = sorted(path for path in SH_DIR.glob("*.sh") if path.name not in LIBRARIES)
 
 # the parts of src/templates/bash_script_template.sh every script must keep, in this order
 REQUIRED_PARTS = [

@@ -1,18 +1,17 @@
-# version: 1.2.0
+# version: 1.2.1
 # created: 2026-10-30
-# updated: 2026-10-30
+# updated: 2026-10-31
 """Tests for the interactive git commit helper."""
 
 import os
 import re
 import shutil
 import subprocess
-from pathlib import Path
 
 import pytest
+from _paths import SH_DIR
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-SCRIPT = REPO_ROOT / "src" / "sh" / "git_commit.sh"
+SCRIPT = SH_DIR / "git_commit.sh"
 
 
 def read_script_types():
@@ -40,7 +39,7 @@ def git_repo(tmp_path):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, env=env, check=True)
     # the helper sources src/sh/shell_utils.sh from the repo root, as in the real repo
     (tmp_path / "src" / "sh").mkdir(parents=True)
-    shutil.copy(REPO_ROOT / "src" / "sh" / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
+    shutil.copy(SH_DIR / "shell_utils.sh", tmp_path / "src" / "sh" / "shell_utils.sh")
     (tmp_path / "app.py").write_text("print('hi')\n")
     subprocess.run(["git", "add", "app.py"], cwd=tmp_path, env=env, check=True)
     return tmp_path, env
