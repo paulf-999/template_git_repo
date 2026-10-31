@@ -1,4 +1,4 @@
-# version: 1.0.0
+# version: 1.0.1
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the PR title check, which keeps squash-merge commit messages on main valid."""
@@ -17,6 +17,7 @@ def run_check(title):
     return subprocess.run([str(SCRIPT), title], cwd=REPO_ROOT, capture_output=True, text=True, check=False)
 
 
+# MoSCoW: Must — good PR titles must not be blocked
 @pytest.mark.parametrize(
     "title",
     [
@@ -33,6 +34,7 @@ def test_valid_titles_pass(title):
     assert result.returncode == 0, result.stdout
 
 
+# MoSCoW: Must — bad PR titles must be blocked with a reason
 @pytest.mark.parametrize(
     ("title", "expected_error"),
     [
@@ -52,6 +54,7 @@ def test_invalid_titles_fail_with_a_reason(title, expected_error):
     assert expected_error in result.stdout
 
 
+# MoSCoW: Must — security: a PR title must never run as code
 def test_title_with_shell_characters_is_not_executed():
     """The title is treated as text, so shell syntax in it is never run."""
     result = run_check("feat(ci): add $(touch /tmp/should_not_exist_pr_title) check")
