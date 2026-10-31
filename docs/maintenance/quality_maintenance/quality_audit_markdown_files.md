@@ -1,4 +1,4 @@
-<!-- version: 1.0.14 -->
+<!-- version: 1.0.15 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Markdown Quality Audit
@@ -35,5 +35,6 @@ Each doc is scored against [`docs/maintenance/quality_maintenance/quality_themes
 | [Test rubric](quality_themes/quality_rubrics_test_files.md) | Independent review | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | ✅ 2 | **A · 9/10** | Clarity: uses "Must-level" and "Could tests" without defining them or linking to `test_maintenance.md` |
 | [Test maintenance](../test_maintenance.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Virtualenv setup](../../virtualenv_setup.md) | Independent review | 🟡 1 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 9/10** | Core coverage: doesn't open by saying who it's for |
+| [`src` README](../../../src/README.md) | Self-scored (Claude) | ✅ 2 | ✅ 2 | ✅ 2 | 🟡 1 | ✅ 2 | **A · 9/10** | Maintainability: names `templates/` directly, so it needs updating if that folder moves |
 | [Global CLAUDE.md](../../../src/templates/global_claude.md) | Independent review | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Tests audit](quality_audit_test_files.md) | Self-scored (Claude) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
