@@ -1,4 +1,4 @@
-# version: 1.1.0
+# version: 1.1.1
 # created: 2026-10-31
 # updated: 2026-10-31
 """Tests for the pre-commit hook that bumps each changed file's version header."""
@@ -58,6 +58,7 @@ def run_hook(repo, env, *files):
     return subprocess.run(["bash", str(SCRIPT), *files], cwd=repo, env=env, capture_output=True, text=True, check=False)
 
 
+# MoSCoW: Must — the hook's core job: bump PATCH and date
 def test_changed_file_gets_a_patch_bump_and_todays_date(git_repo):
     """An edited file with an unchanged header gets the next PATCH and today's date, and the commit stops."""
     repo, env = git_repo
@@ -69,6 +70,7 @@ def test_changed_file_gets_a_patch_bump_and_todays_date(git_repo):
     assert (repo / "app.py").read_text() == header(version="1.0.1", updated=TODAY) + "x = 2\n"
 
 
+# MoSCoW: Must — a bumped file must commit, or every commit is blocked
 def test_second_run_after_a_bump_passes(git_repo):
     """Once bumped, the file passes, so re-staging and committing again goes through."""
     repo, env = git_repo
@@ -80,6 +82,7 @@ def test_second_run_after_a_bump_passes(git_repo):
     assert (repo / "app.py").read_text() == bumped
 
 
+# MoSCoW: Should — a hand-set MINOR or MAJOR bump must survive
 def test_version_raised_by_hand_is_kept(git_repo):
     """A MINOR bump made by hand isn't bumped again; only the date is brought up to today."""
     repo, env = git_repo
@@ -90,6 +93,7 @@ def test_version_raised_by_hand_is_kept(git_repo):
     assert (repo / "app.py").read_text() == header(version="1.1.0", updated=TODAY) + "x = 2\n"
 
 
+# MoSCoW: Must — run --all-files must not rewrite every untouched file
 def test_unchanged_file_is_left_alone(git_repo):
     """A file with no changes since the last commit, as under pre-commit run --all-files, isn't touched."""
     repo, env = git_repo
@@ -98,6 +102,7 @@ def test_unchanged_file_is_left_alone(git_repo):
     assert (repo / "app.py").read_text() == header() + "x = 1\n"
 
 
+# MoSCoW: Should — markdown files use the HTML-comment header form
 def test_markdown_header_is_bumped(git_repo):
     """HTML-comment headers in markdown are bumped the same way."""
     repo, env = git_repo
@@ -107,6 +112,7 @@ def test_markdown_header_is_bumped(git_repo):
     assert (repo / "README.md").read_text() == header(version="1.0.1", updated=TODAY, markdown=True) + "# New title\n"
 
 
+# MoSCoW: Should — every script has a shebang before its header
 def test_header_after_a_shebang_is_bumped_and_stays_executable(git_repo):
     """A header on lines 2-4, after a shebang, is bumped, and the script keeps its executable bit."""
     repo, env = git_repo
@@ -118,6 +124,7 @@ def test_header_after_a_shebang_is_bumped_and_stays_executable(git_repo):
     assert os.access(repo / "run.sh", os.X_OK)
 
 
+# MoSCoW: Should — new files keep the version they were created with
 def test_new_file_is_left_at_its_starting_version(git_repo):
     """A file that isn't in the last commit keeps the version it was created with."""
     repo, env = git_repo
@@ -127,6 +134,7 @@ def test_new_file_is_left_at_its_starting_version(git_repo):
     assert (repo / "new.py").read_text() == header(updated=TODAY) + "z = 1\n"
 
 
+# MoSCoW: Should — exempt files like PR templates are never edited
 def test_file_without_a_header_is_left_alone(git_repo):
     """Files with no header, such as the exempt PR and issue templates, are never edited."""
     repo, env = git_repo
@@ -136,6 +144,7 @@ def test_file_without_a_header_is_left_alone(git_repo):
     assert (repo / "template.md").read_text() == "# New title\n"
 
 
+# MoSCoW: Could — rare broken header, caught with a clear message
 def test_header_without_an_updated_line_fails_with_a_clear_error(git_repo):
     """A header missing its updated line stops the commit with an error, instead of failing silently on every run."""
     repo, env = git_repo
@@ -147,6 +156,7 @@ def test_header_without_an_updated_line_fails_with_a_clear_error(git_repo):
     assert (repo / "app.py").read_text() == "# version: 1.0.0\nx = 2\n", "the file should be left untouched"
 
 
+# MoSCoW: Could — rare malformed version, caught with a clear message
 def test_malformed_version_fails_with_a_clear_error(git_repo):
     """A version that isn't MAJOR.MINOR.PATCH stops the commit with an error and leaves the file untouched."""
     repo, env = git_repo
