@@ -1,4 +1,4 @@
-<!-- version: 1.0.2 -->
+<!-- version: 1.0.3 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Markdown Quality Audit
@@ -29,7 +29,7 @@ Each doc is scored against [`docs/maintenance/quality_maintenance/rubrics/markdo
 | [`file_headers.md`](../file_headers.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`markdown_quality_rubric.md`](rubrics/markdown_quality_rubric.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`test_quality_rubric.md`](rubrics/test_quality_rubric.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`test_maintenance.md`](test_maintenance.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`test_maintenance.md`](../test_maintenance.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`virtualenv_setup.md`](../../virtualenv_setup.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`global_claude.md`](../../../src/templates/global_claude.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`quality_audit_tests.md`](quality_audit_tests.md) | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |

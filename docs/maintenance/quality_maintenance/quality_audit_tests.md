@@ -1,4 +1,4 @@
-<!-- version: 3.1.4 -->
+<!-- version: 3.1.5 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -10,7 +10,7 @@ For maintainers of this template: how many tests each script has, and how good t
 
 ## 🏷️ MoSCoW scores by script
 
-Each test's `# MoSCoW:` comment, counted per script or check, where each script's tests live in the matching `test_<name>.py` file, and each long script name is shortened to a label that links to the script (see [`docs/maintenance/quality_maintenance/test_maintenance.md`](test_maintenance.md)).
+Each test's `# MoSCoW:` comment, counted per script or check, where each script's tests live in the matching `test_<name>.py` file, and each long script name is shortened to a label that links to the script (see [`docs/maintenance/test_maintenance.md`](../test_maintenance.md)).
 
 - **Won't:** stays at 0, because a test scored `Won't` is deleted.
 
