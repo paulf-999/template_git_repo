@@ -22,9 +22,9 @@
 
 *From [Andrej Karpathy's guidelines](https://github.com/multica-ai/andrej-karpathy-skills/blob/main/CLAUDE.md)*
 
-Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+Behavioural guidelines to reduce common LLM coding mistakes.
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgement.
 
 ### 1. Think Before Coding
 
@@ -89,12 +89,4 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
 
-## Imports
-
-<!-- Optional: @-import files Claude needs every session; each import loads in full at startup, so add sparingly -->
-
----
-
-## References
-
-- [Andrej Karpathy's guidelines](https://github.com/multica-ai/andrej-karpathy-skills/blob/main/CLAUDE.md) — source of the Behavioural Guidelines above
+<!-- Imports (optional): @-import files Claude needs every session; each import loads in full at startup, so add sparingly -->
