@@ -1,4 +1,4 @@
-# version: 4.0.4
+# version: 4.0.5
 # created: 2026-10-31
 # updated: 2026-10-31
 """Checks docs/maintenance/quality_maintenance/quality_audit_tests.md matches the test files and adds up."""
@@ -84,7 +84,8 @@ def test_quality_table_fits_the_rubric():
     """Both tables list the same rows, each Tests count matches, and each score is its themes' total."""
     moscow, _ = moscow_rows()
     quality = read_table(AUDIT, "⭐ Quality by script")
-    assert [row["name"] for row in quality] == [row["name"] for row in moscow], "list the same rows in both tables"
+    # rows are matched by the file they link to, since the quality table may show a shorter label
+    assert [row["link"] for row in quality] == [row["link"] for row in moscow], "list the same rows in both tables"
 
     # each row's Tests column must match the Total column of its MoSCoW row
     for moscow_row, quality_row in zip(moscow, quality):

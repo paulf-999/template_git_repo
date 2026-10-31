@@ -1,4 +1,4 @@
-<!-- version: 3.1.5 -->
+<!-- version: 3.1.6 -->
 <!-- created: 2026-10-31 -->
 <!-- updated: 2026-10-31 -->
 # 📊 Test Coverage Audit
@@ -10,17 +10,17 @@ For maintainers of this template: how many tests each script has, and how good t
 
 ## 🏷️ MoSCoW scores by script
 
-Each test's `# MoSCoW:` comment, counted per script or check, where each script's tests live in the matching `test_<name>.py` file, and each long script name is shortened to a label that links to the script (see [`docs/maintenance/test_maintenance.md`](../test_maintenance.md)).
+Each test's `# MoSCoW:` comment, counted per script or check, where each script's tests live in the matching `test_<name>.py` file (see [`docs/maintenance/test_maintenance.md`](../test_maintenance.md)).
 
 - **Won't:** stays at 0, because a test scored `Won't` is deleted.
 
 | Script or check | Must | Should | Could | Won't | **Total** |
 |---|---|---|---|---|---|
-| [Header bump](../../../src/sh/bump_file_headers.sh) | 3 | 5 | 2 | 0 | **10** |
+| [`bump_file_headers.sh`](../../../src/sh/bump_file_headers.sh) | 3 | 5 | 2 | 0 | **10** |
 | [`git_commit.sh`](../../../src/sh/git_commit.sh) | 2 | 7 | 5 | 0 | **14** |
-| [Branch name](../../../src/sh/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | **4** |
-| [PR size](../../../src/sh/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | **10** |
-| [PR title](../../../src/sh/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | **3** |
+| [`git_validate_branch_name.sh`](../../../src/sh/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | **4** |
+| [`git_validate_num_file_changes.sh`](../../../src/sh/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | **10** |
+| [`git_validate_pr_title.sh`](../../../src/sh/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | **3** |
 | [`shell_utils.sh`](../../../src/sh/shell_utils.sh) | 2 | 0 | 3 | 0 | **5** |
 | [`Makefile`](../../../Makefile) | 2 | 0 | 0 | 0 | **2** |
 | [Every script's structure](../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | **4** |
@@ -29,6 +29,8 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | **Totals** | | | | | **54** |
 
 ## ⭐ Quality by script
+
+Long script names are shortened to a label here, to keep the table narrow, and each label links to its script.
 
 Each script's tests are scored against [`docs/maintenance/quality_maintenance/rubrics/test_quality_rubric.md`](rubrics/test_quality_rubric.md).
 
