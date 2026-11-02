@@ -1,11 +1,11 @@
-<!-- version: 2.0.1 -->
+<!-- version: 2.0.2 -->
 <!-- created: 2022-11-04 -->
-<!-- updated: 2026-10-31 -->
+<!-- updated: 2026-11-02 -->
 # 🌿 Git Branching Strategy
 
 For anyone contributing to a repo made from this template: which branches to use and how to name them.
 
-This repository uses a **simplified branching strategy**, with branch names enforced by a [pre-commit hook](../src/sh/git_validate_branch_name.sh).
+This repository uses a **simplified branching strategy**, with branch names enforced by a [pre-commit hook](../src/sh/git/git_validate_branch_name.sh).
 
 ---
 
@@ -22,7 +22,7 @@ This repository uses a **simplified branching strategy**, with branch names enfo
 
 ## 📦 Exceptions for Large Changes — Use the `release/` Prefix
 
-PRs should stay within the file limit set in [`git_validate_num_file_changes.sh`](../src/sh/git_validate_num_file_changes.sh), which the `MAX_FILES_ALLOWED` environment variable overrides. CI fails any PR over the limit unless its branch starts with `release/`, because small PRs are quicker and safer to review. For PRs over the limit:
+PRs should stay within the file limit set in [`git_validate_num_file_changes.sh`](../src/sh/git/git_validate_num_file_changes.sh), which the `MAX_FILES_ALLOWED` environment variable overrides. CI fails any PR over the limit unless its branch starts with `release/`, because small PRs are quicker and safer to review. For PRs over the limit:
 
 - Branch must start with `release/`
 - PR should apply the same type of change in bulk (e.g., formatting, linting, or consistent refactoring across many files)
@@ -41,7 +41,7 @@ git checkout -b release/reformat_all_sql_models
   - be **lowercase**
   - contain only letters, numbers, and underscores (`a–z`, `0–9`, `_`)
   - not contain hyphens, spaces, or special characters
-- **Regex:** the `VALID_GIT_BRANCH_NAME` variable in [`git_validate_branch_name.sh`](../src/sh/git_validate_branch_name.sh) holds the exact pattern.
+- **Regex:** the `VALID_GIT_BRANCH_NAME` variable in [`git_validate_branch_name.sh`](../src/sh/git/git_validate_branch_name.sh) holds the exact pattern.
 - **Dependabot exception:** CI skips this check for PRs opened by Dependabot, because its `dependabot/...` branch names can't be changed.
 
 ---
@@ -58,4 +58,4 @@ git checkout -b release/reformat_all_sql_models
 
 ---
 
-The script [`git_validate_branch_name.sh`](../src/sh/git_validate_branch_name.sh) enforces the rules above.
+The script [`git_validate_branch_name.sh`](../src/sh/git/git_validate_branch_name.sh) enforces the rules above.

@@ -1,6 +1,6 @@
-<!-- version: 3.2.21 -->
+<!-- version: 3.2.22 -->
 <!-- created: 2026-10-31 -->
-<!-- updated: 2026-10-31 -->
+<!-- updated: 2026-11-02 -->
 # 📊 Test Coverage Audit
 
 For maintainers of this template: how many tests each script has, and how good those tests are.
@@ -19,10 +19,10 @@ Each test's `# MoSCoW:` comment, counted per script or check, where each script'
 | Script or check | Must | Should | Could | Won't | Total (functions) | **Test Cases** |
 |---|---|---|---|---|---|---|
 | [`bump_file_headers.sh`](../../../../src/sh/bump_file_headers.sh) | 3 | 9 | 2 | 0 | 14 | **14** |
-| [`git_commit.sh`](../../../../src/sh/git_commit.sh) | 3 | 8 | 2 | 0 | 13 | **17** |
-| [`git_validate_branch_name.sh`](../../../../src/sh/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | 4 | **10** |
-| [`git_validate_num_file_changes.sh`](../../../../src/sh/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | 10 | **12** |
-| [`git_validate_pr_title.sh`](../../../../src/sh/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | 3 | **14** |
+| [`git_commit.sh`](../../../../src/sh/git/git_commit.sh) | 3 | 8 | 2 | 0 | 13 | **17** |
+| [`git_validate_branch_name.sh`](../../../../src/sh/git/git_validate_branch_name.sh) | 3 | 0 | 1 | 0 | 4 | **10** |
+| [`git_validate_num_file_changes.sh`](../../../../src/sh/git/git_validate_num_file_changes.sh) | 3 | 4 | 3 | 0 | 10 | **12** |
+| [`git_validate_pr_title.sh`](../../../../src/sh/git/git_validate_pr_title.sh) | 3 | 0 | 0 | 0 | 3 | **14** |
 | [`shell_utils.sh`](../../../../src/sh/shell_utils.sh) | 2 | 1 | 2 | 0 | 5 | **13** |
 | [`Makefile`](../../../../Makefile) | 2 | 0 | 0 | 0 | 2 | **2** |
 | [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | 1 | 2 | 1 | 0 | 4 | **10** |
@@ -43,10 +43,10 @@ Each script's tests are scored against [`docs/maintenance/quality/themes/quality
 |---|---|---|---|---|---|---|---|---|---|---|
 | | | | | *Must paths tested* | *No extra tests* | *Easy to follow* | *Short, plain, robust to change* | *Repeatable, clear failures* | | |
 | [Header bump](../../../../src/sh/bump_file_headers.sh) | Independent review | 14 | 14 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [`git_commit.sh`](../../../../src/sh/git_commit.sh) | Independent review | 13 | 17 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [Branch name](../../../../src/sh/git_validate_branch_name.sh) | Independent review | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [PR size](../../../../src/sh/git_validate_num_file_changes.sh) | Independent review | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
-| [PR title](../../../../src/sh/git_validate_pr_title.sh) | Independent review | 3 | 14 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [`git_commit.sh`](../../../../src/sh/git/git_commit.sh) | Independent review | 13 | 17 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [Branch name](../../../../src/sh/git/git_validate_branch_name.sh) | Independent review | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [PR size](../../../../src/sh/git/git_validate_num_file_changes.sh) | Independent review | 10 | 12 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
+| [PR title](../../../../src/sh/git/git_validate_pr_title.sh) | Independent review | 3 | 14 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`shell_utils.sh`](../../../../src/sh/shell_utils.sh) | Independent review | 5 | 13 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [`Makefile`](../../../../Makefile) | Independent review | 2 | 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |
 | [Every script's structure](../../../../tests/src/sh/test_script_structure.py) | Independent review | 4 | 10 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | ✅ 2 | **A · 10/10** | — |

@@ -1,6 +1,6 @@
-# version: 1.2.12
+# version: 1.2.13
 # created: 2026-10-30
-# updated: 2026-10-31
+# updated: 2026-11-02
 """Tests for the interactive git commit helper."""
 
 import re
@@ -10,7 +10,7 @@ import pytest
 from _git_repo import isolated_git_repo
 from _paths import SCRIPTS_DIR
 
-SCRIPT = SCRIPTS_DIR / "git_commit.sh"
+SCRIPT = SCRIPTS_DIR / "git" / "git_commit.sh"
 
 
 def read_script_types():
