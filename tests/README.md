@@ -1,11 +1,11 @@
-<!-- version: 1.0.0 -->
+<!-- version: 1.0.1 -->
 <!-- created: 2026-10-31 -->
-<!-- updated: 2026-10-31 -->
+<!-- updated: 2026-11-02 -->
 # 🧪 tests
 
 For anyone opening this folder for the first time: how the tests are laid out, and where to add a new one.
 
-- **Mirrored paths:** a test sits at the same path as the file it checks, under `tests/`, so tests for `src/sh/git_commit.sh` live in `tests/src/sh/test_git_commit.py`.
+- **Mirrored paths:** a test sits at the same path as the file it checks, under `tests/`, so tests for `src/sh/git/git_commit.sh` live in `tests/src/sh/git/test_git_commit.py`.
   - **Docs too:** checks on docs follow the same idea, so the checkers for the quality audits in `docs/maintenance/quality/` live in `tests/docs/maintenance/quality/`.
 - **Repo-wide tests:** a test that checks the whole repo rather than one file, such as every file's header or the root `Makefile`, sits at the top of `tests/`.
 - **Shared helpers:** modules that start with `_`, such as `_paths.py`, hold code that several tests share, and aren't tests themselves.

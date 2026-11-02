@@ -1,11 +1,11 @@
 #!/bin/bash
-# version: 1.1.1
+# version: 1.1.2
 # created: 2026-10-31
-# updated: 2026-10-31
+# updated: 2026-11-02
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
 # Description: Verify a PR title is a valid Conventional Commits header, since squash merges use it as the commit message on main
-# Usage: src/sh/git_validate_pr_title.sh "<pr title>" (run from the repo root)
+# Usage: src/sh/git/git_validate_pr_title.sh "<pr title>" (run from the repo root)
 
 # Load reusable shell script vars & functions
 source src/sh/shell_utils.sh

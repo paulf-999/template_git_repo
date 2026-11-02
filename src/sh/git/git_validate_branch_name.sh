@@ -1,11 +1,11 @@
 #!/bin/bash
-# version: 1.1.1
+# version: 1.1.2
 # created: 2023-07-09
-# updated: 2026-10-31
+# updated: 2026-11-02
 set -euo pipefail  # Fail fast, including on unset variables and errors anywhere in a pipeline.
 
 # Description: Verify the git branch name follows the naming standard: ^(feature|hotfix|release)/[a-z0-9_]+$
-# Usage: src/sh/git_validate_branch_name.sh [git branch name]
+# Usage: src/sh/git/git_validate_branch_name.sh [git branch name]
 #        (defaults to the current local git branch name; run from the repo root)
 
 # Load reusable shell script vars & functions

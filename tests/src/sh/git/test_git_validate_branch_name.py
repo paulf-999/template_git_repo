@@ -1,6 +1,6 @@
-# version: 1.0.4
+# version: 1.0.5
 # created: 2026-10-30
-# updated: 2026-10-31
+# updated: 2026-11-02
 """Tests for the git branch name validation pre-commit hook."""
 
 import subprocess
@@ -9,7 +9,7 @@ import pytest
 from _git_repo import isolated_git_repo
 from _paths import REPO_ROOT, SCRIPTS_DIR
 
-SCRIPT = SCRIPTS_DIR / "git_validate_branch_name.sh"
+SCRIPT = SCRIPTS_DIR / "git" / "git_validate_branch_name.sh"
 
 
 def run_hook(branch_name):
