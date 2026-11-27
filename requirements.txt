@@ -18,4 +18,4 @@ pip-audit==2.10.1    # Checks installed packages for known vulnerabilities
 
 # Developer utilities
 rich==15.0.0         # Better console output (colors, tables, tracebacks)
-pyyaml==6.0.3        # YAML parsing and writing
+pyyaml==6.0.4        # YAML parsing and writing
